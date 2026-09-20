@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Apartment Building Silhouette (Main structure) -->
+    <path
+        android:fillColor="#34D399"
+        android:pathData="M32,40 L52,28 L52,80 L32,80 Z" />
+    <path
+        android:fillColor="#10B981"
+        android:pathData="M52,28 L76,42 L76,80 L52,80 Z" />
+    <!-- Building Windows -->
+    <path
+        android:fillColor="#ECFDF5"
+        android:pathData="M38,48 h6 v6 h-6 z M38,58 h6 v6 h-6 z M38,68 h6 v6 h-6 z M58,50 h6 v6 h-6 z M58,60 h6 v6 h-6 z M58,70 h6 v6 h-6 z M68,50 h4 v6 h-4 z M68,60 h4 v6 h-4 z M68,70 h4 v6 h-4 z" />
+    <!-- Eco Sprout / Leaf at Top -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M52,26 C52,18 64,16 66,22 C66,28 56,28 52,26 Z" />
+    <!-- Smart IoT Connectivity Pulse Ring -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#6EE7B7"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M42,24 C46,20 58,20 62,24" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#A7F3D0"
+        android:strokeWidth="2.0"
+        android:strokeLineCap="round"
+        android:pathData="M37,19 C44,14 60,14 67,19" />
+</vector>

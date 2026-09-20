@@ -1,0 +1,6 @@
+{
+  "name": "EcoApartment OS",
+  "description": "IoT Smart Apartment Sustainability and Maintenance System for SRM Green Residency Flat B-402",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
