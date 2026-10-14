@@ -21,7 +21,7 @@ import urllib.parse
 from eco_apartment_python_app import EcoApartmentDatabase, IoTEngine, Complaint, User, CommunityNotice, Visitor
 from water_resource_tracker import WaterMeter
 
-PORT = int(os.environ.get("DEFAULT_APP_PORT", os.environ.get("APP_PORT", 3000)))
+PORT = int(os.environ.get("PORT", os.environ.get("DEFAULT_APP_PORT", os.environ.get("APP_PORT", 3000))))
 db = EcoApartmentDatabase("eco_apartment.db")
 iot = IoTEngine()
 
@@ -2416,7 +2416,7 @@ HTML_PAGE = """<!DOCTYPE html>
         }
 
         async function payDue(dueId) {
-            const method = prompt("Select payment mode:\n1. UPI (GPay / PhonePe)\n2. Net Banking\n3. Debit Card", "UPI (GPay)");
+            const method = prompt(`Select payment mode:\n1. UPI (GPay / PhonePe)\n2. Net Banking\n3. Debit Card`, "UPI (GPay)");
             if (!method) return;
 
             const res = await fetch("/api/dues/pay", {
