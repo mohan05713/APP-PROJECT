@@ -67,68 +67,43 @@ fun EmergencyBanner(
     Column(modifier = modifier.fillMaxWidth()) {
         AnimatedVisibility(
             visible = isVisible,
-            enter = expandVertically(animationSpec = tween(300, easing = FastOutSlowInEasing)) + fadeIn(),
-            exit = shrinkVertically(animationSpec = tween(250)) + fadeOut()
+            enter = expandVertically(animationSpec = tween(250, easing = FastOutSlowInEasing)) + fadeIn(),
+            exit = shrinkVertically(animationSpec = tween(200)) + fadeOut()
         ) {
-            val infiniteTransition = rememberInfiniteTransition(label = "pulse_alert")
-            val alertPulse by infiniteTransition.animateFloat(
-                initialValue = 0.92f,
-                targetValue = 1.08f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(800),
-                    repeatMode = RepeatMode.Reverse
-                ),
-                label = "alert_scale"
-            )
-
-            Box(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFF7F1D1D), // Dark deep red
-                                Color(0xFF78350F), // Deep amber
-                                Color(0xFF991B1B)  // Dark crimson
-                            )
-                        )
-                    )
-                    .border(
-                        width = 1.5.dp,
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(Rose500, Amber400, Rose600)
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .padding(14.dp)
-                    .testTag("emergency_flood_banner")
+                    .padding(horizontal = 14.dp, vertical = 6.dp)
+                    .testTag("emergency_flood_banner"),
+                shape = RoundedCornerShape(8.dp),
+                color = Color(0xFFFEF2F2),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFECACA)),
+                shadowElevation = 0.5.dp
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
                     verticalAlignment = Alignment.Top,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Warning Icon Box with Alert Pulse
+                    // Warning Icon Box
                     Box(
                         modifier = Modifier
-                            .size(38.dp)
-                            .scale(alertPulse)
-                            .clip(CircleShape)
-                            .background(Color(0xFFEF4444).copy(alpha = 0.25f))
-                            .border(1.dp, Amber400, CircleShape),
+                            .size(32.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(Color(0xFFFEE2E2)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = "Alert Warning",
-                            tint = Amber400,
-                            modifier = Modifier.size(22.dp)
+                            tint = Color(0xFFDC2626),
+                            modifier = Modifier.size(18.dp)
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
 
                     // Text details
                     Column(
@@ -141,40 +116,42 @@ fun EmergencyBanner(
                             horizontalArrangement = Arrangement.spacedBy(6.dp)
                         ) {
                             Surface(
-                                color = Color(0xFFEF4444),
+                                color = Color(0xFFDC2626),
                                 shape = RoundedCornerShape(4.dp)
                             ) {
                                 Text(
-                                    text = "EMERGENCY",
+                                    text = "ACTIVE ALERT",
                                     style = MaterialTheme.typography.labelSmall.copy(
                                         color = Color.White,
-                                        fontWeight = FontWeight.Black,
-                                        fontSize = 9.sp
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 9.5.sp
                                     ),
-                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 1.5.dp)
                                 )
                             }
                             Text(
                                 text = "Basement Sensor S-03",
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = Amber100.copy(alpha = 0.8f),
-                                    fontWeight = FontWeight.Medium
+                                    color = Color(0xFF991B1B),
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 11.sp
                                 )
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.height(3.dp))
 
                         Text(
-                            text = "Basement Flood Warning: Water level reached 78%. Automated sump pump is ACTIVATED.",
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = Color.White,
+                            text = "Basement Flood Warning: Water level reached 78%. Automated sump pump is ACTIVE.",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = Color(0xFF7F1D1D),
                                 fontWeight = FontWeight.SemiBold,
-                                lineHeight = 19.sp
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp
                             )
                         )
 
-                        Spacer(modifier = Modifier.height(6.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
 
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -184,14 +161,14 @@ fun EmergencyBanner(
                                 modifier = Modifier
                                     .size(6.dp)
                                     .clip(CircleShape)
-                                    .background(Color(0xFF34D399))
+                                    .background(Color(0xFF16A34A))
                             )
                             Text(
-                                text = "Sump Pump Status: RUNNING (140 L/min)",
+                                text = "Sump Pump: Running (140 L/min)",
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    color = Amber100,
+                                    color = Color(0xFF991B1B),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 11.sp
+                                    fontSize = 10.5.sp
                                 )
                             )
                         }
@@ -201,14 +178,14 @@ fun EmergencyBanner(
                     IconButton(
                         onClick = onDismiss,
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(24.dp)
                             .testTag("dismiss_warning_button")
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Dismiss Alert",
-                            tint = Color.White.copy(alpha = 0.85f),
-                            modifier = Modifier.size(18.dp)
+                            tint = Color(0xFF991B1B),
+                            modifier = Modifier.size(16.dp)
                         )
                     }
                 }
@@ -220,33 +197,34 @@ fun EmergencyBanner(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                    .padding(horizontal = 14.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = Slate800,
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Slate700),
+                    shape = RoundedCornerShape(6.dp),
+                    color = Color(0xFFFEF2F2),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFECACA)),
                     modifier = Modifier
                         .clickable { onRestore() }
                         .testTag("restore_alert_button")
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = "Show Active Warning",
-                            tint = Amber400,
-                            modifier = Modifier.size(14.dp)
+                            tint = Color(0xFFDC2626),
+                            modifier = Modifier.size(12.dp)
                         )
                         Text(
-                            text = "Show Flood Warning (Active)",
+                            text = "Show Flood Warning",
                             style = MaterialTheme.typography.labelSmall.copy(
-                                color = Amber100,
-                                fontWeight = FontWeight.Medium
+                                color = Color(0xFF991B1B),
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 11.sp
                             )
                         )
                     }

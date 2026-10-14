@@ -1,0 +1,41 @@
+{
+  "society": "SRM Green Residency",
+  "total_units": 400,
+  "blocks": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "telemetry": {
+    "aqi": 42,
+    "status": "Good \u2022 Green Zone",
+    "temperature_celsius": 26.4,
+    "humidity_pct": 58,
+    "water_overhead_tank_litres": 8200,
+    "water_capacity_litres": 10000,
+    "lpg_manifold_mbar": 28.5,
+    "storm_sump_level_pct": 12,
+    "submersible_pumps_active": false
+  },
+  "cylinders": [
+    {
+      "unit": 1,
+      "label": "Unit 1 (Active)",
+      "level_pct": 68,
+      "status": "ACTIVE"
+    },
+    {
+      "unit": 2,
+      "label": "Unit 2 (Standby)",
+      "level_pct": 100,
+      "status": "STANDBY"
+    },
+    {
+      "unit": 3,
+      "label": "Unit 3 (Reserve)",
+      "level_pct": 15,
+      "status": "REFILL_REQUIRED"
+    }
+  ]
+}

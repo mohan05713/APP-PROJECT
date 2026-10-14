@@ -31,21 +31,21 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Emerald600,
+    primary = EnterprisePrimary,
     onPrimary = Color.White,
-    primaryContainer = Emerald50,
-    onPrimaryContainer = Emerald900,
-    secondary = Amber600,
+    primaryContainer = Slate100,
+    onPrimaryContainer = Slate900,
+    secondary = EnterpriseBlue,
     onSecondary = Color.White,
-    secondaryContainer = Amber50,
-    onSecondaryContainer = Amber900,
-    tertiary = Cyan500,
-    background = Slate50,
+    secondaryContainer = Slate100,
+    onSecondaryContainer = Slate800,
+    tertiary = Emerald600,
+    background = EnterpriseBg,
     onBackground = Slate900,
     surface = Color.White,
-    onSurface = Slate800,
+    onSurface = Slate900,
     surfaceVariant = Slate100,
-    onSurfaceVariant = Slate600,
+    onSurfaceVariant = Slate700,
     outline = Slate200
 )
 

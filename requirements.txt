@@ -1,0 +1,4 @@
+# EcoApartment OS - Python Requirements
+# Standard libraries (tkinter, sqlite3, dataclasses, json, datetime) are built into standard Python 3.
+
+reportlab>=3.6.0

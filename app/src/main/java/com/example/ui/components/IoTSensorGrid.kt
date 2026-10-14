@@ -36,7 +36,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
@@ -45,21 +44,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.model.EnvironmentalSensors
 import com.example.data.model.SensorReading
-import com.example.ui.theme.Amber400
-import com.example.ui.theme.Amber500
-import com.example.ui.theme.Cyan500
-import com.example.ui.theme.Emerald300
-import com.example.ui.theme.Emerald400
-import com.example.ui.theme.Emerald500
-import com.example.ui.theme.Emerald700
-import com.example.ui.theme.Emerald900
-import com.example.ui.theme.Slate200
-import com.example.ui.theme.Slate300
-import com.example.ui.theme.Slate400
-import com.example.ui.theme.Slate600
-import com.example.ui.theme.Slate700
-import com.example.ui.theme.Slate800
-import com.example.ui.theme.Slate900
+import com.example.ui.theme.EnterpriseBlue
+import com.example.ui.theme.EnterpriseBorder
+import com.example.ui.theme.EnterpriseCardBg
+import com.example.ui.theme.EnterprisePrimary
+import com.example.ui.theme.EnterpriseTextMuted
+import com.example.ui.theme.EnterpriseTextPrimary
+import com.example.ui.theme.EnterpriseTextSecondary
+import com.example.ui.theme.Rose500
 
 @Composable
 fun IoTSensorGrid(
@@ -70,7 +62,7 @@ fun IoTSensorGrid(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 14.dp, vertical = 4.dp)
     ) {
         // Section Title
         Row(
@@ -81,46 +73,47 @@ fun IoTSensorGrid(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
-                        .size(8.dp)
+                        .size(7.dp)
                         .clip(CircleShape)
-                        .background(Emerald400)
+                        .background(Color(0xFF059669))
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = "Live IoT Environmental Sensors",
-                    style = MaterialTheme.typography.titleMedium.copy(
+                    text = "Live IoT Environment",
+                    style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        color = EnterpriseTextPrimary,
+                        fontSize = 13.5.sp
                     )
                 )
             }
             Text(
-                text = "Tap to inspect",
+                text = "Tap to inspect telemetry",
                 style = MaterialTheme.typography.labelSmall.copy(
-                    color = Slate400,
-                    fontSize = 11.sp
+                    color = EnterpriseTextMuted,
+                    fontSize = 10.5.sp
                 )
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         // 2x2 Grid Layout
         // Row 1: Air Quality & Ambient Humidity
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // 1. Air Quality Card
             SensorMetricCard(
                 title = "Air Quality",
                 primaryValue = "${sensors.aqi} AQI",
-                subText = "${sensors.aqiStatus} • PM2.5: ${sensors.pm25} µg/m³",
+                subText = "${sensors.aqiStatus} • PM2.5: ${sensors.pm25} µg",
                 badgeText = sensors.aqiStatus,
-                badgeColor = Emerald400,
-                badgeTextColor = Slate900,
+                badgeColor = Color(0xFF059669),
+                badgeBgColor = Color(0xFFECFDF5),
                 icon = Icons.Filled.Air,
-                accentColor = Emerald400,
+                accentColor = EnterprisePrimary,
                 testTag = "sensor_card_air_quality",
                 progressFraction = (sensors.aqi / 100f).coerceIn(0f, 1f),
                 modifier = Modifier.weight(1f),
@@ -145,10 +138,10 @@ fun IoTSensorGrid(
                 primaryValue = "${sensors.humidityPercentage}%",
                 subText = "${sensors.humidityStatus} • Dew: ${sensors.dewPointCelsius}°C",
                 badgeText = sensors.humidityStatus,
-                badgeColor = Cyan500,
-                badgeTextColor = Slate900,
+                badgeColor = EnterpriseBlue,
+                badgeBgColor = Color(0xFFEFF6FF),
                 icon = Icons.Filled.InvertColors,
-                accentColor = Cyan500,
+                accentColor = EnterpriseBlue,
                 testTag = "sensor_card_humidity",
                 progressFraction = (sensors.humidityPercentage / 100f).coerceIn(0f, 1f),
                 modifier = Modifier.weight(1f),
@@ -168,23 +161,23 @@ fun IoTSensorGrid(
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
         // Row 2: Overhead Water Tank & Piped Gas Leakage Sensor
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // 3. Overhead Water Tank Level Card
             SensorMetricCard(
                 title = "Water Tank Level",
                 primaryValue = "${sensors.waterTankLevelPercentage}%",
-                subText = "Inflow: ${if (sensors.waterTankInflowActive) "Active (Pump On)" else "Idle"} • ${sensors.waterTankCurrentLitres}L",
+                subText = "Inflow: ${if (sensors.waterTankInflowActive) "Pump ON" else "Idle"} • ${sensors.waterTankCurrentLitres}L",
                 badgeText = if (sensors.waterTankInflowActive) "Inflow Active" else "Stable",
-                badgeColor = if (sensors.waterTankInflowActive) Emerald400 else Slate400,
-                badgeTextColor = Slate900,
+                badgeColor = if (sensors.waterTankInflowActive) Color(0xFF059669) else EnterpriseTextMuted,
+                badgeBgColor = if (sensors.waterTankInflowActive) Color(0xFFECFDF5) else Color(0xFFF1F5F9),
                 icon = Icons.Outlined.Waves,
-                accentColor = Color(0xFF38BDF8),
+                accentColor = EnterpriseBlue,
                 testTag = "sensor_card_water_tank",
                 progressFraction = (sensors.waterTankLevelPercentage / 100f).coerceIn(0f, 1f),
                 modifier = Modifier.weight(1f),
@@ -208,13 +201,13 @@ fun IoTSensorGrid(
                 title = "Piped Gas (PNG)",
                 primaryValue = "${String.format("%.2f", sensors.gasLeakagePercentage)}%",
                 subText = sensors.gasStatus,
-                badgeText = "Safe • No Leakage",
-                badgeColor = Emerald400,
-                badgeTextColor = Slate900,
+                badgeText = "Safe",
+                badgeColor = Color(0xFF059669),
+                badgeBgColor = Color(0xFFECFDF5),
                 icon = Icons.Filled.LocalGasStation,
-                accentColor = Emerald400,
+                accentColor = Color(0xFF059669),
                 testTag = "sensor_card_gas_leakage",
-                progressFraction = 0f, // 0% leakage is safe
+                progressFraction = 0f,
                 modifier = Modifier.weight(1f),
                 onClick = {
                     onSensorCardClick(
@@ -241,7 +234,7 @@ private fun SensorMetricCard(
     subText: String,
     badgeText: String,
     badgeColor: Color,
-    badgeTextColor: Color,
+    badgeBgColor: Color,
     icon: ImageVector,
     accentColor: Color,
     testTag: String,
@@ -251,23 +244,23 @@ private fun SensorMetricCard(
 ) {
     val animatedProgress by animateFloatAsState(
         targetValue = progressFraction,
-        animationSpec = tween(durationMillis = 800),
+        animationSpec = tween(durationMillis = 600),
         label = "progress"
     )
 
     Surface(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
             .testTag(testTag),
-        color = Slate800,
-        shape = RoundedCornerShape(16.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Slate700)
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, EnterpriseBorder)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(14.dp)
+                .padding(8.dp)
         ) {
             // Header Row: Icon + Badge
             Row(
@@ -277,91 +270,85 @@ private fun SensorMetricCard(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(accentColor.copy(alpha = 0.15f))
-                        .border(1.dp, accentColor.copy(alpha = 0.35f), RoundedCornerShape(10.dp)),
+                        .size(26.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Color(0xFFF1F5F9)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = title,
                         tint = accentColor,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(15.dp)
                     )
                 }
 
                 Surface(
-                    color = badgeColor.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(12.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, badgeColor.copy(alpha = 0.5f))
+                    color = badgeBgColor,
+                    shape = RoundedCornerShape(4.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, badgeBgColor)
                 ) {
                     Text(
                         text = badgeText,
                         style = MaterialTheme.typography.labelSmall.copy(
                             color = badgeColor,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp
+                            fontSize = 9.5.sp
                         ),
-                        modifier = Modifier.padding(horizontal = 7.dp, vertical = 2.dp)
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 1.dp)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodySmall.copy(
-                    color = Slate300,
-                    fontWeight = FontWeight.Medium
+                    color = EnterpriseTextSecondary,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 11.sp
                 )
             )
-
-            Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = primaryValue,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
-                    letterSpacing = (-0.5).sp
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = EnterpriseTextPrimary,
+                    fontSize = 15.sp
                 )
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             // Gauge Bar
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(5.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(Slate700)
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(Color(0xFFE2E8F0))
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(animatedProgress.coerceIn(0.04f, 1f))
-                        .height(5.dp)
-                        .clip(RoundedCornerShape(3.dp))
-                        .background(
-                            Brush.horizontalGradient(
-                                colors = listOf(accentColor.copy(alpha = 0.6f), accentColor)
-                            )
-                        )
+                        .height(4.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(accentColor)
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = subText,
                 style = MaterialTheme.typography.labelSmall.copy(
-                    color = Slate400,
-                    fontSize = 10.5.sp,
-                    lineHeight = 14.sp
+                    color = EnterpriseTextMuted,
+                    fontSize = 10.sp,
+                    lineHeight = 13.sp
                 ),
-                maxLines = 2
+                maxLines = 1
             )
         }
     }

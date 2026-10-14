@@ -45,18 +45,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.model.DailyConsumption
-import com.example.ui.theme.Amber400
-import com.example.ui.theme.Cyan500
-import com.example.ui.theme.Emerald300
-import com.example.ui.theme.Emerald400
-import com.example.ui.theme.Emerald500
-import com.example.ui.theme.Slate200
-import com.example.ui.theme.Slate300
-import com.example.ui.theme.Slate400
-import com.example.ui.theme.Slate600
-import com.example.ui.theme.Slate700
-import com.example.ui.theme.Slate800
-import com.example.ui.theme.Slate900
+import com.example.ui.theme.EnterpriseBlue
+import com.example.ui.theme.EnterpriseBorder
+import com.example.ui.theme.EnterpriseCardBg
+import com.example.ui.theme.EnterprisePrimary
+import com.example.ui.theme.EnterpriseTextMuted
+import com.example.ui.theme.EnterpriseTextPrimary
+import com.example.ui.theme.EnterpriseTextSecondary
 
 enum class ChartFilter {
     BOTH, ELECTRICITY, WATER
@@ -67,29 +62,28 @@ fun WeeklyConsumptionChart(
     weeklyData: List<DailyConsumption>,
     modifier: Modifier = Modifier
 ) {
-    var selectedDayIndex by remember { mutableStateOf(6) } // Defaults to Sun (Today)
+    var selectedDayIndex by remember { mutableStateOf(6) }
     var activeFilter by remember { mutableStateOf(ChartFilter.BOTH) }
 
     val selectedDay = weeklyData.getOrNull(selectedDayIndex) ?: weeklyData.last()
 
-    // Max values for normalization
     val maxElectricity = (weeklyData.maxOfOrNull { it.electricityKWh } ?: 25.0).coerceAtLeast(25.0)
     val maxWater = (weeklyData.maxOfOrNull { it.waterLitres } ?: 500).coerceAtLeast(500).toDouble()
 
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .padding(horizontal = 14.dp, vertical = 4.dp)
+            .clip(RoundedCornerShape(8.dp))
             .testTag("weekly_consumption_chart"),
-        color = Slate800,
-        shape = RoundedCornerShape(16.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Slate700)
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, EnterpriseBorder)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(10.dp)
                 .animateContentSize()
         ) {
             // Chart Header: Title & Filter Chips
@@ -101,42 +95,43 @@ fun WeeklyConsumptionChart(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
-                            .size(32.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Emerald500.copy(alpha = 0.15f)),
+                            .size(26.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(Color(0xFFF1F5F9)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.BarChart,
                             contentDescription = "Chart",
-                            tint = Emerald400,
-                            modifier = Modifier.size(18.dp)
+                            tint = EnterprisePrimary,
+                            modifier = Modifier.size(15.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Column {
                         Text(
-                            text = "Weekly Trends (Mon–Sun)",
-                            style = MaterialTheme.typography.titleSmall.copy(
+                            text = "Weekly Consumption Trends",
+                            style = MaterialTheme.typography.bodySmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = Color.White
+                                color = EnterpriseTextPrimary,
+                                fontSize = 12.sp
                             )
                         )
                         Text(
-                            text = "Tap day column for exact stats",
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                color = Slate400,
-                                fontSize = 11.sp
+                            text = "Daily resource distribution",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                color = EnterpriseTextMuted,
+                                fontSize = 9.5.sp
                             )
                         )
                     }
                 }
 
-                // Filter Pill Selector
+                // Filter Selector
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Slate900)
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Color(0xFFF1F5F9))
                         .padding(2.dp),
                     horizontalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
@@ -161,58 +156,52 @@ fun WeeklyConsumptionChart(
                 }
             }
 
-            Spacer(modifier = Modifier.height(14.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Selected Day Callout Card
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                color = Slate900,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Slate700)
+                shape = RoundedCornerShape(6.dp),
+                color = Color(0xFFF8FAFC),
+                border = androidx.compose.foundation.BorderStroke(1.dp, EnterpriseBorder)
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                        .padding(horizontal = 8.dp, vertical = 5.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Surface(
-                            shape = RoundedCornerShape(6.dp),
-                            color = Emerald400.copy(alpha = 0.2f),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Emerald400)
-                        ) {
-                            Text(
-                                text = selectedDay.dayOfWeek + if (selectedDayIndex == 6) " (Today)" else "",
-                                style = MaterialTheme.typography.labelMedium.copy(
-                                    color = Emerald300,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 11.sp
-                                ),
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        Text(
+                            text = selectedDay.dayOfWeek + if (selectedDayIndex == 6) " (Today)" else "",
+                            style = MaterialTheme.typography.labelMedium.copy(
+                                color = EnterpriseTextPrimary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp
                             )
-                        }
+                        )
                     }
 
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if (activeFilter != ChartFilter.WATER) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Box(
                                     modifier = Modifier
-                                        .size(8.dp)
+                                        .size(6.dp)
                                         .clip(CircleShape)
-                                        .background(Emerald400)
+                                        .background(Color(0xFFD97706))
                                 )
-                                Spacer(modifier = Modifier.width(4.dp))
+                                Spacer(modifier = Modifier.width(3.dp))
                                 Text(
                                     text = "${selectedDay.electricityKWh} kWh",
                                     style = MaterialTheme.typography.bodySmall.copy(
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold
+                                        color = EnterpriseTextPrimary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 11.sp
                                     )
                                 )
                             }
@@ -222,16 +211,17 @@ fun WeeklyConsumptionChart(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Box(
                                     modifier = Modifier
-                                        .size(8.dp)
+                                        .size(6.dp)
                                         .clip(CircleShape)
-                                        .background(Cyan500)
+                                        .background(EnterpriseBlue)
                                 )
-                                Spacer(modifier = Modifier.width(4.dp))
+                                Spacer(modifier = Modifier.width(3.dp))
                                 Text(
                                     text = "${selectedDay.waterLitres} L",
                                     style = MaterialTheme.typography.bodySmall.copy(
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Bold
+                                        color = EnterpriseTextPrimary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 11.sp
                                     )
                                 )
                             }
@@ -240,25 +230,25 @@ fun WeeklyConsumptionChart(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // Chart Canvas / Interactive Column Bars (Height: 140dp)
+            // Chart Canvas / Interactive Column Bars (Height: 90dp)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp)
+                    .height(90.dp)
             ) {
                 // Background grid lines
                 Column(
                     modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    repeat(4) {
+                    repeat(3) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(1.dp)
-                                .background(Slate700.copy(alpha = 0.5f))
+                                .background(Color(0xFFE2E8F0))
                         )
                     }
                 }
@@ -280,12 +270,12 @@ fun WeeklyConsumptionChart(
 
                         val animatedElecHeight by animateFloatAsState(
                             targetValue = elecRatio,
-                            animationSpec = tween(600),
+                            animationSpec = tween(500),
                             label = "bar_elec_$index"
                         )
                         val animatedWaterHeight by animateFloatAsState(
                             targetValue = waterRatio,
-                            animationSpec = tween(600),
+                            animationSpec = tween(500),
                             label = "bar_water_$index"
                         )
 
@@ -295,12 +285,12 @@ fun WeeklyConsumptionChart(
                             modifier = Modifier
                                 .weight(1f)
                                 .fillMaxHeight()
-                                .clip(RoundedCornerShape(8.dp))
+                                .clip(RoundedCornerShape(4.dp))
                                 .background(
-                                    if (isSelected) Slate700.copy(alpha = 0.5f) else Color.Transparent
+                                    if (isSelected) Color(0xFFF1F5F9) else Color.Transparent
                                 )
                                 .clickable { selectedDayIndex = index }
-                                .padding(horizontal = 2.dp, vertical = 4.dp)
+                                .padding(horizontal = 1.dp, vertical = 2.dp)
                                 .testTag("chart_day_$index")
                         ) {
                             // Dual Bars Box
@@ -315,42 +305,42 @@ fun WeeklyConsumptionChart(
                                 if (activeFilter != ChartFilter.WATER) {
                                     Box(
                                         modifier = Modifier
-                                            .width(8.dp)
+                                            .width(6.dp)
                                             .fillMaxHeight(animatedElecHeight)
-                                            .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                                            .clip(RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp))
                                             .background(
-                                                if (isSelected) Emerald400 else Emerald500.copy(alpha = 0.75f)
+                                                if (isSelected) Color(0xFFD97706) else Color(0xFFF59E0B)
                                             )
                                     )
                                 }
 
                                 if (activeFilter == ChartFilter.BOTH) {
-                                    Spacer(modifier = Modifier.width(3.dp))
+                                    Spacer(modifier = Modifier.width(2.dp))
                                 }
 
                                 // Water Bar
                                 if (activeFilter != ChartFilter.ELECTRICITY) {
                                     Box(
                                         modifier = Modifier
-                                            .width(8.dp)
+                                            .width(6.dp)
                                             .fillMaxHeight(animatedWaterHeight)
-                                            .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
+                                            .clip(RoundedCornerShape(topStart = 2.dp, topEnd = 2.dp))
                                             .background(
-                                                if (isSelected) Cyan500 else Cyan500.copy(alpha = 0.65f)
+                                                if (isSelected) EnterpriseBlue else EnterpriseBlue.copy(alpha = 0.7f)
                                             )
                                     )
                                 }
                             }
 
-                            Spacer(modifier = Modifier.height(6.dp))
+                            Spacer(modifier = Modifier.height(3.dp))
 
                             // Day Label
                             Text(
                                 text = day.dayOfWeek,
                                 style = MaterialTheme.typography.labelSmall.copy(
-                                    fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Medium,
-                                    color = if (isSelected) Color.White else Slate400,
-                                    fontSize = 11.sp
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                    color = if (isSelected) EnterpriseTextPrimary else EnterpriseTextMuted,
+                                    fontSize = 9.5.sp
                                 ),
                                 textAlign = TextAlign.Center
                             )
@@ -359,7 +349,7 @@ fun WeeklyConsumptionChart(
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Chart Legend
             Row(
@@ -370,35 +360,35 @@ fun WeeklyConsumptionChart(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
-                            .size(10.dp)
-                            .clip(RoundedCornerShape(2.dp))
-                            .background(Emerald400)
+                            .size(7.dp)
+                            .clip(RoundedCornerShape(1.dp))
+                            .background(Color(0xFFD97706))
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "Electricity (kWh)",
                         style = MaterialTheme.typography.labelSmall.copy(
-                            color = Slate300,
-                            fontWeight = FontWeight.Medium
+                            color = EnterpriseTextSecondary,
+                            fontSize = 10.sp
                         )
                     )
                 }
 
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.width(14.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
-                            .size(10.dp)
-                            .clip(RoundedCornerShape(2.dp))
-                            .background(Cyan500)
+                            .size(7.dp)
+                            .clip(RoundedCornerShape(1.dp))
+                            .background(EnterpriseBlue)
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "Water (Litres)",
                         style = MaterialTheme.typography.labelSmall.copy(
-                            color = Slate300,
-                            fontWeight = FontWeight.Medium
+                            color = EnterpriseTextSecondary,
+                            fontSize = 10.sp
                         )
                     )
                 }
@@ -416,20 +406,20 @@ private fun ChartFilterChip(
 ) {
     Surface(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(4.dp))
             .clickable { onClick() }
             .testTag(testTag),
-        color = if (selected) Emerald500 else Color.Transparent,
-        shape = RoundedCornerShape(16.dp)
+        color = if (selected) EnterprisePrimary else Color.Transparent,
+        shape = RoundedCornerShape(4.dp)
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall.copy(
                 fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-                color = if (selected) Slate900 else Slate400,
-                fontSize = 10.5.sp
+                color = if (selected) Color.White else EnterpriseTextSecondary,
+                fontSize = 9.5.sp
             ),
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
         )
     }
 }

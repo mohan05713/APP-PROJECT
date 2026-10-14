@@ -11,10 +11,13 @@ data class ComplaintEntity(
     @PrimaryKey
     val ticketId: String,
     val flatNumber: String,
+    val floorNumber: Int = 4,
+    val raisedByName: String = "Resident",
     val category: ComplaintCategory,
     val priority: ComplaintPriority,
     val description: String,
     val status: ComplaintStatus,
     val createdAtMillis: Long,
-    val formattedTime: String
+    val formattedTime: String,
+    val authorityNotes: String = ""
 )

@@ -5,25 +5,32 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Apartment
+import androidx.compose.material.icons.filled.CloudSync
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.Eco
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,204 +43,224 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.local.UserEntity
 import com.example.ui.theme.Amber400
-import com.example.ui.theme.Emerald300
-import com.example.ui.theme.Emerald400
-import com.example.ui.theme.Emerald500
-import com.example.ui.theme.Emerald600
-import com.example.ui.theme.Emerald700
-import com.example.ui.theme.Emerald900
+import com.example.ui.theme.EnterpriseBg
+import com.example.ui.theme.EnterpriseBlue
+import com.example.ui.theme.EnterpriseBorder
+import com.example.ui.theme.EnterpriseCardBg
+import com.example.ui.theme.EnterprisePrimary
+import com.example.ui.theme.EnterpriseTextMuted
+import com.example.ui.theme.EnterpriseTextPrimary
+import com.example.ui.theme.EnterpriseTextSecondary
+import com.example.ui.theme.Rose500
+import com.example.ui.theme.Slate100
 import com.example.ui.theme.Slate200
 import com.example.ui.theme.Slate400
+import com.example.ui.theme.Slate600
 import com.example.ui.theme.Slate700
 import com.example.ui.theme.Slate800
 import com.example.ui.theme.Slate900
 
 @Composable
 fun EcoHeader(
+    currentUser: UserEntity?,
     notificationCount: Int,
     isRefreshing: Boolean,
     onNotificationClick: () -> Unit,
     onRefreshClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onAccountClick: () -> Unit,
+    onOpenDirectory: () -> Unit = {},
+    onCloudSyncClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = Slate900,
-        shadowElevation = 4.dp
+        color = EnterpriseCardBg,
+        shadowElevation = 0.5.dp,
+        border = BorderStroke(1.dp, EnterpriseBorder)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 14.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            // Left: App Logo + Title + Current Flat Subtitle (Compact Horizontal)
             Row(
-                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.clickable { onAccountClick() }
             ) {
-                // Left: App Icon + Title & Subtitle
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f)
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(EnterprisePrimary),
+                    contentAlignment = Alignment.Center
                 ) {
-                    // Modern App Icon
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(Emerald600, Emerald900)
+                    Icon(
+                        imageVector = Icons.Default.Apartment,
+                        contentDescription = "Logo",
+                        tint = Color.White,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "EcoApartment",
+                            style = MaterialTheme.typography.titleSmall.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = EnterpriseTextPrimary,
+                                fontSize = 13.5.sp
+                            )
+                        )
+                        if (currentUser != null) {
+                            val cleanFlat = if (currentUser.flatNumber.startsWith("Flat", ignoreCase = true)) {
+                                currentUser.flatNumber
+                            } else {
+                                "Flat ${currentUser.flatNumber}"
+                            }
+                            Text(
+                                text = " • $cleanFlat",
+                                style = MaterialTheme.typography.bodySmall.copy(
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = EnterpriseBlue,
+                                    fontSize = 12.sp
                                 )
                             )
-                            .border(1.dp, Emerald400.copy(alpha = 0.4f), RoundedCornerShape(12.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Eco,
-                            contentDescription = "EcoApartment Logo",
-                            tint = Emerald300,
-                            modifier = Modifier.size(26.dp)
-                        )
+                        }
                     }
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Column {
-                        Text(
-                            text = "EcoApartment OS",
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                letterSpacing = 0.3.sp
-                            )
+                    Text(
+                        text = "${currentUser?.residentName ?: "Resident"} (Floor ${currentUser?.floorNumber ?: 1})",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            color = EnterpriseTextMuted,
+                            fontSize = 10.5.sp
                         )
-                        Text(
-                            text = "Flat B-402 • SRM Green Residency",
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                color = Slate400,
-                                fontWeight = FontWeight.Medium
-                            )
+                    )
+                }
+            }
+
+            // Right: Actions (Directory, Sync, Refresh, Bell, Logout)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                // Directory Button
+                Surface(
+                    shape = RoundedCornerShape(6.dp),
+                    color = Slate100,
+                    border = BorderStroke(1.dp, EnterpriseBorder),
+                    modifier = Modifier
+                        .clickable { onOpenDirectory() }
+                        .padding(end = 4.dp)
+                        .testTag("header_directory_button")
+                ) {
+                    Text(
+                        text = "📖 Directory",
+                        color = EnterpriseTextSecondary,
+                        fontSize = 10.5.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp)
+                    )
+                }
+
+                // CloudSync Button
+                IconButton(
+                    onClick = onCloudSyncClick,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .testTag("header_cloud_sync_button")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CloudSync,
+                        contentDescription = "Sync",
+                        tint = EnterpriseBlue,
+                        modifier = Modifier.size(17.dp)
+                    )
+                }
+
+                // Refresh Button
+                IconButton(
+                    onClick = onRefreshClick,
+                    enabled = !isRefreshing,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .testTag("refresh_telemetry_button")
+                ) {
+                    if (isRefreshing) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(14.dp),
+                            color = EnterprisePrimary,
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Refresh",
+                            tint = EnterpriseTextSecondary,
+                            modifier = Modifier.size(17.dp)
                         )
                     }
                 }
 
-                // Right: Live IoT pill + Refresh + Notification Bell with Badge
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                // Notification Bell
+                IconButton(
+                    onClick = onNotificationClick,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .testTag("notification_bell_button")
                 ) {
-                    // Pulsing Live Indicator
-                    LiveSyncBadge()
-
-                    // Refresh Button
-                    IconButton(
-                        onClick = onRefreshClick,
-                        enabled = !isRefreshing,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .testTag("refresh_telemetry_button")
-                    ) {
-                        if (isRefreshing) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(18.dp),
-                                color = Emerald400,
-                                strokeWidth = 2.dp
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Default.Refresh,
-                                contentDescription = "Refresh IoT Telemetry",
-                                tint = Slate200,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    }
-
-                    // Notification Bell Badge
-                    IconButton(
-                        onClick = onNotificationClick,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .testTag("notification_bell_button")
-                    ) {
-                        BadgedBox(
-                            badge = {
-                                if (notificationCount > 0) {
-                                    Badge(
-                                        containerColor = Amber400,
-                                        contentColor = Slate900
-                                    ) {
-                                        Text(
-                                            text = notificationCount.toString(),
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 10.sp
-                                        )
-                                    }
+                    BadgedBox(
+                        badge = {
+                            if (notificationCount > 0) {
+                                Badge(
+                                    containerColor = Rose500,
+                                    contentColor = Color.White
+                                ) {
+                                    Text(
+                                        text = notificationCount.toString(),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 8.5.sp
+                                    )
                                 }
                             }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Notifications,
-                                contentDescription = "Notifications",
-                                tint = Slate200,
-                                modifier = Modifier.size(22.dp)
-                            )
                         }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Notifications,
+                            contentDescription = "Notifications",
+                            tint = EnterpriseTextSecondary,
+                            modifier = Modifier.size(17.dp)
+                        )
                     }
+                }
+
+                // Logout Button
+                IconButton(
+                    onClick = onLogoutClick,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .testTag("resident_logout_button")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Logout",
+                        tint = Rose500,
+                        modifier = Modifier.size(17.dp)
+                    )
                 }
             }
         }
     }
 }
-
-@Composable
-private fun LiveSyncBadge() {
-    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val pulseScale by infiniteTransition.animateFloat(
-        initialValue = 0.85f,
-        targetValue = 1.25f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(900),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse_scale"
-    )
-
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = Slate800,
-        border = androidx.compose.foundation.BorderStroke(1.dp, Slate700)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(8.dp)
-                    .scale(pulseScale)
-                    .clip(CircleShape)
-                    .background(Emerald400)
-            )
-            Spacer(modifier = Modifier.width(6.dp))
-            Text(
-                text = "IoT LIVE",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    color = Emerald300,
-                    letterSpacing = 0.4.sp,
-                    fontSize = 10.sp
-                )
-            )
-        }
-    }
-}
-

@@ -34,7 +34,22 @@ val Amber50 = Color(0xFFFFFBEB)
 
 val Rose600 = Color(0xFFE11D48)
 val Rose500 = Color(0xFFF43F5E)
+val Rose400 = Color(0xFFFB7185)
 val Rose100 = Color(0xFFFFE4E6)
 
 val Cyan500 = Color(0xFF06B6D4)
+val Cyan400 = Color(0xFF22D3EE)
 val Cyan100 = Color(0xFFCFFAFE)
+
+// Corporate & Top Enterprise Proportional Palette
+val EnterprisePrimary = Color(0xFF0F172A) // Deep Obsidian / Slate 900
+val EnterpriseSecondary = Color(0xFF334155) // Slate 700
+val EnterpriseBlue = Color(0xFF2563EB) // Brand Blue
+val EnterpriseBg = Color(0xFFF8FAFC) // Off-white clean canvas
+val EnterpriseCardBg = Color(0xFFFFFFFF) // Crisp white card
+val EnterpriseBorder = Color(0xFFE2E8F0) // Subtle border
+val EnterpriseBorderFocus = Color(0xFF94A3B8)
+val EnterpriseTextPrimary = Color(0xFF0F172A)
+val EnterpriseTextSecondary = Color(0xFF475569)
+val EnterpriseTextMuted = Color(0xFF64748B)
+
