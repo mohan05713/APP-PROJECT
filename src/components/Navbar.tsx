@@ -8,6 +8,12 @@ interface NavbarProps {
   activePage: string;
   onNavigate: (page: string) => void;
   onLogout: () => void;
+  supabaseStatus?: {
+    isConnected: boolean;
+    recordCount: number;
+    isLoading: boolean;
+    errorMessage: string | null;
+  };
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -16,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   activePage,
   onNavigate,
   onLogout,
+  supabaseStatus
 }) => {
   const [timeString, setTimeString] = useState('');
 
@@ -32,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between gap-8 shadow-xs">
-      {/* Zone 1: Brand Wordmark (Single Text Element) */}
+      {/* Zone 1: Brand Wordmark */}
       <div className="flex items-center gap-3 shrink-0">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-extrabold text-lg shadow-sm">
           🌿
@@ -80,6 +87,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           Billing & Dues
         </button>
         <button
+          onClick={() => onNavigate('supabase')}
+          className={`hover:text-teal-700 transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
+            activePage === 'supabase' ? 'text-teal-700 font-bold' : ''
+          }`}
+        >
+          <span>⚡ Supabase DB</span>
+        </button>
+        <button
           onClick={() => onNavigate('myprofile')}
           className={`hover:text-teal-700 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
             activePage === 'myprofile' ? 'text-teal-700 font-bold' : ''
@@ -89,10 +104,40 @@ export const Navbar: React.FC<NavbarProps> = ({
         </button>
       </nav>
 
-      {/* Zone 3: Live Digital Time, Portal Badge, Profile Switcher & Logout */}
-      <div className="flex items-center gap-3 shrink-0">
+      {/* Zone 3: Supabase Status Indicator, Live Clock, Portal Badge, Profile Switcher & Logout */}
+      <div className="flex items-center gap-2.5 shrink-0">
+        {/* Supabase Database Live Status Badge */}
+        {supabaseStatus && (
+          <button
+            onClick={() => onNavigate('supabase')}
+            className={`px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 border transition-all cursor-pointer ${
+              supabaseStatus.isLoading
+                ? 'bg-amber-50 text-amber-800 border-amber-300 animate-pulse'
+                : supabaseStatus.isConnected
+                ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
+                : 'bg-rose-50 text-rose-900 border-rose-300 hover:bg-rose-100'
+            }`}
+            title="Click to manage Supabase database settings and test connection"
+          >
+            <span className={`w-2 h-2 rounded-full ${
+              supabaseStatus.isLoading
+                ? 'bg-amber-500 animate-ping'
+                : supabaseStatus.isConnected
+                ? 'bg-emerald-500'
+                : 'bg-rose-500'
+            }`} />
+            <span className="hidden sm:inline">
+              {supabaseStatus.isLoading
+                ? 'Connecting DB...'
+                : supabaseStatus.isConnected
+                ? `Supabase Live (${supabaseStatus.recordCount})`
+                : 'Supabase Offline (Cached)'}
+            </span>
+          </button>
+        )}
+
         {/* Digital Clock */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono font-bold text-slate-700">
+        <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono font-bold text-slate-700">
           <Clock className="w-3.5 h-3.5 text-slate-500" />
           <span>{timeString}</span>
         </div>
@@ -104,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           {isAdmin ? <Shield className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
-          <span>{isAdmin ? 'ADMIN OFFICE PORTAL' : 'RESIDENT PORTAL'}</span>
+          <span>{isAdmin ? 'ADMIN PORTAL' : 'RESIDENT PORTAL'}</span>
         </div>
 
         {/* User Active Pill */}
@@ -139,3 +184,4 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+

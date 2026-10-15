@@ -25,7 +25,7 @@ function generate400Residents(): Resident[] {
         const flatNum = `${block}-${floor}${unitFormatted}`;
         const uname = `flat_${block.toLowerCase()}${floor}${unitFormatted}`;
 
-        // Preserve specific existing residents
+        // Preserve specific requested residents & profiles
         if (flatNum === 'B-402') {
           residents.push({
             flat_number: 'B-402',
@@ -56,6 +56,58 @@ function generate400Residents(): Resident[] {
             occupancy_status: 'OCCUPIED',
             dues_status: 'PAID',
             vehicle_number: 'TN-09-AX-1010'
+          });
+          continue;
+        }
+
+        if (flatNum === 'C-401') {
+          residents.push({
+            flat_number: 'C-401',
+            block: 'C',
+            floor_number: 4,
+            resident_name: 'Jai Mukesh M',
+            username: 'jaimukesh_m',
+            password: 'jai123',
+            contact_number: '+91 9789012345',
+            email: 'jaimukesh.m@srmgreen.in',
+            occupancy_status: 'OCCUPIED',
+            dues_status: 'PAID',
+            vehicle_number: 'TN-11-JM-4010'
+          });
+          continue;
+        }
+
+        if (flatNum === 'D-403') {
+          residents.push({
+            flat_number: 'D-403',
+            block: 'D',
+            floor_number: 4,
+            resident_name: 'Diicson AS',
+            username: 'diicson_as',
+            password: 'diicson123',
+            contact_number: '+91 9894012345',
+            email: 'diicson.as@srmgreen.in',
+            occupancy_status: 'OCCUPIED',
+            dues_status: 'PAID',
+            vehicle_number: 'TN-14-DA-4030'
+          });
+          continue;
+        }
+
+        if (flatNum === 'A-401') {
+          residents.push({
+            flat_number: 'A-401',
+            block: 'A',
+            floor_number: 4,
+            resident_name: 'Jai Mukesh (Executive)',
+            username: 'jaimukesh_profile',
+            password: 'jai400123',
+            contact_number: '+91 9789099999',
+            email: 'jaimukesh.exec@srmgreen.in',
+            occupancy_status: 'OCCUPIED',
+            dues_status: 'PAID',
+            vehicle_number: 'TN-01-JM-4000',
+            assignedFlats: ['A-400', 'A-401', 'A-402', 'A-403']
           });
           continue;
         }
@@ -91,6 +143,22 @@ function generate400Residents(): Resident[] {
         });
       }
     }
+  });
+
+  // Ensure Flat A-400 exists in database
+  residents.unshift({
+    flat_number: 'A-400',
+    block: 'A',
+    floor_number: 4,
+    resident_name: 'New Resident (Flats 400-403)',
+    username: 'new_user',
+    password: 'newuser123',
+    contact_number: '+91 9876543210',
+    email: 'newuser@srmgreen.in',
+    occupancy_status: 'OCCUPIED',
+    dues_status: 'PAID',
+    vehicle_number: 'TN-01-NW-4000',
+    assignedFlats: ['A-400', 'A-401', 'A-402', 'A-403']
   });
 
   return residents;

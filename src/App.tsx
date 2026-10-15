@@ -5,7 +5,8 @@ import { QuickNav } from './components/QuickNav';
 import { Toast } from './components/Toast';
 import { Modal } from './components/Modal';
 import { localDb } from './lib/supabase';
-import { fetchLiveWeather } from './lib/weather';
+import { fetchLiveWeather, fetchLocationByIP } from './lib/weather';
+import { downloadSingleResidentCSV, downloadSingleResidentText, downloadSingleResidentJSON } from './lib/exportUtils';
 import { 
   Resident, Complaint, MaintenanceDue, CommunityNotice, Visitor, 
   IoTTelemetry, GasCylinder, Anomaly, UserProfile, BlockName, LocationState 
@@ -68,28 +69,66 @@ export function App() {
     email: 'mohan.p@srmgreen.in'
   });
 
-  // Fetch real weather on load
+  // Fetch real weather on load & attempt auto GPS location detection
   useEffect(() => {
-    fetchLiveWeather(12.8231, 80.0442, 'SRM Kattankulathur', 'Chengalpattu, TN').then((res) => setLocationState(res));
-  }, []);
-
-  const handleRequestLocationPermission = () => {
     if ('geolocation' in navigator) {
-      showToast('Requesting GPS location permission...', '📍');
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const lat = position.coords.latitude;
           const lng = position.coords.longitude;
-          const weather = await fetchLiveWeather(lat, lng, 'My Detected GPS Location', 'Tamil Nadu Region');
+          const weather = await fetchLiveWeather(lat, lng);
           setLocationState(weather);
-          showToast(`GPS location synced! ${weather.locationName} (${weather.temperature}°C)`, '✅');
         },
-        async (error) => {
-          showToast('GPS permission denied. Using SRM Kattankulathur weather feed.', 'ℹ️');
-        }
+        async () => {
+          const ipLoc = await fetchLocationByIP();
+          if (ipLoc) {
+            setLocationState(ipLoc);
+          } else {
+            fetchLiveWeather(12.8231, 80.0442, 'SRM Kattankulathur', 'Chengalpattu, TN').then((res) => setLocationState(res));
+          }
+        },
+        { timeout: 5000 }
       );
     } else {
-      showToast('Geolocation service not supported by browser. Using SRM Kattankulathur weather.', 'ℹ️');
+      fetchLocationByIP().then((ipLoc) => {
+        if (ipLoc) setLocationState(ipLoc);
+        else fetchLiveWeather(12.8231, 80.0442, 'SRM Kattankulathur', 'Chengalpattu, TN').then((res) => setLocationState(res));
+      });
+    }
+  }, []);
+
+  const handleRequestLocationPermission = () => {
+    if ('geolocation' in navigator) {
+      showToast('Requesting GPS permission & resolving location...', '📍');
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const weather = await fetchLiveWeather(lat, lng);
+          setLocationState(weather);
+          showToast(`GPS location synced! 📍 ${weather.locationName}, ${weather.district} (${weather.temperature}°C)`, '✅');
+        },
+        async () => {
+          showToast('GPS permission restricted in browser/iframe. Running IP network location lookup...', '🌐');
+          const ipLoc = await fetchLocationByIP();
+          if (ipLoc) {
+            setLocationState(ipLoc);
+            showToast(`Location resolved via IP network! 📍 ${ipLoc.locationName}, ${ipLoc.district}`, '✅');
+          } else {
+            showToast('Using SRM Kattankulathur weather feed. Search any city in the location bar!', 'ℹ️');
+          }
+        },
+        { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+      );
+    } else {
+      fetchLocationByIP().then((ipLoc) => {
+        if (ipLoc) {
+          setLocationState(ipLoc);
+          showToast(`Location resolved via IP network! 📍 ${ipLoc.locationName}, ${ipLoc.district}`, '✅');
+        } else {
+          showToast('Geolocation service not supported by browser. Using SRM Kattankulathur weather.', 'ℹ️');
+        }
+      });
     }
   };
 
@@ -179,7 +218,8 @@ export function App() {
         role: 'RESIDENT',
         flat: found.flat_number,
         phone: found.contact_number,
-        email: found.email
+        email: found.email,
+        assignedFlats: found.assignedFlats || [found.flat_number]
       });
       showToast(`Switched profile to ${found.resident_name} (${found.flat_number})`, '👤');
     } else {
@@ -194,6 +234,45 @@ export function App() {
       });
       showToast('Switched to Mohan Palaniappan (Flat B-402)', '🏠');
     }
+  };
+
+  // Register New User & Save to Supabase Persistent Store
+  const handleRegisterNewUser = (newUser: { name: string; username: string; password: string; phone: string; email: string }) => {
+    const assignedFlats = ['A-400', 'A-401', 'A-402', 'A-403'];
+
+    const newResidentRecords: Resident[] = assignedFlats.map((flatNum, idx) => ({
+      flat_number: flatNum,
+      block: 'A',
+      floor_number: 4,
+      resident_name: newUser.name,
+      username: idx === 0 ? newUser.username : `${newUser.username}_${flatNum.toLowerCase().replace('-', '')}`,
+      password: newUser.password,
+      contact_number: newUser.phone,
+      email: newUser.email,
+      occupancy_status: 'OCCUPIED',
+      dues_status: 'PAID',
+      vehicle_number: `TN-01-NW-${4000 + idx}`,
+      assignedFlats: assignedFlats
+    }));
+
+    const existingFiltered = residents.filter((r) => !assignedFlats.includes(r.flat_number) && r.username !== newUser.username);
+    const updatedResidents = [...newResidentRecords, ...existingFiltered];
+
+    setResidents(updatedResidents);
+    localDb.saveResidents(updatedResidents);
+
+    setCurrentUser({
+      username: newUser.username,
+      password: newUser.password,
+      name: newUser.name,
+      role: 'RESIDENT',
+      flat: 'A-400',
+      phone: newUser.phone,
+      email: newUser.email,
+      assignedFlats: assignedFlats
+    });
+
+    showToast(`Registered & Logged in as ${newUser.name}! Access granted to Flats 400, 401, 402, 403 (Saved to Supabase).`, '⚡');
   };
 
   // Update Profile
@@ -552,6 +631,7 @@ export function App() {
           {activePage === 'matrix' && (
             <MatrixPage
               residents={residents}
+              currentUser={currentUser}
               onEditResident={handleOpenEditResident}
             />
           )}
@@ -646,6 +726,7 @@ export function App() {
               currentUser={currentUser}
               residents={residents}
               onProfileSwitch={handleProfileSwitch}
+              onRegisterNewUser={handleRegisterNewUser}
               onToast={showToast}
               onNavigate={setActivePage}
             />
@@ -723,18 +804,22 @@ export function App() {
                 type="text"
                 value={resForm.username}
                 onChange={(e) => setResForm({ ...resForm, username: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-teal-800 outline-none"
+                disabled={currentUser.role !== 'AUTHORITY'}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-teal-800 outline-none disabled:opacity-75"
                 required
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Password</label>
+              <label className="block font-bold text-slate-700 mb-1">
+                Password {currentUser.role !== 'AUTHORITY' && <span className="text-[10px] font-normal text-rose-600">(Admin View Only)</span>}
+              </label>
               <input
-                type="text"
-                value={resForm.password}
+                type={currentUser.role === 'AUTHORITY' ? 'text' : 'password'}
+                value={currentUser.role === 'AUTHORITY' ? resForm.password : '••••••••'}
                 onChange={(e) => setResForm({ ...resForm, password: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-slate-900 outline-none"
+                disabled={currentUser.role !== 'AUTHORITY'}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-slate-900 outline-none disabled:bg-slate-100 disabled:text-slate-400"
                 required
               />
             </div>
@@ -787,6 +872,87 @@ export function App() {
                 onChange={(e) => setResForm({ ...resForm, vehicle: e.target.value })}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg outline-none font-mono"
               />
+            </div>
+          </div>
+
+          {/* SINGLE PERSON PROFILE DOWNLOAD OPTIONS */}
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2">
+            <div className="flex items-center justify-between text-slate-700 font-bold text-[11px]">
+              <span>📥 Download Single Resident Details File:</span>
+              <span className="text-[10px] text-teal-700 bg-teal-50 border border-teal-200 px-1.5 py-0.5 rounded font-mono">
+                {resForm.flatNum || 'Flat'}
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const currentResident: Resident = {
+                    flat_number: resForm.flatNum,
+                    block: resForm.block,
+                    floor_number: resForm.floor,
+                    resident_name: resForm.name,
+                    username: resForm.username,
+                    password: resForm.password,
+                    contact_number: resForm.phone,
+                    email: resForm.email,
+                    occupancy_status: resForm.occupancy,
+                    dues_status: 'PAID',
+                    vehicle_number: resForm.vehicle
+                  };
+                  downloadSingleResidentCSV(currentResident);
+                  showToast(`Downloaded CSV profile for ${resForm.name || resForm.flatNum}`, '📥');
+                }}
+                className="py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded text-[11px] transition-colors cursor-pointer text-center"
+              >
+                CSV Format
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const currentResident: Resident = {
+                    flat_number: resForm.flatNum,
+                    block: resForm.block,
+                    floor_number: resForm.floor,
+                    resident_name: resForm.name,
+                    username: resForm.username,
+                    password: resForm.password,
+                    contact_number: resForm.phone,
+                    email: resForm.email,
+                    occupancy_status: resForm.occupancy,
+                    dues_status: 'PAID',
+                    vehicle_number: resForm.vehicle
+                  };
+                  downloadSingleResidentText(currentResident);
+                  showToast(`Downloaded TXT report for ${resForm.name || resForm.flatNum}`, '📄');
+                }}
+                className="py-1.5 bg-slate-700 hover:bg-slate-800 text-white font-bold rounded text-[11px] transition-colors cursor-pointer text-center"
+              >
+                Text Report
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const currentResident: Resident = {
+                    flat_number: resForm.flatNum,
+                    block: resForm.block,
+                    floor_number: resForm.floor,
+                    resident_name: resForm.name,
+                    username: resForm.username,
+                    password: resForm.password,
+                    contact_number: resForm.phone,
+                    email: resForm.email,
+                    occupancy_status: resForm.occupancy,
+                    dues_status: 'PAID',
+                    vehicle_number: resForm.vehicle
+                  };
+                  downloadSingleResidentJSON(currentResident);
+                  showToast(`Downloaded JSON profile for ${resForm.name || resForm.flatNum}`, '⚙️');
+                }}
+                className="py-1.5 bg-teal-800 hover:bg-teal-900 text-white font-bold rounded text-[11px] transition-colors cursor-pointer text-center"
+              >
+                JSON Data
+              </button>
             </div>
           </div>
 
@@ -959,3 +1125,6 @@ export function App() {
     </div>
   );
 }
+
+export default App;
+

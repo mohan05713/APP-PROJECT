@@ -110,3 +110,42 @@ class SupabaseClient:
         except Exception as e:
             print(f"[SupabaseClient] Error inserting into {table}: {e}")
             return False
+
+    def update_row(self, table: str, filters: Dict[str, str], data: Dict[str, Any]) -> bool:
+        """Updates rows in Supabase table based on filters."""
+        if not self.is_configured:
+            return False
+        query_str = "?" + urllib.parse.urlencode(filters)
+        endpoint = f"{self.url}/rest/v1/{table}{query_str}"
+        headers = {
+            "apikey": self.key,
+            "Authorization": f"Bearer {self.key}",
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+        }
+        try:
+            body = json.dumps(data).encode("utf-8")
+            req = urllib.request.Request(endpoint, data=body, headers=headers, method="PATCH")
+            with urllib.request.urlopen(req, timeout=8) as response:
+                return response.getcode() in [200, 201, 204]
+        except Exception as e:
+            print(f"[SupabaseClient] Error updating {table}: {e}")
+            return False
+
+    def delete_row(self, table: str, filters: Dict[str, str]) -> bool:
+        """Deletes rows from Supabase table based on filters."""
+        if not self.is_configured:
+            return False
+        query_str = "?" + urllib.parse.urlencode(filters)
+        endpoint = f"{self.url}/rest/v1/{table}{query_str}"
+        headers = {
+            "apikey": self.key,
+            "Authorization": f"Bearer {self.key}"
+        }
+        try:
+            req = urllib.request.Request(endpoint, headers=headers, method="DELETE")
+            with urllib.request.urlopen(req, timeout=8) as response:
+                return response.getcode() in [200, 201, 204]
+        except Exception as e:
+            print(f"[SupabaseClient] Error deleting from {table}: {e}")
+            return False

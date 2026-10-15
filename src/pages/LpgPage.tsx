@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GasCylinder } from '../lib/types';
-import { Flame, RefreshCw, ShoppingCart, ShieldAlert, Info, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
+import { Flame, RefreshCw, ShoppingCart, Info, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
 
 interface LpgPageProps {
   cylinders: GasCylinder[];
@@ -8,7 +8,7 @@ interface LpgPageProps {
   onBookRefill: (unitId: string) => void;
 }
 
-export const LpgPage: React.FC<LpgPageProps> = ({ cylinders, onSwitchManifold, onBookRefill }) => {
+export const LpgPage: React.FC<LpgPageProps> = ({ cylinders = [], onSwitchManifold, onBookRefill }) => {
   const [showHowMeasured, setShowHowMeasured] = useState(true);
 
   return (
@@ -36,7 +36,12 @@ export const LpgPage: React.FC<LpgPageProps> = ({ cylinders, onSwitchManifold, o
 
       {/* 3 CYLINDER CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cylinders.map((c) => {
+        {(cylinders || []).map((c) => {
+          const currentWeight = c.current_level_kg ?? (c as any).current_weight_kg ?? 0;
+          const totalCap = c.total_capacity_kg ?? (c as any).capacity_kg ?? 14.2;
+          const remainingPct = totalCap > 0 ? Math.min(100, Math.max(0, (currentWeight / totalCap) * 100)) : 0;
+          const pressure = c.pressure_bar ?? 2.1;
+
           const statusBg =
             c.status === 'ACTIVE'
               ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
@@ -45,7 +50,7 @@ export const LpgPage: React.FC<LpgPageProps> = ({ cylinders, onSwitchManifold, o
               : 'bg-rose-50 text-rose-800 border-rose-200';
 
           return (
-            <div key={c.cylinder_number} className="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-4">
+            <div key={c.cylinder_number || c.unit_id} className="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs space-y-4">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-bold text-slate-500">CYLINDER #{c.cylinder_number}</span>
                 <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${statusBg}`}>
@@ -54,28 +59,30 @@ export const LpgPage: React.FC<LpgPageProps> = ({ cylinders, onSwitchManifold, o
               </div>
 
               <div>
-                <div className="text-3xl font-extrabold text-slate-900 font-mono">{c.current_weight_kg.toFixed(1)} <span className="text-sm font-normal text-slate-500">/ {c.capacity_kg} kg</span></div>
+                <div className="text-3xl font-extrabold text-slate-900 font-mono">
+                  {currentWeight.toFixed(1)} <span className="text-sm font-normal text-slate-500">/ {totalCap} kg</span>
+                </div>
                 <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden mt-3">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
-                      c.remaining_pct < 20 ? 'bg-rose-500' : c.remaining_pct < 50 ? 'bg-amber-500' : 'bg-emerald-500'
+                      remainingPct < 20 ? 'bg-rose-500' : remainingPct < 50 ? 'bg-amber-500' : 'bg-emerald-500'
                     }`}
-                    style={{ width: `${c.remaining_pct}%` }}
+                    style={{ width: `${remainingPct}%` }}
                   />
                 </div>
                 <div className="flex justify-between text-xs text-slate-500 font-mono mt-1.5">
-                  <span>Capacity: {c.remaining_pct.toFixed(0)}%</span>
+                  <span>Capacity: {remainingPct.toFixed(0)}%</span>
                   <span>Tare: 14.2 kg</span>
                 </div>
               </div>
 
               <div className="text-xs text-slate-600 font-mono space-y-1 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                <div>Manifold Pressure: 2.1 Bar</div>
+                <div>Manifold Pressure: {pressure.toFixed(1)} Bar</div>
                 <div>Sensor ID: LPG-SCALE-0{c.cylinder_number}</div>
               </div>
 
               <button
-                onClick={() => onBookRefill(`CYL-${c.cylinder_number}`)}
+                onClick={() => onBookRefill(c.unit_id || `CYL-${c.cylinder_number}`)}
                 className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
                 <ShoppingCart className="w-3.5 h-3.5" />

@@ -15,6 +15,7 @@ interface DashboardPageProps {
   locationState: LocationState;
   onRequestLocationPermission: () => void;
   onSelectTNLocation: (name: string, district: string, lat: number, lng: number) => void;
+  onUpdateLocationState?: (state: LocationState) => void;
   onNavigate: (page: string) => void;
   onOpenAddResident: () => void;
   onOpenRaiseTicket: () => void;
@@ -34,6 +35,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   locationState,
   onRequestLocationPermission,
   onSelectTNLocation,
+  onUpdateLocationState,
   onNavigate,
   onOpenAddResident,
   onOpenRaiseTicket,
@@ -55,6 +57,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         locationState={locationState}
         onRequestPermission={onRequestLocationPermission}
         onSelectTNLocation={onSelectTNLocation}
+        onUpdateLocationState={onUpdateLocationState}
       />
 
       {/* 2. FRONT DASHBOARD LIVE CONTROL TOGGLES BAR */}

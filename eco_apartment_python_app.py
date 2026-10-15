@@ -14,13 +14,14 @@ Supports:
 - Water Anomaly Detection Engine integration
 """
 
+import os
+import json
 import sqlite3
 import datetime
 import random
-import os
-import json
 from dataclasses import dataclass, asdict
 from typing import List, Optional, Dict, Any
+from supabase_client import SupabaseClient
 
 # =====================================================================
 # DATA CLASSES
@@ -149,6 +150,17 @@ class EcoApartmentDatabase:
         self.db_path = db_path
         self.init_tables()
         self.ensure_400_residents_and_seed_data()
+        
+        # Initialize Supabase Client
+        settings = self.get_settings()
+        self.supabase = SupabaseClient(
+            url=settings.get("SUPABASE_URL") or os.environ.get("SUPABASE_URL"),
+            key=settings.get("SUPABASE_ANON_KEY") or os.environ.get("SUPABASE_ANON_KEY")
+        )
+        
+        # Initial sync if configured
+        if self.supabase.is_configured:
+            self.sync_residents_from_supabase()
 
     def get_connection(self):
         conn = sqlite3.connect(self.db_path)
@@ -694,7 +706,58 @@ class EcoApartmentDatabase:
                 move_in, emg, veh, due
             ))
             conn.commit()
+
+            # --- Sync with Supabase ---
+            if self.supabase.is_configured:
+                supabase_row = {
+                    "username": username,
+                    "password_hash": pwd, # In real app, hash it
+                    "role": "RESIDENT",
+                    "block": block,
+                    "floor_number": floor,
+                    "flat_number": flat_num,
+                    "resident_name": name,
+                    "contact_number": phone,
+                    "email": email,
+                    "occupancy_status": status,
+                    "move_in_date": move_in,
+                    "vehicle_number": veh,
+                    "dues_status": due
+                }
+                self.supabase.insert_row("residents", supabase_row)
+
             return {"success": True, "flat_number": flat_num, "username": username}
+
+    def sync_residents_from_supabase(self):
+        """Pulls residents from Supabase and updates local SQLite cache."""
+        if not self.supabase.is_configured:
+            return
+        
+        print("[EcoApartmentDatabase] Syncing residents from Supabase Cloud...")
+        data = self.supabase.fetch_table("residents")
+        if data:
+            with self.get_connection() as conn:
+                cursor = conn.cursor()
+                for r in data:
+                    cursor.execute("""
+                        INSERT INTO users (
+                            username, password, role, block, floor_number, flat_number,
+                            resident_name, contact_number, email, occupancy_status,
+                            move_in_date, vehicle_number, dues_status
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT(username) DO UPDATE SET
+                            resident_name = excluded.resident_name,
+                            contact_number = excluded.contact_number,
+                            occupancy_status = excluded.occupancy_status
+                    """, (
+                        r.get("username"), r.get("password_hash", "srm123"), r.get("role", "RESIDENT"),
+                        r.get("block", "A"), r.get("floor_number", 1), r.get("flat_number"),
+                        r.get("resident_name"), r.get("contact_number"), r.get("email"),
+                        r.get("occupancy_status", "OCCUPIED"), r.get("move_in_date"),
+                        r.get("vehicle_number"), r.get("dues_status", "PAID")
+                    ))
+                conn.commit()
+                print(f"[EcoApartmentDatabase] Successfully synced {len(data)} records.")
 
     def vacate_resident(self, flat_or_username: str) -> Dict[str, Any]:
         """Soft-deletes/vacates resident without deleting historical logs."""
@@ -710,6 +773,12 @@ class EcoApartmentDatabase:
                 WHERE username = ? OR flat_number = ?
             """, (flat_or_username, flat_or_username))
             conn.commit()
+
+            # --- Sync with Supabase ---
+            if self.supabase.is_configured:
+                # In Supabase we set to VACANT
+                self.supabase.update_row("residents", {"username": f"eq.{flat_or_username}"}, {"occupancy_status": "VACANT", "full_name": "Vacant Unit"})
+
             return {"success": True, "message": f"Flat {flat_or_username} marked as VACANT."}
 
     def get_building_matrix(self) -> Dict[str, Any]:
@@ -964,6 +1033,16 @@ class EcoApartmentDatabase:
             cursor.execute("CREATE TABLE IF NOT EXISTS app_settings (config_key TEXT PRIMARY KEY, config_value TEXT)")
             cursor.execute("INSERT OR REPLACE INTO app_settings VALUES (?, ?)", (key, value))
             conn.commit()
+            
+        # Re-initialize Supabase client if config changed
+        if key in ["SUPABASE_URL", "SUPABASE_ANON_KEY"]:
+            settings = self.get_settings()
+            self.supabase = SupabaseClient(
+                url=settings.get("SUPABASE_URL") or os.environ.get("SUPABASE_URL"),
+                key=settings.get("SUPABASE_ANON_KEY") or os.environ.get("SUPABASE_ANON_KEY")
+            )
+            if self.supabase.is_configured:
+                self.sync_residents_from_supabase()
 
 
 # =====================================================================

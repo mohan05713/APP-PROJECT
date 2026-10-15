@@ -18,6 +18,7 @@ export interface Resident {
   occupancy_status: OccupancyStatus;
   dues_status: DuesStatus;
   vehicle_number: string;
+  assignedFlats?: string[];
 }
 
 export type ComplaintCategory = 'PLUMBING' | 'ELECTRICAL' | 'GAS' | 'ELEVATOR' | 'SECURITY';
@@ -118,6 +119,7 @@ export interface UserProfile {
   flat: string;
   phone: string;
   email?: string;
+  assignedFlats?: string[];
 }
 
 export interface LocationState {
