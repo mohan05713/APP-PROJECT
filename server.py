@@ -21,7 +21,7 @@ import urllib.parse
 from eco_apartment_python_app import EcoApartmentDatabase, IoTEngine, Complaint, User, CommunityNotice, Visitor
 from water_resource_tracker import WaterMeter
 
-PORT = int(os.environ.get("PORT", os.environ.get("DEFAULT_APP_PORT", os.environ.get("APP_PORT", 3000))))
+PORT = 3001
 db = EcoApartmentDatabase("eco_apartment.db")
 iot = IoTEngine()
 
@@ -936,17 +936,21 @@ HTML_PAGE = """<!DOCTYPE html>
 
         <!-- CONTENT AREA -->
                 <main class="content-area">
-            <!-- DYNAMIC GPS LOCATION & LIVE WEATHER TELEMETRY BANNER -->
+            <!-- ============================================================== -->
+            <!-- PAGE 1: MAIN DASHBOARD -->
+            <!-- ============================================================== -->
+            <section class="page-view active" id="page-dashboard">
+                <!-- DYNAMIC GPS LOCATION & LIVE WEATHER TELEMETRY BANNER -->
             <div id="weatherLocationBanner" style="background: linear-gradient(135deg, #0F766E 0%, #115E59 100%); color: white; padding: 18px 22px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <div style="font-size: 38px; line-height: 1;" id="weatherIconDisplay">☀️</div>
                         <div>
                             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                                <span style="font-weight: 800; font-size: 17px; letter-spacing: -0.01em;" id="locationPlaceName">Detecting your exact GPS location...</span>
-                                <span style="background: rgba(255,255,255,0.22); font-size: 11px; padding: 3px 10px; border-radius: 9999px; font-weight: 700; letter-spacing: 0.02em;" id="locationGpsBadge">GPS Sensor Ready</span>
+                                <span style="font-weight: 800; font-size: 17px; letter-spacing: -0.01em;" id="locationPlaceName">SRM Green Residency — Campus Live Weather</span>
+                                <span style="background: rgba(255,255,255,0.22); font-size: 11px; padding: 3px 10px; border-radius: 9999px; font-weight: 700; letter-spacing: 0.02em;" id="locationGpsBadge">Kattankulathur</span>
                             </div>
-                            <div style="font-size: 13px; opacity: 0.92; margin-top: 4px;" id="locationDistrictAndCoords">Grant device GPS permission to detect where you are and view real-time weather metrics</div>
+                            <div style="font-size: 13px; opacity: 0.92; margin-top: 4px;" id="locationDistrictAndCoords">Chengalpattu District, Tamil Nadu · Live Environmental Telemetry</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -968,10 +972,6 @@ HTML_PAGE = """<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- ============================================================== -->
-            <!-- PAGE 1: MAIN DASHBOARD -->
-            <!-- ============================================================== -->
-            <section class="page-view active" id="page-dashboard">
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon icon-emerald">🏢</div>
@@ -3104,7 +3104,8 @@ Thank you for prompt community maintenance!
             e.preventDefault();
             const uname = document.getElementById("loginUsername").value;
             const pwd = document.getElementById("loginPassword").value;
-            const role = document.getElementById("loginRoleSelect").value;
+            const roleEl = document.getElementById("loginRoleSelect");
+            const role = roleEl ? roleEl.value : "";
 
             const res = await fetch("/api/login", {
                 method: "POST",
@@ -3290,11 +3291,11 @@ Thank you for prompt community maintenance!
             }
         }
 
-        let showAllCredPasswords = false;
+        window.window.showAllCredPasswords = window.window.showAllCredPasswords || false;
         function toggleAllCredPasswords() {
-            showAllCredPasswords = !showAllCredPasswords;
+            window.showAllCredPasswords = !window.showAllCredPasswords;
             const btn = document.getElementById("btnToggleAllCred");
-            if (btn) btn.innerText = showAllCredPasswords ? "🙈 Hide Passwords" : "👁️ Show All Passwords";
+            if (btn) btn.innerText = window.showAllCredPasswords ? "🙈 Hide Passwords" : "👁️ Show All Passwords";
             renderCredentialsTable();
         }
 
@@ -3458,7 +3459,7 @@ Thank you for prompt community maintenance!
 
             tbody.innerHTML = "";
             filtered.slice(0, 50).forEach(r => {
-                const pwdDisplay = showAllCredPasswords ? `<span style="background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-family: monospace;">${r.password || 'srm123'}</span>` : `<span style="color: var(--text-muted); font-family: monospace;">••••••••</span>`;
+                const pwdDisplay = window.showAllCredPasswords ? `<span style="background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-family: monospace;">${r.password || 'srm123'}</span>` : `<span style="color: var(--text-muted); font-family: monospace;">••••••••</span>`;
                 const occBadge = r.occupancy_status === "OCCUPIED" ? "badge-success" : "badge-neutral";
                 tbody.innerHTML += `
                     <tr>
@@ -3699,7 +3700,7 @@ class EcoApartmentRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        self.send_header("Permissions-Policy", "geolocation=(self "*")")
+        self.send_header("Permissions-Policy", "geolocation=(self *)")
         super().end_headers()
 
     def do_OPTIONS(self):
@@ -3776,9 +3777,21 @@ class EcoApartmentRequestHandler(http.server.SimpleHTTPRequestHandler):
         elif path == "/api/notices":
             self.send_json(db.get_community_notices())
 
+        # 8.5 Parking Allotments & CCTV Surveillance
+        elif path == "/api/parking":
+            flat = query.get("flat", ["ALL"])[0]
+            search = query.get("search", [""])[0]
+            basement = query.get("basement", ["ALL"])[0]
+            self.send_json(db.get_parking_allotments(flat, search, basement))
+        elif path == "/api/cctv":
+            self.send_json(db.get_cctv_cameras())
+        elif path == "/api/family":
+            flat = query.get("flat", ["ALL"])[0]
+            self.send_json(db.get_family_members(flat))
         # 9. Visitors & Gate Passes
         elif path == "/api/visitors":
-            self.send_json(db.get_visitors())
+            flat = query.get("flat", ["ALL"])[0]
+            self.send_json(db.get_visitors(flat))
 
         # 10. IoT Live Telemetry
         elif path == "/api/iot" or path == "/api/iot/telemetry":
@@ -3950,6 +3963,9 @@ class EcoApartmentRequestHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 self.send_json({"success": False, "message": "Invalid username or password."})
 
+        elif path == "/api/profile/update":
+            res = db.update_resident_full_profile(data)
+            self.send_json(res)
         elif path == "/api/residents":
             res = db.create_or_update_resident(data)
             self.send_json(res)

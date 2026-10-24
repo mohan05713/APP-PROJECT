@@ -1,49 +1,61 @@
-# EcoApartment OS — Credentials & Operations Manual
+# EcoApartment OS — 400 Apartments Master Credentials Directory
 **SRM Green Residency • Smart Facility & Resident Management Mesh**
 
 ---
 
-## 1. Facility Authority Desk
+## 1. Primary Resident Spotlight (Flat B-402)
+| Property | Primary Resident Value |
+| :--- | :--- |
+| **Resident Name** | **Mohan Palaniappan** |
+| **Flat Number** | **Flat B-402** (Block B, Floor 4) |
+| **Login Username** | **`6383898769`** or **`flat_402`** |
+| **Login Password** | **`6383898769`** or **`mohan123`** |
+| **Primary Phone** | **`+91 63838 98769`** |
+| **Email Address** | **`mohanpalaniappan007@gmail.com`** |
+| **Parking Slot** | Slot P-B402 (Basement 1) |
 
+---
+
+## 2. Facility Authority & Security Desk
 | Property | Value |
 | :--- | :--- |
-| **Role** | Facility Authority / Management Office (`AUTHORITY`) |
-| **Username** | `authority` *(or `admin`)* |
+| **Role** | Facility Authority / Security Admin (`AUTHORITY`) |
+| **Username** | `admin` or `authority` |
 | **Unique Password** | `6383898769` |
-| **Emergency Contact** | +91 63838 98769 |
-| **Key Privileges** | Live Complaints Desk, Dispatch & Action Notes, Floors & Passwords Registry, User Login Audit Logs |
+| **Security Phone** | +91 63838 98769 |
+| **Admin Email** | `admin@srmgreen.in` |
+| **Key Privileges** | Live Complaints Dispatch, Gatekeeper Approvals, 400 Census Directory Access, Login Audit Logs |
 
 ---
 
-## 2. Floor & Flat Unique Passwords Directory
+## 3. Official 11-Page PDF Manual & Credentials Roster
+The complete 400 apartment logins directory has been generated into an **11-Page Official PDF Manual**:
+- **PDF Location 1**: `EcoApartment_Credentials_Directory.pdf`
+- **PDF Location 2**: `public/EcoApartment_Credentials_Directory.pdf`
+- **PDF Location 3**: `APK_DOWNLOAD/EcoApartment_Credentials_and_Manual.pdf`
 
-### Floor 1
-- **Flat 101**: R. SHAM SUDHAN (`flat_101`) — Password: `7708994065` — Phone: +91 77089 94065
-- **Flat 102**: P. MOHAN (`flat_102`) — Password: `6383898769` — Phone: +91 63838 98769
-- **Flat 105**: M. JAI MUGESH (`flat_105`) — Password: `9361077508` — Phone: +91 93610 77508
-- **Flat 108**: N. MADHUVARSHAN (`flat_108`) — Password: `8838449468` — Phone: +91 88384 49468
-
-### Floor 2
-- **Flat 201**: K. MANI MARAN (`flat_201`) — Password: `7845968905` — Phone: +91 78459 68905
-- **Flat 204**: T S. ABINAYA (`flat_204`) — Password: `8825742523` — Phone: +91 88257 42523
-- **Flat 206**: NARAYANAN MOORTHI (`flat_206`) — Password: `SRM@F2-206` — Phone: +91 88384 49468
-- **Flat 208**: SIVANESAN (`flat_208`) — Password: `SRM@F2-208` — Phone: +91 88257 42523
-
-### Floor 3
-- **Flat 302**: N. Geetha (`flat_302`) — Password: `SRM@F3-302` — Phone: +91 98401 33302
-- **Flat 305**: V. Suresh (`flat_305`) — Password: `SRM@F3-305` — Phone: +91 98401 33305
-- **Flat 308**: T. Dinesh (`flat_308`) — Password: `SRM@F3-308` — Phone: +91 98401 33308
-- **Flat 310**: K. Priya (`flat_310`) — Password: `SRM@F3-310` — Phone: +91 98401 33310
-
-### Floor 4
-- **Flat 401**: S. Ramesh (`flat_401`) — Password: `SRM@F4-401` — Phone: +91 98401 44401
-- **Flat 402**: Mohan Palaniappan (`flat_402`) — Password: `SRM@F4-402` — Phone: +91 6380244185
-- **Flat 405**: Dr. E. Saravanan (`flat_405`) — Password: `SRM@F4-405` — Phone: +91 98401 44405
-- **Flat 408**: M. Vani (`flat_408`) — Password: `SRM@F4-408` — Phone: +91 98401 44408
+### PDF Contents Structure:
+- **Page 1**: Key Website Modules, System Overview, Primary Resident Spotlight (Mohan Palaniappan), Facility Authority Desk Credentials, and Operational Workflows.
+- **Pages 2 to 11**: Master Roster of ALL 400 Apartments (Blocks A, B, C, D - Floors 1-4, Units 1-25) containing:
+  - Flat Number
+  - Resident Name
+  - Username
+  - Unique Password
+  - Phone Number
+  - Email Address
+  - Dues Settlement Status
 
 ---
 
-## 3. PDF & APK Files
+## 4. Key Resident Logins Sample
+- **Flat B-402**: Mohan Palaniappan (`6383898769` / `flat_402`) — Pass: `6383898769` — Phone: +91 63838 98769 — Email: `mohanpalaniappan007@gmail.com`
+- **Flat A-101**: R. SHAM SUDHAN (`flat_101`) — Pass: `7708994065` — Phone: +91 77089 94065 — Email: `shamsudhan@gmail.com`
+- **Flat A-103**: MADHU VARSHAN (`flat_103`) — Pass: `9840155432` — Phone: +91 98401 55432 — Email: `madhuvarshan@srmgreen.in`
+- **Flat A-105**: M. JAI MUGESH (`flat_105`) — Pass: `9361077508` — Phone: +91 93610 77508 — Email: `jaimugesh@srmgreen.in`
+- **Flat A-108**: N. MADHUVARSHAN (`flat_108`) — Pass: `8838449468` — Phone: +91 88384 49468 — Email: `madhuvarshan108@srmgreen.in`
+- **Flats A-102 to D-425**: `flat_<block><floor><unit>` — Pass: `srm_<block><floor><unit>` — Phone: +91 9840XXXXX — Email: `flat_<block><floor><unit>@srmgreen.in`
 
-- **Official PDF Manual**: `APK_DOWNLOAD/EcoApartment_Credentials_and_Manual.pdf`
+---
+
+## 5. Mobile Android APK
 - **Installable Android Debug APK**: `APK_DOWNLOAD/app-debug.apk` (22 MB)

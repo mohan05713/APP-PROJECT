@@ -593,11 +593,11 @@ js_enhancements = """
             }
         }
 
-        let showAllCredPasswords = false;
+        window.window.showAllCredPasswords = window.window.showAllCredPasswords || false;
         function toggleAllCredPasswords() {
-            showAllCredPasswords = !showAllCredPasswords;
+            window.showAllCredPasswords = !window.showAllCredPasswords;
             const btn = document.getElementById("btnToggleAllCred");
-            if (btn) btn.innerText = showAllCredPasswords ? "🙈 Hide Passwords" : "👁️ Show All Passwords";
+            if (btn) btn.innerText = window.showAllCredPasswords ? "🙈 Hide Passwords" : "👁️ Show All Passwords";
             renderCredentialsTable();
         }
 
@@ -761,7 +761,7 @@ js_enhancements = """
 
             tbody.innerHTML = "";
             filtered.slice(0, 50).forEach(r => {
-                const pwdDisplay = showAllCredPasswords ? `<span style="background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-family: monospace;">${r.password || 'srm123'}</span>` : `<span style="color: var(--text-muted); font-family: monospace;">••••••••</span>`;
+                const pwdDisplay = window.showAllCredPasswords ? `<span style="background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-family: monospace;">${r.password || 'srm123'}</span>` : `<span style="color: var(--text-muted); font-family: monospace;">••••••••</span>`;
                 const occBadge = r.occupancy_status === "OCCUPIED" ? "badge-success" : "badge-neutral";
                 tbody.innerHTML += `
                     <tr>
