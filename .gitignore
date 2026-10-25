@@ -52,3 +52,14 @@ app-debug.apk
 test.pdf
 test.ps
 iot_telemetry_export.json
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.apk
+*.zip
+*.pdf
+*.csv
+.env
+.env.*
+!.env.example
