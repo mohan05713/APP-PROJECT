@@ -1,0 +1,65 @@
+{
+  "residents": {
+    "B-402": {
+      "flat_number": "B-402",
+      "block": "B",
+      "floor_number": 4,
+      "occupancy_status": "OCCUPIED",
+      "dues_status": "PAID",
+      "gents_count": 1,
+      "ladies_count": 1,
+      "children_count": 1,
+      "total_members": 3,
+      "resident_name": "Demo Resident",
+      "family_head": "Demo Resident",
+      "contact_number": "+91 98400 00000",
+      "email": "demo.resident@example.com",
+      "emergency_contact": "+91 94440 00000",
+      "vehicle_number": "TN-09-XX-0000",
+      "blood_group": "O+",
+      "password": "CHANGE_ME"
+    }
+  },
+  "families": {
+    "B-402": {
+      "flat_number": "B-402",
+      "family_head": "Demo Resident",
+      "total_members": 3,
+      "gents_count": 1,
+      "ladies_count": 1,
+      "children_count": 1,
+      "members": [
+        {
+          "name": "Demo Resident",
+          "relation": "Family Head (Self)",
+          "gender": "Gent",
+          "category": "GENT",
+          "age": 35,
+          "school": "Resident",
+          "phone": "+91 98400 00000",
+          "blood_group": "O+"
+        },
+        {
+          "name": "Spouse",
+          "relation": "Spouse (Wife)",
+          "gender": "Lady",
+          "category": "LADY",
+          "age": 32,
+          "school": "Resident",
+          "phone": "Family Shared",
+          "blood_group": "A+"
+        },
+        {
+          "name": "Child",
+          "relation": "Child",
+          "gender": "Child (Boy)",
+          "category": "CHILD",
+          "age": 6,
+          "school": "School Student",
+          "phone": "Family Shared",
+          "blood_group": "O+"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# Android & IDE
+*.iml
+.gradle
+.kotlin
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild
+.cxx
+local.properties
+debug.keystore
+
+# Node & Build artifacts
+node_modules/
+dist/
+.vite/
+.turbo/
+
+# Environment Variables & API Keys
+.env
+.env.*
+!.env.example
+
+# Sensitive Credentials & Private Resident Data (Do not push to public repositories)
+*credentials*
+*Credentials*
+*CREDENTIALS*
+residents_store.json
+residents_400_export.csv
+dues_export.csv
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# PDFs containing raw credentials
+*Credentials_Directory.pdf
+*Credentials_and_Manual.pdf
+# Export archives
+*.zip
+*.rar
+*.7z
+# Local AI workspace metadata
+.aistudio/
+.antigravity/
+.vscode/
+
+# Generated application artifacts
+app-debug.apk
+test.pdf
+test.ps
+iot_telemetry_export.json

@@ -1,0 +1,12 @@
+{
+  "name": "ecoapartment-os",
+  "version": "1.0.0",
+  "description": "EcoApartment OS - SRM Green Residency Web Server",
+  "main": "server.ts",
+  "scripts": {
+    "start": "node server.ts",
+    "dev": "node server.ts",
+    "build": "echo 'No build step required'"
+  }
+}
+
