@@ -1,87 +1,80 @@
 # Run EcoApartment OS Web App in VS Code
 
-This guide covers the **web application only**. Android/Kotlin setup and APK instructions are not part of this project workflow.
+This guide covers the **web application only**.
 
 ## 1. Requirements
 - Node.js 20 LTS or newer: https://nodejs.org/
 - Visual Studio Code: https://code.visualstudio.com/
-- Git (optional, for cloning): https://git-scm.com/
+- Git (optional): https://git-scm.com/
 
-Check the installations in a terminal:
+Check:
 ```bash
 node --version
 npm --version
 ```
 
-## 2. Get the source code
-
-Clone the repository:
+## 2. Get the source
 ```bash
 git clone https://github.com/mohan05713/APP-PROJECT.git
 cd APP-PROJECT
 ```
 
-Or download the ZIP from https://github.com/mohan05713/APP-PROJECT and extract it.
+Or download the ZIP from the GitHub repository and extract it.
 
-## 3. Open the correct folder
-1. Open VS Code.
-2. Select **File → Open Folder**.
-3. Select the repository root folder — the folder containing `package.json`.
-4. Select **Terminal → New Terminal**.
+## 3. Open the repository root
+In VS Code choose **File → Open Folder** and select the folder containing `package.json`. Open **Terminal → New Terminal**.
 
 ## 4. Install dependencies
 ```bash
 npm install
 ```
 
-## 5. Start the web app
-
-### React + Vite development mode
+## 5. Start the frontend
 ```bash
 npm run dev
 ```
-Open the URL printed in the terminal (usually http://localhost:5173).
+Open the URL printed by Vite (normally http://localhost:5173).
 
-### Node.js server mode
+## 6. Start the Node server (another terminal)
 ```bash
 npm start
 ```
-The current package script runs `node server.ts`. The server uses the `PORT` environment variable when set and otherwise defaults to port 3000. Open http://localhost:3000.
+The current package script runs `node server.ts`; it uses `PORT` if set and otherwise defaults to port 3000. Open http://localhost:3000.
 
-Use the mode required by the part of the application you are testing. Do not assume both modes use the same port or serve identical entry points.
+Render is configured separately to start `node server.js`. These commands are not identical.
 
-## 6. Build and preview
+## 7. Build and preview
 ```bash
 npm run build
 npm run preview
 ``
-The Vite production build is generated in `dist/`.
+The Vite production build is written to `dist/`.
 
-## 7. Configure Supabase (when needed)
-1. Create/open your project at https://supabase.com/dashboard.
-2. Review `supabase_schema.sql` and apply the required schema.
-3. Copy the project URL and public anon key from Supabase Project Settings → API.
-4. Add the required values to your local environment configuration and to the relevant deployment environment.
-5. Configure and test Row Level Security policies before using real resident data.
+## 8. Supabase (when needed)
+1. Open https://supabase.com/dashboard.
+2. Review `supabase_schema.sql` before applying it.
+3. Add the project URL and public anon key to the correct environment.
+4. Configure and test Row Level Security (RLS) before using resident data.
 
 Never commit `.env`, service-role keys, database passwords, private API keys or real resident credentials.
 
-## 8. Deployment links
+## 9. Deployment links
+- Frontend: https://ecoapartment.vercel.app
+- Latest Vercel deployment: https://ecoapartment-h05n57u4q-mohan05713.vercel.app
+- Backend: https://ecoapartment-os-api.onrender.com
+- Health endpoint: https://ecoapartment-os-api.onrender.com/api/health
+- Render service dashboard: https://dashboard.render.com/web/srv-dbp3qabm8hqs73cogvc0
+- Vercel project dashboard: https://vercel.com/mohan05713/ecoapartment
 - GitHub: https://github.com/mohan05713/APP-PROJECT
-- Vercel dashboard: https://vercel.com/dashboard
-- Vercel new project: https://vercel.com/new
-- Render dashboard: https://dashboard.render.com/
-- Render API target currently configured in `vercel.json`: https://echo-apartment-api.onrender.com
-- Health check (verify the deployed service): https://echo-apartment-api.onrender.com/api/health
-- Supabase dashboard: https://supabase.com/dashboard
 
-The actual Vercel production domain must be copied from the Vercel project's Domains settings; do not guess a `.vercel.app` URL. The Render host above is the current repository rewrite target and must be checked against the active Render service.
+Vercel currently reports SSO protection enabled for non-custom domains, so an authorized sign-in may be required. The Render server implements `/api/health`; the Render service's automatic health-check path is currently blank. Configure `/api/health` in Render if automatic health monitoring is desired.
 
-## 9. Troubleshooting
-- **Node/npm not found:** install Node.js LTS and restart VS Code.
-- **Port already in use:** stop the existing process or choose a free port.
-- **API errors:** check the Render service status, logs and `vercel.json` rewrite.
-- **Supabase errors:** verify project URL, anon key, schema and RLS policies.
-- **Build errors:** run `npm install` again and inspect the first error in the terminal.
+## 10. Troubleshooting
+- **Node/npm not found:** install Node.js LTS and reopen VS Code.
+- **Port busy:** stop the process using it or choose another `PORT`.
+- **API errors:** check the Vercel rewrite, Render service status and logs.
+- **Health endpoint fails:** inspect Render logs, start command and route.
+- **Supabase errors:** verify URL/key, schema, RLS and environment settings.
+- **Build errors:** inspect the first terminal error, then run `npm install` again if dependencies are incomplete.
 
-For full architecture, feature, deployment and security documentation, see [README.md](README.md).
+For the full product overview, architecture, features, roadmap and security guidance, see [README.md](README.md).
