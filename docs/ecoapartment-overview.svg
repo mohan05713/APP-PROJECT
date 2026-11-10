@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+<title id="title">EcoApartment OS — product and architecture overview</title>
+<desc id="desc">Illustrative dashboard preview showing apartment operations, resident services, sustainability, and the web architecture.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071b1a"/><stop offset="1" stop-color="#123a32"/></linearGradient>
+  <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4ade80"/><stop offset="1" stop-color="#22c55e"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".25"/></filter>
+</defs>
+<rect width="1440" height="860" rx="34" fill="url(#bg)"/>
+<circle cx="1260" cy="80" r="220" fill="#22c55e" opacity=".08"/><circle cx="90" cy="800" r="240" fill="#38bdf8" opacity=".05"/>
+<text x="72" y="84" fill="#86efac" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">SMART COMMUNITY PLATFORM</text>
+<text x="72" y="145" fill="#fff" font-family="Arial,sans-serif" font-size="52" font-weight="700">EcoApartment OS</text>
+<text x="72" y="185" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="22">One connected workspace for better apartment living.</text>
+<g filter="url(#shadow)">
+<rect x="72" y="230" width="1296" height="540" rx="24" fill="#f8fafc"/>
+<rect x="72" y="230" width="260" height="540" rx="24" fill="#102d29"/>
+<rect x="308" y="230" width="24" height="540" fill="#102d29"/>
+<circle cx="113" cy="278" r="17" fill="#4ade80"/><path d="M107 280q6-20 16-15q-2 15-16 15m4 3q6-10 14-8" fill="none" stroke="#064e3b" stroke-width="2"/>
+<text x="142" y="285" fill="#fff" font-family="Arial,sans-serif" font-size="21" font-weight="700">EcoApartment</text>
+<text x="105" y="344" fill="#86efac" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="2">WORKSPACE</text>
+<g font-family="Arial,sans-serif" font-size="17">
+<rect x="94" y="366" width="214" height="46" rx="11" fill="#1e493f"/><text x="126" y="395" fill="#fff">◫  Overview</text>
+<text x="126" y="455" fill="#cbd5e1">⌂  Residents</text><text x="126" y="511" fill="#cbd5e1">▤  Complaints</text><text x="126" y="567" fill="#cbd5e1">♧  Sustainability</text><text x="126" y="623" fill="#cbd5e1">♙  Visitors &amp; Parking</text><text x="126" y="679" fill="#cbd5e1">⚙  Administration</text>
+</g>
+<text x="370" y="284" fill="#0f172a" font-family="Arial,sans-serif" font-size="27" font-weight="700">Community overview</text>
+<text x="370" y="315" fill="#64748b" font-family="Arial,sans-serif" font-size="15">A unified view of resident and facility operations</text>
+<rect x="1168" y="260" width="160" height="42" rx="21" fill="#dcfce7"/><text x="1194" y="287" fill="#166534" font-family="Arial,sans-serif" font-size="14" font-weight="700">●  WEB PLATFORM</text>
+<g>
+<rect x="370" y="350" width="218" height="112" rx="15" fill="#fff" stroke="#e2e8f0"/><text x="392" y="382" fill="#64748b" font-family="Arial,sans-serif" font-size="14">Community homes</text><text x="392" y="430" fill="#0f172a" font-family="Arial,sans-serif" font-size="34" font-weight="700">400</text><text x="510" y="430" fill="#16a34a" font-family="Arial,sans-serif" font-size="13">Flats*</text>
+<rect x="608" y="350" width="218" height="112" rx="15" fill="#fff" stroke="#e2e8f0"/><text x="630" y="382" fill="#64748b" font-family="Arial,sans-serif" font-size="14">Service workflows</text><text x="630" y="430" fill="#0f172a" font-family="Arial,sans-serif" font-size="34" font-weight="700">24/7</text><text x="744" y="430" fill="#64748b" font-family="Arial,sans-serif" font-size="13">Concept</text>
+<rect x="846" y="350" width="218" height="112" rx="15" fill="#fff" stroke="#e2e8f0"/><text x="868" y="382" fill="#64748b" font-family="Arial,sans-serif" font-size="14">Green living</text><text x="868" y="430" fill="#0f172a" font-family="Arial,sans-serif" font-size="34" font-weight="700">Eco</text><text x="958" y="430" fill="#16a34a" font-family="Arial,sans-serif" font-size="13">Insights</text>
+<rect x="1084" y="350" width="244" height="112" rx="15" fill="#ecfdf5" stroke="#bbf7d0"/><text x="1106" y="382" fill="#166534" font-family="Arial,sans-serif" font-size="14">Platform status</text><text x="1106" y="430" fill="#166534" font-family="Arial,sans-serif" font-size="25" font-weight="700">Connected*</text>
+</g>
+<rect x="370" y="484" width="600" height="240" rx="15" fill="#fff" stroke="#e2e8f0"/>
+<text x="396" y="522" fill="#0f172a" font-family="Arial,sans-serif" font-size="20" font-weight="700">Apartment operations</text>
+<g font-family="Arial,sans-serif" font-size="15">
+<rect x="396" y="548" width="548" height="48" rx="9" fill="#f1f5f9"/><circle cx="420" cy="572" r="8" fill="#22c55e"/><text x="442" y="578" fill="#334155">Resident services &amp; community notices</text><text x="906" y="578" fill="#16a34a">→</text>
+<rect x="396" y="608" width="548" height="48" rx="9" fill="#f1f5f9"/><circle cx="420" cy="632" r="8" fill="#f59e0b"/><text x="442" y="638" fill="#334155">Complaints, maintenance &amp; visitor workflows</text><text x="906" y="638" fill="#16a34a">→</text>
+<rect x="396" y="668" width="548" height="36" rx="9" fill="#f1f5f9"/><circle cx="420" cy="686" r="8" fill="#38bdf8"/><text x="442" y="692" fill="#334155">Sustainability &amp; monitoring views</text><text x="906" y="692" fill="#16a34a">→</text>
+</g>
+<rect x="990" y="484" width="338" height="240" rx="15" fill="#f0fdf4" stroke="#bbf7d0"/>
+<text x="1016" y="522" fill="#14532d" font-family="Arial,sans-serif" font-size="20" font-weight="700">Built for the web</text>
+<g font-family="Arial,sans-serif" font-size="15" fill="#166534">
+<text x="1016" y="565">React + TypeScript</text><text x="1016" y="603">Vite frontend</text><text x="1016" y="641">Node.js API</text><text x="1016" y="679">Supabase integration</text>
+</g>
+</g>
+<text x="72" y="820" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="13">*Illustrative project visual. Values and UI are conceptual; verify live integrations and data in the application.</text>
+</svg>
