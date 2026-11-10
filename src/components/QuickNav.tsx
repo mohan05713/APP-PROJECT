@@ -14,6 +14,7 @@ export function QuickNav({ activePage, onNavigate }: QuickNavProps) {
     { id: 'dues', label: 'Maintenance Dues', icon: '💳' },
     { id: 'notices', label: 'Notice Board', icon: '📢' },
     { id: 'visitors', label: 'Visitors & Gate', icon: '🛡️' },
+    { id: 'cctv', label: 'CCTV Surveillance', icon: '📹' },
     { id: 'water', label: 'Water Monitor', icon: '🚰' },
     { id: 'environment', label: 'Air & Solar', icon: '☀️' },
     { id: 'flood', label: 'Storm Water', icon: '🌧️' },
