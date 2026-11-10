@@ -25,6 +25,7 @@ export function Sidebar({ activePage, onNavigate, openCount = 0 }: SidebarProps)
         { id: 'dues', label: 'Maintenance & Gateway', icon: '💳' },
         { id: 'notices', label: 'Community Announcements', icon: '📢' },
         { id: 'visitors', label: 'Visitor Passes & Gate', icon: '🛡️' },
+        { id: 'cctv', label: 'CCTV Surveillance', icon: '📹' },
       ],
     },
     {
