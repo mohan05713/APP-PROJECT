@@ -4231,6 +4231,9 @@
             document.querySelectorAll(".page-view").forEach(p => p.classList.remove("active"));
             const target = document.getElementById("page-" + pageId);
             if (target) target.classList.add("active");
+            if (pageId === "dashboard") {
+                window.setTimeout(animateDashboardNumbers, 90);
+            }
 
             const sidebar = document.getElementById("sidebar");
             const topbar = document.querySelector(".topbar");
@@ -8229,6 +8232,101 @@
             </div>
         </div>
     </div>
+
+
+    <style>
+        .dashboard-number-rolling {
+            font-variant-numeric: tabular-nums;
+            display: inline-block;
+            animation: dashboardNumberPop .42s cubic-bezier(.2,.8,.2,1);
+            transform-origin: left center;
+        }
+        @keyframes dashboardNumberPop {
+            0% { opacity: .35; transform: translateY(5px) scale(.97); filter: blur(1px); }
+            65% { opacity: 1; transform: translateY(-1px) scale(1.025); filter: blur(0); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .dashboard-number-rolling { animation: none; }
+        }
+    </style>
+    <script>
+        // Count up dashboard KPIs when the dashboard is opened.
+        // This only changes the visual presentation; it never writes to app or database data.
+        function animateDashboardNumbers() {
+            const dashboard = document.getElementById("page-dashboard");
+            if (!dashboard || !dashboard.classList.contains("active")) return;
+
+            const selectors = [
+                "#page-dashboard .stat-value",
+                "#adminMasterExecBanner > div:last-child > div > div:nth-child(2)",
+                "#adminMasterExecBanner > div:last-child > div > div:nth-child(3)"
+            ];
+            const nodes = dashboard.querySelectorAll(selectors.join(","));
+            const reduceMotion = window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            nodes.forEach((node) => {
+                if (node.dataset.numberAnimation === "running") return;
+                const original = node.textContent;
+                const matches = [...original.matchAll(/\d[\d,]*(?:\.\d+)?/g)];
+                if (!matches.length) return;
+
+                const parts = [];
+                let cursor = 0;
+                matches.forEach((match) => {
+                    const raw = match[0];
+                    const target = Number(raw.replace(/,/g, ""));
+                    if (!Number.isFinite(target) || target <= 0) return;
+                    parts.push({
+                        start: match.index,
+                        end: match.index + raw.length,
+                        target,
+                        decimals: (raw.split(".")[1] || "").length
+                    });
+                });
+                if (!parts.length) return;
+
+                if (reduceMotion) {
+                    node.classList.add("dashboard-number-rolling");
+                    window.setTimeout(() => node.classList.remove("dashboard-number-rolling"), 500);
+                    return;
+                }
+
+                node.dataset.numberAnimation = "running";
+                const duration = 1450;
+                const startTime = performance.now();
+
+                const renderFrame = (now) => {
+                    const progress = Math.min(1, (now - startTime) / duration);
+                    const eased = 1 - Math.pow(1 - progress, 4);
+                    let output = "";
+                    let lastIndex = 0;
+
+                    parts.forEach((part) => {
+                        output += original.slice(lastIndex, part.start);
+                        const current = part.target * eased;
+                        output += new Intl.NumberFormat("en-IN", {
+                            minimumFractionDigits: part.decimals,
+                            maximumFractionDigits: part.decimals
+                        }).format(progress === 1 ? part.target : current);
+                        lastIndex = part.end;
+                    });
+                    output += original.slice(lastIndex);
+                    node.textContent = output;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(renderFrame);
+                    } else {
+                        node.classList.add("dashboard-number-rolling");
+                        delete node.dataset.numberAnimation;
+                        window.setTimeout(() => node.classList.remove("dashboard-number-rolling"), 500);
+                    }
+                };
+                requestAnimationFrame(renderFrame);
+            });
+        }
+    </script>
 
 </body>
 </html>
