@@ -799,7 +799,136 @@
                 padding: 16px;
             }
         }
-    </style>
+    
+        /* FINAL APPROVED CLEAN RESIDENTIAL DASHBOARD — visual-only layer */
+        :root {
+            --primary:#087B55; --primary-hover:#07945F; --primary-light:#E3F6EC;
+            --primary-dark:#064C37; --bg-page:#F3F7F6; --bg-sidebar:#063D30;
+            --text-heading:#102820; --text-body:#31443D; --text-muted:#71817B;
+        }
+        body { background:#F3F7F6; color:#31443D; }
+        .sidebar {
+            width:286px; background:linear-gradient(180deg,#064535 0%,#032F25 100%);
+            border-right:1px solid rgba(255,255,255,.08);
+        }
+        .sidebar-header { padding:22px 20px; border-bottom:1px solid rgba(255,255,255,.12); }
+        .brand-logo { background:linear-gradient(135deg,#13A66C,#087B55); }
+        .nav-section-title { color:#9BBCAF; }
+        .nav-item button { color:#D4E6DD; border-radius:11px; min-height:42px; }
+        .nav-item button:hover { background:rgba(255,255,255,.09); color:#fff; }
+        .nav-item button.active { background:#0A9360; box-shadow:0 6px 16px rgba(0,0,0,.16); }
+        .main-wrapper { margin-left:286px; width:calc(100% - 286px); min-width:0; }
+        .topbar {
+            height:auto; min-height:72px; padding:12px 24px; gap:14px;
+            background:rgba(255,255,255,.96); border-bottom:1px solid #E3ECE7;
+        }
+        .topbar-right { gap:10px; flex-wrap:wrap; }
+        .user-pill { background:#F0F8F3; border:1px solid #DCEBE1; border-radius:14px; }
+        .page-title { color:#123B2B; }
+        .quick-nav-bar { display:none !important; }
+        .content-area { padding:22px clamp(16px,2vw,30px) 34px; }
+        #page-dashboard { max-width:100%; }
+        .dashboard-intro {
+            display:flex; align-items:flex-end; justify-content:space-between;
+            margin:2px 0 18px; gap:12px;
+        }
+        .dashboard-eyebrow { color:#0A8B5B; font-size:10px; font-weight:800; letter-spacing:.16em; margin-bottom:5px; }
+        .dashboard-intro h1 { color:#102820; font-size:clamp(23px,2.2vw,30px); font-weight:850; letter-spacing:-.045em; }
+        .dashboard-intro p:last-child { color:#6C7E75; font-size:13px; margin-top:3px; }
+        #weatherLocationBanner {
+            border-radius:18px !important; padding:18px 22px !important;
+            background:linear-gradient(110deg,#07543E 0%,#087B55 68%,#0B7153 100%) !important;
+            box-shadow:0 9px 24px rgba(5,86,57,.14) !important;
+            margin-bottom:18px !important;
+        }
+        #adminMasterExecBanner { border-radius:16px !important; padding:16px !important; margin-bottom:16px !important; }
+        #adminMasterExecBanner h2 { font-size:18px !important; }
+        .stats-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:16px; }
+        .stat-card {
+            min-width:0; min-height:104px; padding:16px; border:1px solid #E4ECE7;
+            border-radius:16px; background:#fff; box-shadow:0 3px 12px rgba(21,61,43,.055);
+        }
+        .stat-card:hover { transform:translateY(-1px); box-shadow:0 7px 18px rgba(21,61,43,.08); }
+        .stat-icon { width:46px; height:46px; border-radius:13px; }
+        .stat-value { color:#122C22; font-size:21px; }
+        .stat-label { color:#71817A; }
+        .stat-subtext { color:#71817A; line-height:1.4; }
+        .dashboard-main-grid {
+            display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr) minmax(220px,.72fr);
+            gap:15px; align-items:stretch;
+        }
+        .dashboard-main-grid > .card { min-width:0; margin:0; padding:18px; border:1px solid #E4ECE7; border-radius:17px; background:#fff; box-shadow:0 3px 12px rgba(21,61,43,.055); }
+        .dashboard-main-grid .card-header { padding-bottom:12px; margin-bottom:14px; }
+        .dashboard-main-grid .card-title { color:#183B2D; font-size:15px; }
+        .dashboard-main-grid #dashTicketsList > div { background:#FBFDFC; border:1px solid #E7EEE9 !important; border-radius:11px !important; padding:12px !important; gap:10px; }
+        .dashboard-main-grid #dashTicketsList > div > div { min-width:0; }
+        .dashboard-main-grid #dashTicketsList > div > div div:first-child { color:#1B352A; overflow-wrap:anywhere; }
+        .dashboard-main-grid #dashTicketsList > div > div div:last-child { line-height:1.4; }
+        .dashboard-main-grid > .card:first-child > div[style*="align-items: flex-end"] { height:190px !important; gap:10px !important; }
+        .dashboard-main-grid > .card:first-child > div[style*="align-items: flex-end"] > div { border-radius:7px 7px 3px 3px !important; }
+        .dashboard-quick-actions .card-header { margin-bottom:12px; }
+        .dashboard-action-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+        .dashboard-action {
+            min-height:96px; padding:12px 9px; display:flex; flex-direction:column;
+            align-items:center; justify-content:center; gap:8px; text-align:center;
+            color:#164B36; background:#F0FAF4; border:1px solid #DCEFE3; border-radius:13px;
+            cursor:pointer; font:inherit; transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+        }
+        .dashboard-action:hover { transform:translateY(-2px); background:#E6F7ED; box-shadow:0 6px 15px rgba(12,103,62,.09); }
+        .dashboard-action span { font-size:24px; line-height:1; }
+        .dashboard-action strong { font-size:12px; line-height:1.35; }
+        .eco-assistant {
+            margin-top:17px; padding:17px; border-radius:18px;
+            background:linear-gradient(110deg,#064C37,#087B55);
+            box-shadow:0 8px 22px rgba(4,80,51,.14); color:#fff;
+        }
+        .eco-assistant-heading { display:flex; align-items:center; gap:11px; }
+        .eco-assistant-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:rgba(255,255,255,.13); font-size:25px; }
+        .eco-assistant-heading h2 { font-size:17px; color:#fff; margin:0; }
+        .eco-assistant-heading p { color:#D1E9DC; font-size:11px; margin:2px 0 0; }
+        .eco-assistant-live { margin-left:auto; font-size:10px; font-weight:700; color:#D9FBE8; background:rgba(255,255,255,.13); border-radius:999px; padding:5px 9px; }
+        .eco-assistant-conversation { display:flex; flex-direction:column; gap:8px; max-height:180px; overflow:auto; margin:12px 0; }
+        .eco-assistant-message { display:flex; flex-direction:column; gap:3px; max-width:92%; padding:10px 12px; border-radius:12px; font-size:12px; line-height:1.5; }
+        .eco-assistant-message.assistant { align-self:flex-start; color:#19392A; background:#fff; }
+        .eco-assistant-message.user { align-self:flex-end; color:#fff; background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.18); }
+        .eco-assistant-form { display:flex; align-items:center; gap:8px; padding:5px; background:#fff; border-radius:999px; }
+        .eco-assistant-form input { min-width:0; flex:1; border:0; outline:0; background:transparent; padding:10px 13px; color:#183B2D; font:inherit; font-size:13px; }
+        .eco-assistant-form button { width:40px; height:40px; flex:0 0 40px; border:0; border-radius:50%; color:#fff; background:#0A9862; font-size:22px; cursor:pointer; }
+        .eco-assistant-suggestions { display:flex; align-items:center; flex-wrap:wrap; gap:7px; margin-top:10px; }
+        .eco-assistant-suggestions span { font-size:10px; color:#D1E9DC; margin-right:3px; }
+        .eco-assistant-suggestions button { border:1px solid rgba(255,255,255,.24); border-radius:999px; padding:6px 10px; color:#fff; background:rgba(255,255,255,.12); font-size:10px; cursor:pointer; }
+        .eco-assistant-suggestions button:hover { background:rgba(255,255,255,.22); }
+        @media (max-width:1250px) {
+            .dashboard-main-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+            .dashboard-quick-actions { grid-column:1 / -1; }
+            .dashboard-action-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+        }
+        @media (max-width:900px) {
+            .sidebar { transform:translateX(-100%); width:min(300px,calc(100vw - 32px)); }
+            .sidebar.open { transform:translateX(0); }
+            .main-wrapper { margin-left:0; width:100%; }
+            .menu-toggle { display:inline-flex; align-items:center; justify-content:center; }
+            .topbar { padding:10px 13px; flex-wrap:wrap; }
+            .topbar-left { flex:1 1 100%; }
+            .topbar-right { width:100%; justify-content:flex-start; }
+            .content-area { padding:15px 12px 28px; }
+            .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+            .dashboard-main-grid { grid-template-columns:minmax(0,1fr); }
+            .dashboard-quick-actions { grid-column:auto; }
+            .dashboard-action-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            #weatherLocationBanner { padding:16px !important; }
+        }
+        @media (max-width:420px) {
+            .stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .stat-card { padding:12px; gap:9px; }
+            .stat-icon { width:38px; height:38px; }
+            .stat-value { font-size:18px; }
+            .eco-assistant { padding:13px; }
+            .eco-assistant-live { display:none; }
+            .eco-assistant-suggestions { align-items:flex-start; }
+        }
+
+</style>
 </head>
 <body>
 
@@ -892,6 +1021,14 @@
             <!-- PAGE 1: MAIN DASHBOARD -->
             <!-- ============================================================== -->
             <section class="page-view" id="page-dashboard">
+                <div class="dashboard-intro">
+                    <div>
+                        <p class="dashboard-eyebrow">SRM GREEN RESIDENCY</p>
+                        <h1>Community overview</h1>
+                        <p>Your essential residence information, in one clear view.</p>
+                    </div>
+                </div>
+
                 <!-- DYNAMIC GPS LOCATION & LIVE WEATHER TELEMETRY BANNER -->
             <div id="weatherLocationBanner" style="background: linear-gradient(135deg, #0F766E 0%, #115E59 100%); color: white; padding: 18px 22px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
@@ -1008,23 +1145,7 @@
                     </div>
                 </div>
 
-                <!-- QUICK ACTIONS -->
-                <div class="card" style="margin-bottom: 24px;">
-                    <div class="card-header">
-                        <div class="card-title">⚡ Quick Management Actions</div>
-                        <span class="badge badge-success">Online Telemetry Live</span>
-                    </div>
-                    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-                        <button class="btn btn-outline" style="background: #EFF6FF; color: #1D4ED8; border-color: #93C5FD; font-weight: 700;" onclick="openCurrentUserEditModal()">✏️ Edit My Home Details</button>
-                        <button class="btn btn-primary" onclick="openAddResidentModal()">➕ Add Resident</button>
-                        <button class="btn btn-outline" onclick="openRaiseComplaintModal()">🛠️ Raise Helpdesk Ticket</button>
-                        <button class="btn btn-outline" onclick="openGatePassModal()">🛡️ Generate Gate Pass</button>
-                        <button class="btn btn-outline" onclick="switchPage('water')">💧 Water Pump Controls</button>
-                        <button class="btn btn-outline" onclick="switchPage('reports')">📑 Export 400 CSV</button>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                <div class="dashboard-main-grid">
                     <!-- OCCUPANCY & WATER OVERVIEW -->
                     <div class="card">
                         <div class="card-header">
@@ -1069,8 +1190,42 @@
                             <!-- Filled dynamically via JS -->
                         </div>
                     </div>
-                </div>
-            </section>
+                
+                    <div class="card dashboard-quick-actions">
+                        <div class="card-header">
+                            <div class="card-title">⚡ Quick actions</div>
+                        </div>
+                        <div class="dashboard-action-grid">
+                            <button type="button" class="dashboard-action" onclick="openCurrentUserEditModal()"><span>⌂</span><strong>Edit my home details</strong></button>
+                            <button type="button" class="dashboard-action" onclick="openRaiseComplaintModal()"><span>🛠</span><strong>Raise helpdesk ticket</strong></button>
+                            <button type="button" class="dashboard-action" onclick="switchPage('water')"><span>💧</span><strong>Water pump controls</strong></button>
+                            <button type="button" class="dashboard-action" onclick="openGatePassModal()"><span>🛡</span><strong>Generate gate pass</strong></button>
+                        </div>
+                    </div>
+</div>
+            
+                <section class="eco-assistant" aria-label="EcoApartment assistant">
+                    <div class="eco-assistant-heading">
+                        <div class="eco-assistant-mark">✦</div>
+                        <div><h2>AI Assistant</h2><p>Quick answers from your EcoApartment data</p></div>
+                        <span class="eco-assistant-live">Data connected</span>
+                    </div>
+                    <div class="eco-assistant-conversation" id="ecoAssistantConversation" aria-live="polite">
+                        <div class="eco-assistant-message assistant"><strong>EcoApartment Assistant</strong><span>Ask about your cylinder, water usage, bills or maintenance tickets.</span></div>
+                    </div>
+                    <form class="eco-assistant-form" onsubmit="submitEcoAssistant(event)">
+                        <input id="ecoAssistantInput" type="text" autocomplete="off" placeholder="Ask about your residence..." aria-label="Ask the EcoApartment Assistant">
+                        <button type="submit" aria-label="Send question">➜</button>
+                    </form>
+                    <div class="eco-assistant-suggestions">
+                        <span>Try asking</span>
+                        <button type="button" onclick="askEcoAssistant('How much gas is remaining in my cylinder?')">Cylinder status</button>
+                        <button type="button" onclick="askEcoAssistant('What are my pending bills?')">My bills</button>
+                        <button type="button" onclick="askEcoAssistant('Show my water usage today')">Water usage</button>
+                        <button type="button" onclick="askEcoAssistant('Show my active tickets')">Ticket status</button>
+                    </div>
+                </section>
+</section>
 
             <!-- ============================================================== -->
             <!-- PAGE 2: RESIDENT DIRECTORY (400 FLATS CRUD) -->
@@ -7465,6 +7620,82 @@
                 if (titleEl) titleEl.innerText = `Residential Telemetry Mode: Flat ${currentUser.flat || 'B-402'} (${currentUser.name || 'Mohan Palaniappan'})`;
                 if (subEl) subEl.innerText = "Displaying flat-level sub-metered water flow, balcony micro-climate, kitchen LPG cylinder load cell, and green eco-credits.";
                 if (badgeEl) badgeEl.innerText = "🟢 Flat Sub-meter Linked (LoRaWAN & RS485)";
+            }
+        }
+
+
+        // Data-backed EcoApartment assistant. Answers are read from existing API endpoints;
+        // no resident records or backend data are written or modified by this feature.
+        function appendEcoAssistantMessage(kind, message) {
+            const host = document.getElementById("ecoAssistantConversation");
+            if (!host) return;
+            const item = document.createElement("div");
+            item.className = "eco-assistant-message " + kind;
+            item.textContent = message;
+            host.appendChild(item);
+            host.scrollTop = host.scrollHeight;
+        }
+
+        function submitEcoAssistant(event) {
+            if (event) event.preventDefault();
+            const input = document.getElementById("ecoAssistantInput");
+            if (!input) return;
+            const question = input.value.trim();
+            if (!question) return;
+            input.value = "";
+            askEcoAssistant(question);
+        }
+
+        async function askEcoAssistant(question) {
+            const prompt = String(question || "").trim();
+            if (!prompt) return;
+            appendEcoAssistantMessage("user", prompt);
+            const q = prompt.toLowerCase();
+            const authority = !!(currentUser && (currentUser.role === "AUTHORITY" || currentUser.role === "ADMIN" || currentUser.username === "admin"));
+            const flat = currentUser && currentUser.flat ? currentUser.flat : "";
+            const api = async (url) => {
+                const response = await fetch(url, { headers: { "Accept": "application/json" } });
+                if (!response.ok) throw new Error("Data service returned " + response.status);
+                return response.json();
+            };
+            try {
+                let answer = "";
+                if (/cylinder|gas|lpg/.test(q)) {
+                    const units = await api("/api/gas");
+                    const active = (Array.isArray(units) ? units : []).find(unit => String(unit.status).toUpperCase() === "ACTIVE") || (Array.isArray(units) ? units[0] : null);
+                    const standby = (Array.isArray(units) ? units : []).find(unit => String(unit.status).toUpperCase() === "STANDBY");
+                    if (!active) answer = "The backend did not return a current gas-cylinder reading.";
+                    else answer = active.label + " has " + Number(active.current_kg).toFixed(1) + " kg remaining (" + Number(active.current_level_pct) + "% of " + Number(active.capacity_kg).toFixed(1) + " kg capacity)." + (standby ? " " + standby.label + " is " + String(standby.status).toLowerCase() + " with " + Number(standby.current_kg).toFixed(1) + " kg." : "");
+                } else if (/water|tank|consumption|usage/.test(q)) {
+                    const data = await api("/api/iot");
+                    const wantsUsage = /usage|consumption|today|used/.test(q);
+                    if (wantsUsage) answer = "Today's recorded water consumption is " + Number(data.daily_consumption_litres || 0).toLocaleString("en-IN") + " litres against a community quota of " + Number(data.daily_quota_litres || 0).toLocaleString("en-IN") + " litres. The overhead tank is at " + Number(data.water_tank_level_pct || 0) + "% (" + Number(data.water_tank_current_litres || 0).toLocaleString("en-IN") + " litres).";
+                    else answer = "The overhead water tank is at " + Number(data.water_tank_level_pct || 0) + "% (" + Number(data.water_tank_current_litres || 0).toLocaleString("en-IN") + " of " + Number(data.water_tank_capacity_litres || 0).toLocaleString("en-IN") + " litres).";
+                } else if (/bill|dues|payment|maintenance amount|outstanding/.test(q)) {
+                    const dues = await api("/api/dues?flat=" + encodeURIComponent(authority ? "ALL" : (flat || "ALL")));
+                    const rows = Array.isArray(dues) ? dues.filter(row => authority || String(row.flat_number || "").toLowerCase() === flat.toLowerCase()) : [];
+                    const pending = rows.filter(row => String(row.status || "").toUpperCase() !== "PAID");
+                    const amount = pending.reduce((sum, row) => sum + Number(row.amount_rupees || 0), 0);
+                    answer = authority ? "Across the returned records, " + pending.length + " dues are unpaid, totalling ₹" + amount.toLocaleString("en-IN") + "." : (pending.length ? "For " + flat + ", " + pending.length + " dues are unpaid, totalling ₹" + amount.toLocaleString("en-IN") + "." : "No unpaid dues were returned for " + (flat || "your flat") + ".");
+                } else if (/ticket|complaint|helpdesk|repair/.test(q)) {
+                    const tickets = await api("/api/complaints");
+                    const rows = Array.isArray(tickets) ? tickets.filter(row => authority || String(row.flat_number || "").toLowerCase() === flat.toLowerCase()) : [];
+                    const open = rows.filter(row => !["RESOLVED", "CLOSED"].includes(String(row.status || "").toUpperCase()));
+                    const latest = open.slice(0, 3).map(row => row.ticket_id + " (" + row.status + ")").join(", ");
+                    answer = open.length + " active ticket(s) " + (authority ? "across the returned community records." : "for " + (flat || "your flat") + ".") + (latest ? " Latest: " + latest + "." : "");
+                } else if (/solar|energy|carbon/.test(q)) {
+                    const data = await api("/api/iot");
+                    answer = "Current solar generation is " + Number(data.solar_generation_kw || 0).toFixed(1) + " kW, with " + Number(data.solar_today_kwh || 0).toFixed(1) + " kWh recorded today and " + Number(data.carbon_offset_kg || 0).toFixed(0) + " kg CO₂ offset.";
+                } else if (/temperature|weather|humidity|wind/.test(q)) {
+                    const data = await api("/api/iot");
+                    answer = "Latest available telemetry: " + Number(data.temperature_celsius || 0).toFixed(1) + "°C, humidity " + Number(data.humidity_percentage || 0) + "%, and air quality " + (data.aqi_status || "not reported") + ".";
+                } else {
+                    answer = "I can currently look up cylinder and gas levels, water tank and usage, bills and dues, active tickets, solar generation, and environmental telemetry from the existing EcoApartment data. Try one of the suggested questions.";
+                }
+                appendEcoAssistantMessage("assistant", answer);
+            } catch (error) {
+                console.error("EcoApartment assistant lookup failed:", error);
+                appendEcoAssistantMessage("assistant", "I couldn't retrieve the latest information from the backend just now. Please try again in a moment.");
             }
         }
 
