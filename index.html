@@ -828,6 +828,29 @@
         .quick-nav-bar { display:none !important; }
         .content-area { padding:22px clamp(16px,2vw,30px) 34px; }
         #page-dashboard { max-width:100%; }
+
+        .residency-hero {
+            position:relative; isolation:isolate; overflow:hidden; min-height:clamp(178px,22vw,270px);
+            border-radius:20px; margin:0 0 18px; background:#CBE8D9;
+            box-shadow:0 10px 26px rgba(21,81,54,.12);
+        }
+        .residency-hero-art { position:absolute; inset:0; width:100%; height:100%; display:block; }
+        .residency-hero-shade {
+            position:absolute; inset:0;
+            background:linear-gradient(90deg,rgba(5,53,37,.78) 0%,rgba(5,53,37,.48) 38%,rgba(5,53,37,.04) 76%),
+                       linear-gradient(0deg,rgba(5,53,37,.22),transparent 52%);
+        }
+        .residency-hero-copy { position:absolute; left:clamp(20px,4vw,48px); bottom:clamp(22px,3vw,38px); max-width:560px; color:#fff; }
+        .residency-hero-tag { display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,.42); border-radius:99px; background:rgba(255,255,255,.13); font-size:10px; font-weight:800; letter-spacing:.15em; }
+        .residency-hero-copy h2 { margin:12px 0 5px; color:#fff; font-size:clamp(23px,3.2vw,39px); line-height:1.08; font-weight:850; letter-spacing:-.04em; text-shadow:0 2px 12px rgba(0,0,0,.16); }
+        .residency-hero-copy p { margin:0; color:rgba(255,255,255,.94); font-size:clamp(11px,1.2vw,14px); font-weight:600; }
+        .residency-hero-leaf { position:absolute; right:clamp(20px,4vw,48px); top:18px; color:rgba(255,255,255,.72); font-size:28px; }
+        @media (max-width:640px) {
+            .residency-hero { min-height:180px; border-radius:15px; }
+            .residency-hero-shade { background:linear-gradient(90deg,rgba(5,53,37,.76),rgba(5,53,37,.22)),linear-gradient(0deg,rgba(5,53,37,.22),transparent 70%); }
+            .residency-hero-copy { right:16px; left:18px; bottom:18px; }
+            .residency-hero-copy p { max-width:280px; line-height:1.4; }
+        }
         .dashboard-intro {
             display:flex; align-items:flex-end; justify-content:space-between;
             margin:2px 0 18px; gap:12px;
@@ -1028,6 +1051,49 @@
                         <p>Your essential residence information, in one clear view.</p>
                     </div>
                 </div>
+
+
+                <!-- Decorative apartment hero: self-contained SVG, no external asset dependency -->
+                <section class="residency-hero" aria-label="Illustration of a modern green apartment community">
+                    <svg class="residency-hero-art" viewBox="0 0 1440 330" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Modern apartment buildings surrounded by landscaped gardens at sunset">
+                        <defs>
+                            <linearGradient id="resHeroSky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D9F3E8"/><stop offset=".55" stop-color="#B9E5D4"/><stop offset="1" stop-color="#F8E8C8"/></linearGradient>
+                            <linearGradient id="resHeroBuilding" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#F9FFFC"/><stop offset="1" stop-color="#B8D5C8"/></linearGradient>
+                            <linearGradient id="resHeroGlass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#A8D6C8"/><stop offset="1" stop-color="#467E70"/></linearGradient>
+                            <linearGradient id="resHeroGround" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3D946A"/><stop offset="1" stop-color="#14543D"/></linearGradient>
+                            <pattern id="resHeroWindows" width="58" height="48" patternUnits="userSpaceOnUse"><rect x="8" y="8" width="34" height="29" rx="3" fill="url(#resHeroGlass)" opacity=".9"/><path d="M25 8v29" stroke="#E7F8EF" stroke-width="2" opacity=".65"/></pattern>
+                        </defs>
+                        <rect width="1440" height="330" fill="url(#resHeroSky)"/>
+                        <circle cx="1180" cy="72" r="44" fill="#FFF6D8" opacity=".85"/>
+                        <path d="M0 218Q210 150 390 211T760 195T1110 190T1440 180V330H0Z" fill="#A9D6B9" opacity=".55"/>
+                        <g opacity=".55" fill="#5E9D7B"><circle cx="70" cy="165" r="50"/><circle cx="125" cy="145" r="65"/><circle cx="1360" cy="158" r="74"/><circle cx="1295" cy="180" r="55"/></g>
+                        <g>
+                            <rect x="160" y="90" width="300" height="180" rx="5" fill="url(#resHeroBuilding)"/>
+                            <rect x="178" y="108" width="264" height="145" fill="url(#resHeroWindows)"/>
+                            <path d="M148 92L310 35L474 92Z" fill="#F4FCF7"/><path d="M148 92H474" stroke="#6D9C86" stroke-width="5"/>
+                            <rect x="505" y="45" width="360" height="225" rx="5" fill="url(#resHeroBuilding)"/>
+                            <rect x="524" y="65" width="322" height="186" fill="url(#resHeroWindows)"/>
+                            <path d="M490 48L685 0L880 48Z" fill="#F7FFFA"/><path d="M490 48H880" stroke="#6D9C86" stroke-width="5"/>
+                            <rect x="900" y="105" width="260" height="165" rx="5" fill="url(#resHeroBuilding)"/>
+                            <rect x="916" y="120" width="228" height="132" fill="url(#resHeroWindows)"/>
+                            <path d="M888 106L1030 58L1172 106Z" fill="#F7FFFA"/><path d="M888 106H1172" stroke="#6D9C86" stroke-width="5"/>
+                            <g fill="#1D624B"><rect x="210" y="82" width="62" height="7" rx="3"/><rect x="315" y="82" width="62" height="7" rx="3"/><rect x="585" y="35" width="62" height="7" rx="3"/><rect x="700" y="35" width="62" height="7" rx="3"/><rect x="965" y="95" width="62" height="7" rx="3"/></g>
+                        </g>
+                        <path d="M0 270Q260 240 520 270T1040 264T1440 248V330H0Z" fill="url(#resHeroGround)"/>
+                        <path d="M0 291Q280 260 560 292T1120 286T1440 270" fill="none" stroke="#B8E8C8" stroke-width="4" opacity=".8"/>
+                        <g fill="#1B6848"><circle cx="95" cy="246" r="42"/><circle cx="1340" cy="244" r="52"/><circle cx="1230" cy="257" r="35"/><circle cx="390" cy="258" r="28"/><circle cx="820" cy="260" r="32"/></g>
+                        <g fill="#D5E9B5"><circle cx="95" cy="235" r="22"/><circle cx="1340" cy="229" r="28"/><circle cx="1230" cy="247" r="18"/><circle cx="390" cy="250" r="16"/><circle cx="820" cy="249" r="18"/></g>
+                        <g fill="#F6D98E"><circle cx="260" cy="290" r="4"/><circle cx="278" cy="296" r="3"/><circle cx="1160" cy="292" r="4"/><circle cx="1180" cy="298" r="3"/><circle cx="700" cy="298" r="3"/></g>
+                        <g stroke="#E8F7EC" stroke-width="3" opacity=".8"><path d="M80 285v-30M1325 285v-38M390 285v-25M820 285v-28"/></g>
+                    </svg>
+                    <div class="residency-hero-shade"></div>
+                    <div class="residency-hero-copy">
+                        <span class="residency-hero-tag">SRM GREEN RESIDENCY</span>
+                        <h2>A greener way to live.</h2>
+                        <p>Connected spaces. Thoughtful living. A sustainable community.</p>
+                    </div>
+                    <span class="residency-hero-leaf" aria-hidden="true">✦</span>
+                </section>
 
                 <!-- DYNAMIC GPS LOCATION & LIVE WEATHER TELEMETRY BANNER -->
             <div id="weatherLocationBanner" style="background: linear-gradient(135deg, #0F766E 0%, #115E59 100%); color: white; padding: 18px 22px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); display: flex; flex-direction: column; gap: 14px;">
