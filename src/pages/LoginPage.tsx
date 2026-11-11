@@ -96,20 +96,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const currentResidentsSlice = filteredResidents.slice((dbPage - 1) * itemsPerPage, dbPage * itemsPerPage);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="relative max-w-6xl mx-auto space-y-6 rounded-[2rem] bg-gradient-to-br from-slate-950 via-emerald-950 to-teal-900 p-4 sm:p-6 lg:p-8 shadow-2xl overflow-hidden">
       {/* TAB SELECTOR & FORM */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
+      <div className="bg-white/95 backdrop-blur-xl border border-white/70 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/10 space-y-6">
         <div className="text-center space-y-1">
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
             EcoApartment OS — Secure Portal Login & Registration
           </h2>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-sm text-slate-500 font-medium">
             Multi-Role Authentication Portal connected to Persistent Supabase Data Engine
           </p>
         </div>
 
         {/* TABS */}
-        <div className="flex flex-col sm:flex-row bg-slate-100 p-1 rounded-xl gap-1">
+        <div className="flex flex-col sm:flex-row bg-slate-100/80 p-1.5 rounded-2xl gap-1.5">
           <button
             onClick={() => {
               setActiveTab('RESIDENT');
@@ -117,7 +117,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               setPasswordInput('mohan123');
             }}
             className={`flex-1 py-2.5 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
-              activeTab === 'RESIDENT' ? 'bg-white text-teal-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'RESIDENT' ? 'bg-white text-teal-900 shadow-md ring-1 ring-teal-100' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <User className="w-4 h-4 text-teal-700" />
@@ -129,7 +129,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               setActiveTab('NEW_USER');
             }}
             className={`flex-1 py-2.5 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
-              activeTab === 'NEW_USER' ? 'bg-emerald-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'NEW_USER' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <UserPlus className="w-4 h-4" />
@@ -162,7 +162,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 type="text"
                 value={usernameInput}
                 onChange={(e) => setUsernameInput(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs outline-none focus:border-teal-600 focus:bg-white"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm outline-none transition-all focus:border-teal-600 focus:bg-white focus:ring-4 focus:ring-teal-100"
                 required
               />
             </div>
@@ -174,7 +174,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   type={showPassword ? 'text' : 'password'}
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs outline-none focus:border-teal-600 focus:bg-white pr-10"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-sm outline-none transition-all focus:border-teal-600 focus:bg-white focus:ring-4 focus:ring-teal-100 pr-11"
                   required
                 />
                 <button
@@ -190,7 +190,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition-colors cursor-pointer text-xs flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-gradient-to-r from-teal-700 to-emerald-600 hover:from-teal-800 hover:to-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-teal-900/20 cursor-pointer text-sm flex items-center justify-center gap-2"
             >
               <Key className="w-4 h-4" />
               Sign In to {activeTab === 'ADMIN' ? 'Admin Office Portal' : 'Resident Portal'}
@@ -288,7 +288,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors cursor-pointer text-xs flex items-center justify-center gap-2 shadow-sm"
+              className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/20 cursor-pointer text-sm flex items-center justify-center gap-2"
             >
               <Database className="w-4 h-4" />
               <span>Register & Sign In to Portal (Flats 400, 401, 402, 403) → Save to Supabase</span>
@@ -298,7 +298,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       </div>
 
       {/* ONE-CLICK PROFILE LAUNCH SHORTCUTS */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+      <div className="bg-white/95 backdrop-blur-xl border border-white/70 rounded-3xl p-6 sm:p-8 shadow-xl shadow-black/10 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
             <span>⚡</span> One-Click Profile Launch Shortcuts
@@ -314,7 +314,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               onToast('Signed in as Resident: R. Sham Sudhan (Flat A-101)', '🏠');
               onNavigate('dashboard');
             }}
-            className="p-3.5 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-400 rounded-xl text-left transition-all cursor-pointer group"
+            className="p-4 bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-400 rounded-2xl text-left transition-all hover:shadow-md cursor-pointer group"
           >
             <div className="flex justify-between items-center mb-1">
               <span className="font-black text-slate-900 group-hover:text-teal-900">R. Sham Sudhan</span>
@@ -382,7 +382,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               onToast('Signed in as Jai Mukesh (Executive Profile - Flat A-400)', '👑');
               onNavigate('dashboard');
             }}
-            className="p-3.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 hover:border-amber-400 rounded-xl text-left transition-all cursor-pointer group"
+            className="p-4 bg-amber-50 hover:bg-amber-100 border border-amber-200 hover:border-amber-400 rounded-2xl text-left transition-all hover:shadow-md cursor-pointer group"
           >
             <div className="flex justify-between items-center mb-1">
               <span className="font-black text-amber-900">Jai Mukesh Profile</span>
@@ -409,7 +409,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               }
               onNavigate('dashboard');
             }}
-            className="p-3.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 hover:border-emerald-500 rounded-xl text-left transition-all cursor-pointer group"
+            className="p-4 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 hover:border-emerald-500 rounded-2xl text-left transition-all hover:shadow-md cursor-pointer group"
           >
             <div className="flex justify-between items-center mb-1">
               <span className="font-black text-emerald-950">New User (Flats 400-403)</span>
