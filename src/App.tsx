@@ -29,6 +29,7 @@ import { ReportsPage } from './pages/ReportsPage';
 import { SupabasePage } from './pages/SupabasePage';
 import { LoginPage } from './pages/LoginPage';
 import { MyProfilePage } from './pages/MyProfilePage';
+import { EcoExpansionPage } from './pages/EcoExpansionPage';
 
 export function App() {
   const [activePage, setActivePage] = useState<string>('dashboard');
@@ -709,6 +710,17 @@ export function App() {
 
           {activePage === 'supabase' && (
             <SupabasePage onToast={showToast} />
+          )}
+
+          {activePage === 'smart-operations' && (
+            <EcoExpansionPage
+              residents={residents}
+              dues={dues}
+              iot={iot}
+              anomalies={anomalies}
+              currentUser={currentUser}
+              onToast={showToast}
+            />
           )}
 
           {activePage === 'myprofile' && (
