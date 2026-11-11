@@ -1142,6 +1142,278 @@
             }
         }
 
+
+        /* ============================================================
+           ECOAPARTMENT OS — PREMIUM, PROPORTIONAL PORTAL SYSTEM
+           CSS-only visual refinement. No content, data, IDs, ordering,
+           navigation, CCTV elements, or event handlers are changed.
+           ============================================================ */
+        :root {
+            --eco-ink: #14243A;
+            --eco-muted: #64748B;
+            --eco-line: #E5EAF0;
+            --eco-surface: #FFFFFF;
+            --eco-canvas: #F4F7FA;
+            --eco-green: #0F766E;
+            --eco-green-deep: #115E59;
+            --eco-green-soft: #E8F6F2;
+            --eco-radius: 16px;
+            --eco-shadow: 0 8px 24px rgba(15, 35, 55, .055);
+            --eco-shadow-hover: 0 14px 32px rgba(15, 35, 55, .09);
+        }
+
+        body { background: var(--eco-canvas); color: var(--eco-ink); }
+        .main-wrapper { background: var(--eco-canvas); min-width: 0; }
+        .content-area { padding: clamp(16px, 2.2vw, 30px); }
+        .page-view { width: 100%; max-width: 100%; }
+        .page-view > * { min-width: 0; }
+
+        /* Navigation: retain the existing 260px rail, icons and menu order. */
+        .sidebar {
+            background: linear-gradient(180deg, #101B2E 0%, #0D1728 100%);
+            border-right: 1px solid rgba(255,255,255,.055);
+            box-shadow: 8px 0 28px rgba(15,23,42,.07);
+        }
+        .sidebar-header {
+            background: rgba(255,255,255,.025);
+            border-bottom-color: rgba(255,255,255,.08);
+        }
+        .nav-section-title {
+            color: #8494AA;
+            letter-spacing: .13em;
+            font-size: 10px;
+        }
+        .nav-links { gap: 5px; }
+        .nav-item button {
+            min-height: 42px;
+            padding: 10px 13px;
+            color: #B7C4D5;
+            border: 1px solid transparent;
+            transition: background .18s ease, color .18s ease, border-color .18s ease;
+        }
+        .nav-item button:hover {
+            color: #FFFFFF;
+            background: rgba(255,255,255,.075);
+            border-color: rgba(255,255,255,.055);
+        }
+        .nav-item button.active {
+            color: #FFFFFF;
+            background: linear-gradient(100deg, #0F766E, #13877D);
+            border-color: rgba(110,231,183,.18);
+            box-shadow: 0 7px 18px rgba(15,118,110,.22);
+        }
+        .nav-icon { width: 22px; flex: 0 0 22px; font-size: 17px; }
+
+        /* App header: a quiet, balanced frame for every page. */
+        .topbar {
+            min-height: 68px;
+            height: auto;
+            padding: 10px clamp(16px, 2.2vw, 30px);
+            background: rgba(255,255,255,.96);
+            border-bottom: 1px solid var(--eco-line);
+            box-shadow: 0 3px 12px rgba(15,23,42,.035);
+            backdrop-filter: blur(12px);
+        }
+        .topbar-left, .topbar-right { min-width: 0; }
+        .page-title { color: var(--eco-ink); font-size: 18px; font-weight: 800; letter-spacing: -.035em; }
+        .user-pill {
+            background: #F0F8F5;
+            border-color: #D7ECE4;
+            padding: 6px 11px;
+        }
+        .user-avatar { box-shadow: 0 0 0 3px #DDF3EA; }
+
+        /* Secondary navigation keeps its original tabs and sequence. */
+        .quick-nav-bar {
+            padding: 10px clamp(14px, 2vw, 24px);
+            gap: 9px;
+            background: #FFFFFF;
+            border-bottom: 1px solid var(--eco-line);
+            box-shadow: 0 3px 10px rgba(15,23,42,.025);
+        }
+        .quick-tab {
+            min-height: 36px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border-color: #E5EAF0;
+            background: #F7F9FB;
+            color: #526176;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .quick-tab.active {
+            background: #0F766E;
+            border-color: #0F766E;
+            box-shadow: 0 4px 10px rgba(15,118,110,.18);
+        }
+
+        /* Shared content surfaces: consistent radius, border and elevation. */
+        .card, .stat-card, .modal-card {
+            background: var(--eco-surface);
+            border: 1px solid var(--eco-line);
+            border-radius: var(--eco-radius);
+            box-shadow: var(--eco-shadow);
+        }
+        .card {
+            padding: clamp(17px, 1.8vw, 24px);
+            margin-bottom: 20px;
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+        .card:hover {
+            border-color: #D4E3E0;
+            box-shadow: var(--eco-shadow-hover);
+        }
+        .card-header {
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+            border-bottom-color: #EDF1F4;
+        }
+        .card-title { color: var(--eco-ink); font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
+        .stats-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            padding: 18px;
+            gap: 13px;
+            align-items: center;
+            min-height: 104px;
+        }
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            flex: 0 0 46px;
+        }
+        .stat-label { color: #718096; font-size: 11px; font-weight: 700; }
+        .stat-value { color: var(--eco-ink); font-size: clamp(19px, 1.7vw, 24px); font-weight: 850; letter-spacing: -.04em; }
+        .stat-subtext { color: #7B899A; font-size: 11px; line-height: 1.45; }
+
+        /* Dashboard telemetry and quick actions: preserve their exact content. */
+        #weatherLocationBanner {
+            border-radius: 18px !important;
+            padding: clamp(18px, 2vw, 25px) !important;
+            box-shadow: 0 12px 28px rgba(15,118,110,.14) !important;
+            border: 1px solid rgba(255,255,255,.16);
+        }
+        #weatherLocationBanner button { border-radius: 10px !important; }
+        #adminMasterExecBanner {
+            border-width: 1px !important;
+            border-radius: 18px !important;
+            box-shadow: var(--eco-shadow) !important;
+        }
+        #page-dashboard .card[style*="margin-bottom"] { border-radius: 18px; }
+        #page-dashboard .card .btn { min-height: 38px; border-radius: 10px; }
+        #page-dashboard .card[style*="display: grid"] { min-width: 0; }
+        #page-dashboard [style*="grid-template-columns"] { min-width: 0; }
+        #page-dashboard .stats-grid + .card { margin-top: 2px; }
+
+        /* All module tables, filters and forms share the same finish. */
+        .table-responsive {
+            border: 1px solid var(--eco-line);
+            border-radius: 13px;
+            background: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(15,23,42,.025);
+        }
+        table { color: #344256; font-size: 12px; }
+        th {
+            background: #F5F8FA;
+            color: #65758A;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            padding: 13px 15px;
+        }
+        td { padding: 13px 15px; border-bottom-color: #EDF1F4; }
+        tr:hover td { background: #F8FBFA; }
+        .filter-bar { gap: 10px; }
+        .search-box input, .form-control, .filter-bar select, .filter-bar input {
+            min-height: 40px;
+            border: 1px solid #DCE4EA;
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: var(--eco-ink);
+            box-shadow: 0 1px 2px rgba(15,23,42,.025);
+        }
+        .form-control:focus, .search-box input:focus, .filter-bar select:focus, .filter-bar input:focus {
+            border-color: #0F9B86;
+            box-shadow: 0 0 0 4px rgba(15,155,134,.11);
+        }
+        .btn {
+            min-height: 36px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 750;
+            transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(105deg, #0F766E, #119783);
+            box-shadow: 0 5px 12px rgba(15,118,110,.16);
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(15,118,110,.2); }
+        .badge { padding: 4px 9px; font-size: 10px; letter-spacing: .01em; }
+        .modal-card { border-radius: 18px; box-shadow: 0 24px 70px rgba(15,23,42,.2); }
+        .modal-header { border-bottom-color: #E9EEF2; }
+        .toast { border-radius: 12px; }
+
+        /* CCTV and media tiles keep their original order and geometry. */
+        #page-cctv video, #page-cctv iframe, #page-cctv img { border-radius: 14px; }
+        #page-cctv .card { overflow: hidden; }
+        img, video, canvas, iframe { max-width: 100%; }
+
+        /* Proportional grids at laptop and tablet widths without changing content order. */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .content-area { padding: 20px; }
+        }
+        @media (max-width: 900px) {
+            .sidebar { z-index: 1001; }
+            .sidebar-overlay { z-index: 1000; }
+            .main-wrapper { margin-left: 0; width: 100%; min-width: 0; }
+            .topbar { padding: 10px 16px; }
+            .content-area { padding: 16px; }
+            .quick-nav-bar { padding: 9px 14px; }
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        }
+        @media (max-width: 600px) {
+            .topbar { align-items: flex-start; flex-wrap: wrap; }
+            .topbar-left { flex: 1 1 100%; }
+            .topbar-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+            .page-title { font-size: 16px; }
+            .content-area { padding: 12px; }
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .stat-card { padding: 12px; min-height: 90px; gap: 9px; }
+            .stat-icon { width: 36px; height: 36px; flex-basis: 36px; font-size: 17px; }
+            .stat-value { font-size: 18px; }
+            .stat-label, .stat-subtext { font-size: 10px; }
+            .card { padding: 15px; margin-bottom: 14px; border-radius: 14px; }
+            .card-header { align-items: flex-start; flex-wrap: wrap; gap: 9px; }
+            #weatherLocationBanner { padding: 16px !important; border-radius: 15px !important; }
+            #weatherLocationBanner > div { gap: 11px !important; }
+            #page-dashboard [style*="grid-template-columns: repeat(auto-fit, minmax(320px"] {
+                grid-template-columns: minmax(0, 1fr) !important;
+                gap: 12px !important;
+            }
+            #page-dashboard [style*="grid-template-columns: repeat(auto-fit, minmax(200px"] {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+            .filter-bar { align-items: stretch; }
+            .search-box { min-width: 0; flex-basis: 100%; }
+            .table-responsive { max-width: 100%; }
+            .modal-overlay { padding: 10px; }
+            .modal-card { max-height: calc(100dvh - 20px); padding: 17px; }
+        }
+        @media (max-width: 380px) {
+            .stats-grid { grid-template-columns: minmax(0, 1fr); }
+            #page-dashboard [style*="grid-template-columns: repeat(auto-fit, minmax(200px"] {
+                grid-template-columns: minmax(0, 1fr) !important;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+        }
+
 </style>
 </head>
 <body>
