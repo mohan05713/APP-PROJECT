@@ -39,6 +39,12 @@ export function Sidebar({ activePage, onNavigate, openCount = 0 }: SidebarProps)
       ],
     },
     {
+      title: 'SMART OPERATIONS 2.0',
+      items: [
+        { id: 'smart-operations', label: 'Smart Community Command', icon: '🚀' },
+      ],
+    },
+    {
       title: 'DATA & CLOUD',
       items: [
         { id: 'reports', label: 'Facility Analytics', icon: '📈' },
