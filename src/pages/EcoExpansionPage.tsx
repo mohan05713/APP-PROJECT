@@ -53,7 +53,7 @@ export const EcoExpansionPage: React.FC<Props> = ({ residents, dues, iot, anomal
   return list;
  }, [iot, anomalies]);
  const tabs: {id:Tab;label:string;icon:string}[] = [
-  {id:'twin',label:'3D Digital Twin',icon:'🏢'},{id:'maintenance',label:'Predictive Maintenance',icon:'🤖'},{id:'booking',label:'Facility Booking',icon:'📅'},{id:'emergency',label:'Emergency Centre',icon:'🚨'},{id:'assets',label:'Finance & Assets',icon:'🧾'}
+  {id:'twin',label:'Building Explorer',icon:'🏢'},{id:'maintenance',label:'Predictive Maintenance',icon:'🤖'},{id:'booking',label:'Facility Booking',icon:'📅'},{id:'emergency',label:'Emergency Centre',icon:'🚨'},{id:'assets',label:'Finance & Assets',icon:'🧾'}
  ];
  const addIncident = (e: React.FormEvent) => { e.preventDefault(); const item: Incident={id:'INC-'+Date.now(),type:incidentType,block:incidentBlock,flat:flat,severity:incidentType==='Fire / Smoke'||incidentType==='Gas leak'?'CRITICAL':'HIGH',details:incidentDetails,status:'OPEN',createdAt:new Date().toISOString()}; setIncidents(v=>[item,...v]); setIncidentDetails(''); onToast('Emergency incident recorded in the new module.','🚨'); };
  const addBooking = (e: React.FormEvent) => { e.preventDefault(); const item:Booking={id:'BK-'+Date.now(),facility,flat,date,slot,status:'PENDING',createdAt:new Date().toISOString()}; setBookings(v=>[item,...v]); onToast('Facility booking request saved.','📅'); };
