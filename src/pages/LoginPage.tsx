@@ -96,10 +96,43 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const currentResidentsSlice = filteredResidents.slice((dbPage - 1) * itemsPerPage, dbPage * itemsPerPage);
 
   return (
-    <div className="relative max-w-6xl mx-auto space-y-6 rounded-[2rem] bg-gradient-to-br from-slate-950 via-emerald-950 to-teal-900 p-4 sm:p-6 lg:p-8 shadow-2xl overflow-hidden">
+    <div className="relative max-w-7xl mx-auto space-y-7 rounded-[2rem] bg-[#071b18] p-4 sm:p-6 lg:p-8 shadow-2xl shadow-emerald-950/20 overflow-hidden">
+      <div className="pointer-events-none absolute -top-32 -right-20 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-teal-400/10 blur-3xl" />
+      <div className="relative grid lg:grid-cols-[0.9fr_1.1fr] gap-6 lg:gap-8 items-stretch">
+        <section className="relative min-h-[360px] lg:min-h-full overflow-hidden rounded-[1.75rem] border border-emerald-300/15 bg-gradient-to-br from-[#123d32] via-[#0b2b25] to-[#071b18] p-7 sm:p-9 text-white flex flex-col justify-between">
+          <div className="absolute -right-12 top-20 h-64 w-64 rounded-full border border-emerald-200/10" />
+          <div className="absolute -right-2 top-32 h-44 w-44 rounded-full border border-emerald-200/10" />
+          <div className="relative">
+            <div className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-300 to-teal-500 text-emerald-950 shadow-lg shadow-emerald-950/30">
+                <Building2 className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="text-sm font-black tracking-wide">EcoApartment OS</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-100/70">Smart Residency Platform</p>
+              </div>
+            </div>
+            <p className="mt-12 text-xs font-bold uppercase tracking-[0.28em] text-emerald-200">Welcome to better living</p>
+            <h1 className="mt-4 max-w-lg text-4xl sm:text-5xl font-black leading-[1.08] tracking-tight">Your community.<br/><span className="text-emerald-300">Connected.</span></h1>
+            <p className="mt-5 max-w-md text-sm leading-7 text-emerald-50/75">A smarter way to access your residency services, stay connected with your community, and manage everyday living.</p>
+          </div>
+          <div className="relative mt-12 grid grid-cols-3 gap-2">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur">
+              <p className="text-2xl font-black text-white">400</p><p className="mt-1 text-[10px] font-semibold text-emerald-100/65">Residential units</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur">
+              <p className="text-2xl font-black text-white">04</p><p className="mt-1 text-[10px] font-semibold text-emerald-100/65">Connected blocks</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur">
+              <p className="text-2xl font-black text-white"><Shield className="h-6 w-6"/></p><p className="mt-1 text-[10px] font-semibold text-emerald-100/65">Secure access</p>
+            </div>
+          </div>
+          <p className="relative mt-6 text-[10px] font-medium tracking-wide text-emerald-100/45">SRM Green Residency · Blocks A–D</p>
+        </section>
       {/* TAB SELECTOR & FORM */}
-      <div className="bg-white/95 backdrop-blur-xl border border-white/70 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/10 space-y-6">
-        <div className="text-center space-y-1">
+      <div className="rounded-[1.75rem] border border-slate-200/80 bg-white p-6 sm:p-8 lg:p-9 shadow-2xl shadow-black/20 space-y-6">
+        <div className="text-left space-y-2">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
             EcoApartment OS — Secure Portal Login & Registration
           </h2>
@@ -109,7 +142,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </div>
 
         {/* TABS */}
-        <div className="flex flex-col sm:flex-row bg-slate-100/80 p-1.5 rounded-2xl gap-1.5">
+        <div className="flex flex-col sm:flex-row bg-slate-100 p-1.5 rounded-2xl gap-1.5 border border-slate-200">
           <button
             onClick={() => {
               setActiveTab('RESIDENT');
@@ -297,8 +330,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         )}
       </div>
 
+      </div>
+
       {/* ONE-CLICK PROFILE LAUNCH SHORTCUTS */}
-      <div className="bg-white/95 backdrop-blur-xl border border-white/70 rounded-3xl p-6 sm:p-8 shadow-xl shadow-black/10 space-y-4">
+      <div className="relative rounded-[1.75rem] border border-white/10 bg-white p-6 sm:p-8 shadow-xl shadow-black/20 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
             <span>⚡</span> One-Click Profile Launch Shortcuts
@@ -422,7 +457,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       </div>
 
       {/* 400 RESIDENTIAL PEOPLE USER ID & PASSWORD DATABASE DIRECTORY */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+      <div className="relative bg-white border border-slate-200 rounded-[1.75rem] p-6 sm:p-8 shadow-xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
             <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
