@@ -973,7 +973,7 @@
             <li class="nav-item"><button onclick="switchPage('directory')"><span class="nav-icon">👥</span> Family Profile & Directory</button></li>
             <li class="nav-item admin-only-ui"><button onclick="switchPage('matrix')"><span class="nav-icon">🏢</span> Block & Flat Matrix</button></li>
             <li class="nav-item"><button onclick="switchPage('parking')"><span class="nav-icon">🚗</span> Parking Allotment</button></li>
-            <li class="nav-item"><button onclick="switchPage('cctv')"><span class="nav-icon">📹</span> CCTV Surveillance <span class="nav-badge" style="background:#EF4444;color:white;font-weight:800;">8 LIVE</span></button></li>
+            <li class="nav-item"><button onclick="switchPage('cctv')"><span class="nav-icon">📹</span> CCTV Surveillance <span class="nav-badge" style="background:#EF4444;color:white;font-weight:800;">DEMO</span></button></li>
             <li class="nav-item"><button onclick="switchPage('complaints')"><span class="nav-icon">🛠️</span> Complaints & Helpdesk <span class="nav-badge" id="complaintsCountBadge">4</span></button></li>
             <li class="nav-item"><button onclick="switchPage('technician')"><span class="nav-icon">👷</span> Technician Dispatch</button></li>
             <li class="nav-item"><button onclick="switchPage('dues')"><span class="nav-icon">💳</span> Maintenance & Dues</button></li>
@@ -1861,17 +1861,17 @@
                 <div class="page-header">
                     <div>
                         <h2>📹 24/7 CCTV Surveillance System</h2>
-                        <p class="subtitle">Live high-definition video surveillance feeds for Parking, Entrance Gates, Lobbies, and Grounds</p>
+                        <p class="subtitle">Privacy-aware camera directory for shared facilities and assigned resident cameras. Live hardware streams are not connected in this demo.</p>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <span style="display: inline-flex; align-items: center; gap: 6px; background: #FEE2E2; color: #DC2626; font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 9999px;">
                             <span style="width: 8px; height: 8px; background: #DC2626; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite;"></span>
-                            ALL 8 CAMERAS ONLINE
+                            DEMO MODE · NO LIVE STREAMS
                         </span>
-                        <button type="button" onclick="toggleNightVision()" class="btn btn-outline btn-sm" id="btnNightVision">
+                        <button type="button" disabled title="No camera stream is connected" class="btn btn-outline btn-sm" id="btnNightVision">
                             🌓 Night Vision (IR)
                         </button>
-                        <button type="button" onclick="takeCctvSnapshot()" class="btn btn-outline btn-sm">
+                        <button type="button" disabled title="No camera stream is connected" class="btn btn-outline btn-sm">
                             📸 Snapshot
                         </button>
                     </div>
@@ -1911,7 +1911,7 @@
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <span style="font-size: 12px; color: #94A3B8;">Zone:</span>
                             <span style="font-size: 12px; font-weight: 700;" id="cctvZoneLabel">PARKING & EV CHARGING BAYS</span>
-                            <span style="background: #064E3B; color: #34D399; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700;">MOTION TRACKING ACTIVE</span>
+                            <span style="background: #064E3B; color: #34D399; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700;">STREAM NOT CONNECTED</span>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <span style="font-size: 11px; color: #94A3B8;">PTZ Controls:</span>
@@ -4498,6 +4498,7 @@
             showToast(`Switched active profile to ${p.name} (${p.flat})`, "👤");
             renderIoTHub();
             loadEcoRewards();
+            if (document.getElementById('page-cctv')?.classList.contains('active')) loadCCTV();
         }
 
         // ==============================================================
@@ -6895,169 +6896,184 @@
             { id: "CAM-08", name: "CAM-08: Clubhouse & Swimming Pool", zone: "SRM GREEN CLUB & GYMNASIUM", icon: "🏊", desc: "Pool Deck & Fitness Center Corridor" }
         ];
 
-        function loadCCTV() {
+
+        let cctvVisibleCameras = [...cctvCamerasList];
+        let cctvSearchTerm = "";
+
+        function isCctvAdmin() {
+            return !!(currentUser && (currentUser.role === "AUTHORITY" || currentUser.role === "ADMIN" || currentUser.username === "admin"));
+        }
+
+        function makeResidentCameraEntries(residents) {
+            return residents.flatMap(resident => {
+                const flat = String(resident.flat_number || resident.flat || "").trim().toUpperCase();
+                if (!flat) return [];
+                const residentName = String(resident.resident_name || resident.full_name || "Resident");
+                return [
+                    { id: "HOME-" + flat, name: flat + " · Private House Camera", zone: "PRIVATE HOME CAMERA · " + flat, icon: "🏠", desc: "Private camera entry assigned to " + flat, flat, resident: residentName, kind: "HOME" },
+                    { id: "PARKING-" + flat, name: flat + " · Assigned Parking Camera", zone: "ASSIGNED PARKING VIEW · " + flat, icon: "🚗", desc: "Parking camera entry assigned to " + flat, flat, resident: residentName, kind: "PARKING" }
+                ];
+            });
+        }
+
+        async function loadCCTV() {
+            const admin = isCctvAdmin();
+            const tabs = document.getElementById("cctvCamSelectorTabs");
+            if (tabs) tabs.style.display = admin ? "flex" : "none";
+            const heading = document.querySelector("#page-cctv .page-header h2");
+            if (heading) heading.innerText = admin ? "📹 CCTV Surveillance · Admin Overview" : "📹 My CCTV Access";
+            const subtitle = document.querySelector("#page-cctv .page-header .subtitle");
+            if (subtitle) subtitle.innerText = admin
+                ? "Apartment-wide shared cameras and resident house / assigned-parking camera directory. Demo only; no live feeds connected."
+                : "Only your own house-camera entry and assigned parking-camera entry are listed. Demo only; no live feeds connected.";
+
+            if (admin) {
+                try {
+                    const response = await fetch("/api/residents?page=1&limit=400");
+                    if (!response.ok) throw new Error("Resident directory request failed");
+                    const data = await response.json();
+                    cctvVisibleCameras = [...cctvCamerasList, ...makeResidentCameraEntries(Array.isArray(data.residents) ? data.residents : [])];
+                } catch (error) {
+                    console.error("Unable to load apartment camera directory:", error);
+                    cctvVisibleCameras = [...cctvCamerasList];
+                }
+            } else {
+                const flat = String((currentUser && currentUser.flat) || "").trim().toUpperCase();
+                cctvVisibleCameras = flat ? makeResidentCameraEntries([{ flat_number: flat, resident_name: currentUser.name || "Resident" }]) : [];
+            }
+
+            if (!cctvVisibleCameras.some(camera => camera.id === activeCamId)) activeCamId = cctvVisibleCameras[0]?.id || "";
             renderCctvGrid();
+            if (activeCamId) switchCctvCam(activeCamId);
             startCctvStream();
         }
 
         function switchCctvCam(camId) {
+            const cam = cctvVisibleCameras.find(camera => camera.id === camId);
+            if (!cam) {
+                showToast("This camera is not available for the current profile.", "🔒");
+                return;
+            }
             activeCamId = camId;
-            const cam = cctvCamerasList.find(c => c.id === camId) || cctvCamerasList[0];
-            document.getElementById("cctvHudTitle").innerText = cam.name;
-            document.getElementById("cctvZoneLabel").innerText = cam.zone;
-
+            const title = document.getElementById("cctvHudTitle");
+            const zone = document.getElementById("cctvZoneLabel");
+            if (title) title.innerText = cam.name;
+            if (zone) zone.innerText = cam.zone;
             document.querySelectorAll(".cctv-tab-btn").forEach(btn => {
-                if (btn.getAttribute("data-cam") === camId) {
-                    btn.classList.add("active", "btn-primary");
-                    btn.classList.remove("btn-outline");
-                } else {
-                    btn.classList.remove("active", "btn-primary");
-                    btn.classList.add("btn-outline");
-                }
+                const selected = btn.getAttribute("data-cam") === camId;
+                btn.classList.toggle("active", selected);
+                btn.classList.toggle("btn-primary", selected);
+                btn.classList.toggle("btn-outline", !selected);
             });
+            renderCctvGrid();
+            drawCctvUnavailableFrame();
         }
 
         function toggleNightVision() {
-            isNightVision = !isNightVision;
-            const btn = document.getElementById("btnNightVision");
-            if (btn) {
-                btn.style.background = isNightVision ? "#10B981" : "";
-                btn.style.color = isNightVision ? "#ffffff" : "";
-                btn.innerText = isNightVision ? "☀️ Daytime Filter" : "🌓 Night Vision (IR)";
-            }
-            showToast(`CCTV Mode: ${isNightVision ? 'Night Vision (Infrared IR)' : 'Daytime High Contrast'}`, "📹");
+            showToast("Night vision is unavailable until a real camera stream is connected.", "📹");
         }
 
         function takeCctvSnapshot() {
-            const canvas = document.getElementById("cctvCanvas");
-            if (!canvas) return;
-            const link = document.createElement("a");
-            link.download = `CCTV_Snapshot_${activeCamId}_${new Date().toISOString().replace(/[:.]/g, "-")}.png`;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            showToast(`Security snapshot saved for ${activeCamId}`, "📸");
+            showToast("Snapshot is unavailable because no live camera stream is connected.", "📹");
         }
 
         function ptzAction(action) {
-            showToast(`PTZ Executed: ${action} on ${activeCamId}`, "🧭");
+            showToast("PTZ controls are unavailable until a compatible camera is connected.", "📹");
         }
 
         function renderCctvGrid() {
             const grid = document.getElementById("cctvGridContainer");
             if (!grid) return;
             grid.innerHTML = "";
+            const admin = isCctvAdmin();
+            const oldSearch = document.getElementById("cctvDirectorySearch");
+            if (oldSearch) oldSearch.remove();
 
-            cctvCamerasList.forEach(cam => {
-                const div = document.createElement("div");
-                div.style.background = "#1E293B";
-                div.style.color = "white";
-                div.style.borderRadius = "10px";
-                div.style.padding = "14px";
-                div.style.cursor = "pointer";
-                div.style.border = (cam.id === activeCamId) ? "2px solid #10B981" : "1px solid #334155";
-                div.onclick = () => switchCctvCam(cam.id);
+            if (admin) {
+                const searchWrap = document.createElement("div");
+                searchWrap.id = "cctvDirectorySearch";
+                searchWrap.style.cssText = "margin:0 0 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;";
+                const input = document.createElement("input");
+                input.type = "search";
+                input.placeholder = "Search camera by flat, resident, or camera ID";
+                input.value = cctvSearchTerm;
+                input.style.cssText = "width:min(100%,420px);padding:10px 12px;border:1px solid #CBD5E1;border-radius:8px;font-size:13px;";
+                input.addEventListener("input", () => { cctvSearchTerm = input.value; renderCctvGrid(); });
+                const count = document.createElement("span");
+                count.style.cssText = "font-size:12px;color:#64748B;font-weight:700;";
+                count.textContent = cctvVisibleCameras.length + " camera entries available to admin";
+                searchWrap.append(input, count);
+                grid.parentNode.insertBefore(searchWrap, grid);
+            }
 
-                div.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-weight:800; font-size:12px;">${cam.icon} ${cam.id}</span>
-                        <span style="font-size:10px; background:#064E3B; color:#34D399; font-weight:700; padding:2px 6px; border-radius:4px;">● LIVE</span>
-                    </div>
-                    <div style="font-size:12px; font-weight:700; margin-bottom:4px;">${cam.name.split(':')[1]}</div>
-                    <div style="font-size:11px; color:#94A3B8;">${cam.desc}</div>
-                `;
-                grid.appendChild(div);
+            const privacy = document.createElement("div");
+            privacy.style.cssText = "grid-column:1/-1;padding:14px 16px;border:1px solid " + (admin ? "#BFDBFE" : "#99F6E4") + ";background:" + (admin ? "#EFF6FF" : "#F0FDFA") + ";border-radius:10px;color:#0F172A;font-size:12px;line-height:1.6;margin-bottom:4px;";
+            privacy.textContent = admin
+                ? "ADMIN VIEW: Shared facility cameras plus house-camera and assigned-parking entries for all listed flats. Demo placeholders only; no video streams are connected."
+                : "PRIVACY NOTICE: Only your own house-camera and assigned parking-camera entries are shown. Other residents’ house-camera entries are not displayed. Demo placeholders only; no video streams are connected.";
+            grid.appendChild(privacy);
+
+            const query = cctvSearchTerm.toLowerCase().trim();
+            const visible = cctvVisibleCameras.filter(camera => !query || [camera.id, camera.name, camera.zone, camera.flat, camera.resident, camera.desc].filter(Boolean).join(" ").toLowerCase().includes(query));
+            if (!visible.length) {
+                const empty = document.createElement("div");
+                empty.style.cssText = "grid-column:1/-1;padding:28px;text-align:center;color:#64748B;border:1px dashed #CBD5E1;border-radius:10px;";
+                empty.textContent = "No camera entries match this search or profile.";
+                grid.appendChild(empty);
+                return;
+            }
+
+            visible.forEach(camera => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.style.cssText = "background:#1E293B;color:white;border-radius:10px;padding:14px;text-align:left;cursor:pointer;border:" + (camera.id === activeCamId ? "2px solid #10B981" : "1px solid #334155");
+                card.addEventListener("click", () => switchCctvCam(camera.id));
+                const top = document.createElement("div");
+                top.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;";
+                const id = document.createElement("span");
+                id.style.cssText = "font-weight:800;font-size:12px;";
+                id.textContent = camera.icon + " " + camera.id;
+                const status = document.createElement("span");
+                status.style.cssText = "font-size:9px;background:#374151;color:#FDE68A;font-weight:800;padding:3px 7px;border-radius:4px;white-space:nowrap;";
+                status.textContent = "NO LIVE FEED";
+                top.append(id, status);
+                const name = document.createElement("div");
+                name.style.cssText = "font-size:12px;font-weight:700;margin-bottom:4px;";
+                name.textContent = camera.name;
+                const description = document.createElement("div");
+                description.style.cssText = "font-size:11px;color:#CBD5E1;";
+                description.textContent = camera.desc || camera.zone;
+                card.append(top, name, description);
+                grid.appendChild(card);
             });
         }
 
-        function startCctvStream() {
-            if (cctvInterval) clearInterval(cctvInterval);
+        function drawCctvUnavailableFrame() {
             const canvas = document.getElementById("cctvCanvas");
             if (!canvas) return;
             const ctx = canvas.getContext("2d");
-
-            cctvInterval = setInterval(() => {
-                cctvFrame++;
-                const now = new Date();
-                const timeStr = now.toISOString().replace("T", " ").substring(0, 19);
-                const clockEl = document.getElementById("cctvLiveClock");
-                if (clockEl) clockEl.innerText = timeStr;
-
-                // Render simulated camera view
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                if (isNightVision) {
-                    ctx.fillStyle = "#0A2518"; // IR green tint
-                } else {
-                    ctx.fillStyle = "#0F172A"; // Dark slate
-                }
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Grid lines / perspective
-                ctx.strokeStyle = isNightVision ? "rgba(16, 185, 129, 0.2)" : "rgba(148, 163, 184, 0.15)";
-                ctx.lineWidth = 1;
-                for (let x = 0; x < canvas.width; x += 60) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, 0);
-                    ctx.lineTo(x, canvas.height);
-                    ctx.stroke();
-                }
-                for (let y = 0; y < canvas.height; y += 40) {
-                    ctx.beginPath();
-                    ctx.moveTo(0, y);
-                    ctx.lineTo(canvas.width, y);
-                    ctx.stroke();
-                }
-
-                // Render dynamic scene based on camera
-                if (activeCamId === "CAM-01" || activeCamId === "CAM-02") {
-                    // Parking Bay lines & animated car
-                    ctx.fillStyle = isNightVision ? "#10B981" : "#3B82F6";
-                    ctx.font = "14px 'JetBrains Mono', monospace";
-                    ctx.fillText("BAY A-01 [EV READY]", 100, 180);
-                    ctx.fillText("BAY A-02 [ALLOTTED: P-A101]", 360, 180);
-                    ctx.fillText("BAY A-03 [ALLOTTED: P-B402]", 620, 180);
-
-                    // Moving car simulation
-                    const carX = (100 + (cctvFrame * 2) % 650);
-                    ctx.fillStyle = isNightVision ? "#34D399" : "#10B981";
-                    ctx.fillRect(carX, 260, 140, 60);
-                    ctx.fillStyle = "white";
-                    ctx.font = "11px 'JetBrains Mono', monospace";
-                    ctx.fillText("TN-09-BE-4451", carX + 15, 295);
-
-                    // Motion detection box
-                    ctx.strokeStyle = "#EF4444";
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(carX - 10, 250, 160, 80);
-                    ctx.fillStyle = "#EF4444";
-                    ctx.fillText("MOTION: VEHICLE MOVING", carX - 10, 242);
-                } else if (activeCamId === "CAM-03") {
-                    // Main Gate & Barrier
-                    ctx.strokeStyle = "#F59E0B";
-                    ctx.lineWidth = 6;
-                    const barrierAngle = Math.sin(cctvFrame * 0.05) > 0 ? 0 : -30;
-                    ctx.beginPath();
-                    ctx.moveTo(400, 300);
-                    ctx.lineTo(600, 300 + barrierAngle);
-                    ctx.stroke();
-
-                    ctx.fillStyle = "#10B981";
-                    ctx.font = "14px 'JetBrains Mono', monospace";
-                    ctx.fillText("ANPR CAMERA: ACTIVE · SCANNING VEHICLE PLATES", 260, 140);
-                } else {
-                    // Lobby / General
-                    ctx.fillStyle = isNightVision ? "#10B981" : "#E2E8F0";
-                    ctx.font = "16px 'JetBrains Mono', monospace";
-                    ctx.fillText(`${activeCamId}: SURVEILLANCE FEED ACTIVE · ALL RISERS SECURED`, 240, 240);
-                }
-
-                // Scanline effect
-                ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
-                const scanY = (cctvFrame * 4) % canvas.height;
-                ctx.fillRect(0, scanY, canvas.width, 4);
-
-            }, 50);
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0B1220";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "rgba(148,163,184,0.10)";
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
+            for (let y = 0; y < canvas.height; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke(); }
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#F8FAFC";
+            ctx.font = "bold 24px Arial";
+            ctx.fillText("CAMERA STREAM NOT CONNECTED", canvas.width / 2, canvas.height / 2 - 8);
+            ctx.fillStyle = "#94A3B8";
+            ctx.font = "15px Arial";
+            ctx.fillText("Demo camera directory · connect approved CCTV hardware to view video", canvas.width / 2, canvas.height / 2 + 28);
         }
+
+        function startCctvStream() {
+            if (cctvInterval) { clearInterval(cctvInterval); cctvInterval = null; }
+            drawCctvUnavailableFrame();
+        }
+
 
         // Initialize CCTV on document ready if on CCTV page
         window.addEventListener("DOMContentLoaded", () => {
