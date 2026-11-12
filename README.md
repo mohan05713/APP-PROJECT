@@ -12,7 +12,7 @@
 **Resident services · IoT monitoring · CCTV · Facility operations · AI-assisted workflows**
 
 <p>
-  <a href="https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/"><img alt="Open preview" src="https://img.shields.io/badge/🚀_LIVE_PREVIEW-Open_Dashboard-0F766E?style=for-the-badge"></a>
+  <a href="https://ecoapartment-mohan05713.vercel.app/"><img alt="Open preview" src="https://img.shields.io/badge/🚀_LIVE_PREVIEW-Open_Dashboard-0F766E?style=for-the-badge"></a>
 </p>
 
 ![Web](https://img.shields.io/badge/Platform-Web%20Application-2563EB?style=flat-square)
@@ -39,7 +39,7 @@ The integration is designed to **extend the existing experience, not replace it*
 
 | Resource | Link |
 |---|---|
-| **EcoApartment website** | [Open website](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) |
+| **EcoApartment website** | [Open website](https://ecoapartment-mohan05713.vercel.app/) |
 | **Backend API (Render)** | [Open backend service](https://ecoapartment-os-api.onrender.com/) |
 
 The website link opens the integrated dashboard preview. The backend link opens the Render-hosted API service; it is not a separate user-facing website.
@@ -169,10 +169,11 @@ git clone https://github.com/mohan05713/Eco-Apartment.git
 cd Eco-Apartment
 ```
 
-### 2. Switch to the integration branch
+### 2. Use the production branch
 
 ```bash
-git checkout feat/integrated-smart-operations-dashboard
+git checkout main
+git pull origin main
 ```
 
 ### 3. Install dependencies
@@ -275,6 +276,6 @@ Planned improvements — these are future goals, not claims that the features ar
 
 **EcoApartment OS** · Built as a connected web experience.
 
-[Open EcoApartment website](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/)
+[Open EcoApartment website](https://ecoapartment-mohan05713.vercel.app/)
 
 </div>
