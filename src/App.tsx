@@ -32,6 +32,7 @@ import { MyProfilePage } from './pages/MyProfilePage';
 import { EcoExpansionPage } from './pages/EcoExpansionPage';
 
 export function App() {
+  const embeddedMode = new URLSearchParams(window.location.search).get('embed') === '1';
   const [activePage, setActivePage] = useState<string>(() => window.location.pathname.startsWith('/smart-operations') ? 'smart-operations' : 'dashboard');
   const [toast, setToast] = useState<{ message: string | null; icon?: string }>({ message: null });
 
@@ -578,26 +579,26 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      <Navbar
+      {!embeddedMode && <Navbar
         currentUser={currentUser}
         onProfileSwitch={handleProfileSwitch}
         activePage={activePage}
         onNavigate={setActivePage}
         onLogout={handleLogout}
-      />
+      />}
 
-      <QuickNav activePage={activePage} onNavigate={setActivePage} />
+      {!embeddedMode && <QuickNav activePage={activePage} onNavigate={setActivePage} />}
 
       <div className="flex-1 flex">
-        <div className="hidden lg:block">
+        {!embeddedMode && <div className="hidden lg:block">
           <Sidebar
             activePage={activePage}
             onNavigate={setActivePage}
             openCount={openTicketsCount}
           />
-        </div>
+        </div>}
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+        <main className={embeddedMode ? "flex-1 p-2 sm:p-3 w-full" : "flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full"}>
           {activePage === 'dashboard' && (
             <DashboardPage
               residents={residents}
