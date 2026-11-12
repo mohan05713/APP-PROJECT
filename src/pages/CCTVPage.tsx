@@ -24,10 +24,7 @@ export const CCTVPage: React.FC<CCTVPageProps> = ({ residents, currentUser }) =>
   const cameras = useMemo<CameraCard[]>(() => {
     const visibleResidents = isAdmin
       ? residents
-      : residents.filter((resident) =>
-          (currentUser.assignedFlats?.length ? currentUser.assignedFlats : [currentUser.flat])
-            .includes(resident.flat_number)
-        );
+      : residents.filter((resident) => resident.flat_number === currentUser.flat);
 
     return visibleResidents.flatMap((resident) => [
       {
