@@ -780,6 +780,8 @@
             display: block;
         }
 
+        .sidebar.collapsed { transform: translateX(-100%); }
+        .main-wrapper.sidebar-collapsed { margin-left: 0 !important; width: 100% !important; }
         /* RESPONSIVE DESIGN */
         @media (max-width: 900px) {
             .sidebar {
@@ -4430,7 +4432,15 @@
         }
 
         function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("open");
+            const sidebar = document.getElementById("sidebar");
+            const mainWrapper = document.querySelector(".main-wrapper");
+            if (!sidebar) return;
+            if (window.innerWidth <= 900) {
+                sidebar.classList.toggle("open");
+            } else {
+                sidebar.classList.toggle("collapsed");
+                if (mainWrapper) mainWrapper.classList.toggle("sidebar-collapsed");
+            }
         }
 
         function showToast(message, icon = "🌿") {
