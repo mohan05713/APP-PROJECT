@@ -13,8 +13,6 @@
 
 <p>
   <a href="https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/"><img alt="Open preview" src="https://img.shields.io/badge/🚀_LIVE_PREVIEW-Open_Dashboard-0F766E?style=for-the-badge"></a>
-  <a href="https://github.com/mohan05713/Eco-Apartment"><img alt="GitHub repository" src="https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github"></a>
-  <a href="https://github.com/mohan05713/Eco-Apartment/pull/12"><img alt="Pull request 12" src="https://img.shields.io/badge/PR_%2312-Integration_Review-8957E5?style=for-the-badge&logo=github"></a>
 </p>
 
 ![Web](https://img.shields.io/badge/Platform-Web%20Application-2563EB?style=flat-square)
@@ -35,23 +33,16 @@ EcoApartment OS is a web-based smart apartment and facility-management platform.
 
 The integration is designed to **extend the existing experience, not replace it**. Existing dashboard pages and their original browser data keys are retained; the new workspace is loaded as an embedded page when a Smart Operations menu item is selected.
 
-> **Project status:** The integration is available on a Vercel branch preview and is being reviewed in [Pull Request #12](https://github.com/mohan05713/Eco-Apartment/pull/12). It has not been merged into the production branch.
+> **Release status:** The integrated dashboard is available in the preview environment. Production release is pending the final review and merge.
 
 ## 🚀 Open the project
 
 | Resource | Link |
 |---|---|
-| **Integrated dashboard preview** | [Open EcoApartment OS](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) |
-| **Smart Operations — 3D Building Twin** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=twin) |
-| **Smart Operations — Maintenance Insights** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=maintenance) |
-| **Smart Operations — Facility Booking** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=booking) |
-| **Smart Operations — Finance & Assets** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=assets) |
-| **Smart Operations — Voice AI Assistant** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=assistant) |
-| **Smart Operations — Emergency & Safety** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=emergency) |
-| **Integration pull request** | [PR #12 — Review changes](https://github.com/mohan05713/Eco-Apartment/pull/12) |
-| **GitHub repository** | [mohan05713/Eco-Apartment](https://github.com/mohan05713/Eco-Apartment) |
+| **EcoApartment website** | [Open website](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) |
+| **Backend API (Render)** | [Open backend service](https://ecoapartment-os-api.onrender.com/) |
 
-<sub>The preview is a branch deployment, not the production website. Preview URLs can change when new commits are deployed.</sub>
+The website link opens the integrated dashboard preview. The backend link opens the Render-hosted API service; it is not a separate user-facing website.
 
 ## 🧭 What's inside
 
@@ -284,6 +275,6 @@ Planned improvements — these are future goals, not claims that the features ar
 
 **EcoApartment OS** · Built as a connected web experience.
 
-[Open Preview](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) · [View Source](https://github.com/mohan05713/Eco-Apartment) · [Review PR #12](https://github.com/mohan05713/Eco-Apartment/pull/12)
+[Open EcoApartment website](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/)
 
 </div>
