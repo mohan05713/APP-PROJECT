@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { UserProfile } from '../lib/types';
-import { Shield, User, LogOut, Clock, Key } from 'lucide-react';
 
 interface NavbarProps {
   currentUser: UserProfile;
@@ -138,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Digital Clock */}
         <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-mono font-bold text-slate-700">
-          <Clock className="w-3.5 h-3.5 text-slate-500" />
+          <span aria-hidden="true" className="text-sm text-slate-500">◷</span>
           <span>{timeString}</span>
         </div>
 
@@ -148,7 +147,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             isAdmin ? 'bg-teal-950 text-teal-300 border-teal-700' : 'bg-emerald-50 text-emerald-900 border-emerald-300'
           }`}
         >
-          {isAdmin ? <Shield className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
+          <span aria-hidden="true">{isAdmin ? "🛡️" : "👤"}</span>
           <span>{isAdmin ? 'ADMIN PORTAL' : 'RESIDENT PORTAL'}</span>
         </div>
 
@@ -177,7 +176,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold transition-colors cursor-pointer"
           title="Logout of Session"
         >
-          <LogOut className="w-4 h-4 text-rose-600" />
+          <span aria-hidden="true" className="text-sm text-rose-600">↪</span>
           <span className="hidden sm:inline">Logout</span>
         </button>
       </div>

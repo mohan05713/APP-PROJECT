@@ -32,7 +32,7 @@ import { MyProfilePage } from './pages/MyProfilePage';
 import { EcoExpansionPage } from './pages/EcoExpansionPage';
 
 export function App() {
-  const [activePage, setActivePage] = useState<string>('dashboard');
+  const [activePage, setActivePage] = useState<string>(() => window.location.pathname.startsWith('/smart-operations') ? 'smart-operations' : 'dashboard');
   const [toast, setToast] = useState<{ message: string | null; icon?: string }>({ message: null });
 
   // State loaded from persistent store

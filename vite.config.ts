@@ -12,6 +12,14 @@ export default defineConfig({
       ignored: ['**/build/**', '**/app/build/**', '**/*.keystore*'],
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        smartOperations: 'smart-operations.html',
+      },
+    },
+  },
   optimizeDeps: {
     entries: ['index.html'],
   },
