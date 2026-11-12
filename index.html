@@ -1855,7 +1855,7 @@
             </section>
 
             <!-- ============================================================== -->
-            <!-- PAGE: CCTV SURVEILLANCE HUB (8 LIVE FEEDS WITH PLAYER) -->
+            <!-- PAGE: CCTV SURVEILLANCE HUB (ROLE-FILTERED DEMO DIRECTORY) -->
             <!-- ============================================================== -->
             <section class="page-view" id="page-cctv">
                 <div class="page-header">
@@ -1926,7 +1926,7 @@
                 </div>
 
                 <!-- 8-CAMERA MINI-GRID PREVIEW -->
-                <div style="font-weight: 800; font-size: 14px; margin-bottom: 12px; color: var(--text-main);">All 8 Cameras Live Status Grid</div>
+                <div style="font-weight: 800; font-size: 14px; margin-bottom: 12px; color: var(--text-main);">Available CCTV Camera Directory</div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;" id="cctvGridContainer">
                     <!-- Populated dynamically -->
                 </div>
@@ -4492,6 +4492,7 @@
             };
             const p = profiles[val] || profiles["flat_402"];
             currentUser = p;
+            applyRolePermissions();
             document.getElementById("userNameDisplay").innerText = p.name;
             document.getElementById("userRoleDisplay").innerText = `${p.role} • ${p.flat}`;
             document.getElementById("userAvatar").innerText = p.name.charAt(0);
@@ -6918,39 +6919,62 @@
 
         async function loadCCTV() {
             const admin = isCctvAdmin();
+            const resident = !!(currentUser && currentUser.role === "RESIDENT" && currentUser.flat);
             const tabs = document.getElementById("cctvCamSelectorTabs");
-            if (tabs) tabs.style.display = admin ? "flex" : "none";
+            const ptz = document.querySelector("#page-cctv [onclick^=\"ptzAction\"]")?.parentElement?.parentElement;
             const heading = document.querySelector("#page-cctv .page-header h2");
-            if (heading) heading.innerText = admin ? "📹 CCTV Surveillance · Admin Overview" : "📹 My CCTV Access";
             const subtitle = document.querySelector("#page-cctv .page-header .subtitle");
+            const gridTitle = document.querySelector("#page-cctv .card-title, #page-cctv [data-cctv-grid-title]");
+
+            // Shared camera selector and PTZ controls are administrator-only.
+            if (tabs) tabs.style.display = admin ? "flex" : "none";
+            if (ptz) ptz.style.display = admin ? "flex" : "none";
+            if (heading) heading.innerText = admin ? "📹 CCTV Surveillance · Admin Overview" : "📹 My CCTV Access";
             if (subtitle) subtitle.innerText = admin
-                ? "Apartment-wide shared cameras and resident house / assigned-parking camera directory. Demo only; no live feeds connected."
-                : "Only your own house-camera entry and assigned parking-camera entry are listed. Demo only; no live feeds connected.";
+                ? "Apartment-wide shared cameras and the resident camera directory. Demo only; no live video streams are connected."
+                : resident
+                    ? "Your private house-camera entry and your assigned parking-camera entry only."
+                    : "CCTV access is not available for this profile.";
 
             if (admin) {
                 try {
                     const response = await fetch("/api/residents?page=1&limit=400");
                     if (!response.ok) throw new Error("Resident directory request failed");
                     const data = await response.json();
-                    cctvVisibleCameras = [...cctvCamerasList, ...makeResidentCameraEntries(Array.isArray(data.residents) ? data.residents : [])];
+                    const residents = Array.isArray(data.residents) ? data.residents : [];
+                    cctvVisibleCameras = [...cctvCamerasList, ...makeResidentCameraEntries(residents)];
                 } catch (error) {
                     console.error("Unable to load apartment camera directory:", error);
                     cctvVisibleCameras = [...cctvCamerasList];
                 }
+            } else if (resident) {
+                const flat = String(currentUser.flat).trim().toUpperCase();
+                cctvVisibleCameras = makeResidentCameraEntries([{ flat_number: flat, resident_name: currentUser.name || "Resident" }]);
             } else {
-                const flat = String((currentUser && currentUser.flat) || "").trim().toUpperCase();
-                cctvVisibleCameras = flat ? makeResidentCameraEntries([{ flat_number: flat, resident_name: currentUser.name || "Resident" }]) : [];
+                // Technicians, guests and signed-out profiles receive no resident camera entries.
+                cctvVisibleCameras = [];
             }
 
-            if (!cctvVisibleCameras.some(camera => camera.id === activeCamId)) activeCamId = cctvVisibleCameras[0]?.id || "";
+            if (!cctvVisibleCameras.some(camera => camera.id === activeCamId)) {
+                activeCamId = cctvVisibleCameras[0]?.id || "";
+            }
             renderCctvGrid();
-            if (activeCamId) switchCctvCam(activeCamId);
+            if (activeCamId) {
+                switchCctvCam(activeCamId);
+            } else {
+                const title = document.getElementById("cctvHudTitle");
+                const zone = document.getElementById("cctvZoneLabel");
+                if (title) title.innerText = "NO CAMERA ACCESS";
+                if (zone) zone.innerText = "ACCESS RESTRICTED";
+                drawCctvUnavailableFrame();
+            }
             startCctvStream();
         }
 
         function switchCctvCam(camId) {
+            // Never trust a camera ID supplied by a stale tab or an old UI element.
             const cam = cctvVisibleCameras.find(camera => camera.id === camId);
-            if (!cam) {
+            if (!cam || (!isCctvAdmin() && (!currentUser || currentUser.role !== "RESIDENT" || cam.flat !== String(currentUser.flat || "").trim().toUpperCase()))) {
                 showToast("This camera is not available for the current profile.", "🔒");
                 return;
             }
