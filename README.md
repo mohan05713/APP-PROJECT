@@ -33,7 +33,7 @@ EcoApartment OS is a web-based smart apartment and facility-management platform.
 
 The integration is designed to **extend the existing experience, not replace it**. Existing dashboard pages and their original browser data keys are retained; the new workspace is loaded as an embedded page when a Smart Operations menu item is selected.
 
-> **Release status:** The integrated dashboard is available in the preview environment. Production release is pending the final review and merge.
+> **Release status:** The Smart Operations integration has been merged into the production branch through Pull Request #12. Complete the remaining desktop and mobile interactive testing before treating every workflow as production-verified.
 
 ## 🚀 Open the project
 
@@ -230,8 +230,8 @@ Check the relevant server file and deployment settings before starting or deploy
 - [x] Keep original dashboard storage keys separate from new module keys.
 - [x] Create a branch preview deployment.
 - [ ] Complete final interactive testing across desktop and mobile browsers.
-- [ ] Review and approve [Pull Request #12](https://github.com/mohan05713/Eco-Apartment/pull/12).
-- [ ] Merge to the production branch only after approval.
+- [x] Review and approve [Pull Request #12](https://github.com/mohan05713/Eco-Apartment/pull/12) — merged on November 12, 2026.
+- [x] Merge the integration into the production branch.
 
 ## 🗺️ Future roadmap
 
