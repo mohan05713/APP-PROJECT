@@ -427,7 +427,26 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             <div className="text-[11px] text-slate-600 font-mono">Password: <span className="font-bold text-slate-900">jai400123</span></div>
           </button>
 
-          {/* 6. New User Profile (Flats 400, 401, 402, 403) */}
+          {/* 6. Abinaya T S */}
+          <button
+            onClick={() => {
+              onProfileSwitch('flat_a319');
+              onToast('Signed in as Resident: Abinaya T S (Flat A-319)', '🏠');
+              onNavigate('dashboard');
+            }}
+            className="p-4 bg-sky-50 hover:bg-sky-100 border border-sky-200 hover:border-sky-400 rounded-2xl text-left transition-all hover:shadow-md cursor-pointer group"
+          >
+            <div className="flex justify-between items-center mb-1">
+              <span className="font-black text-slate-900 group-hover:text-sky-900">Abinaya T S</span>
+              <span className="px-1.5 py-0.5 bg-sky-100 text-sky-800 font-bold text-[10px] rounded">Flat A-319</span>
+            </div>
+            <div className="text-[11px] text-slate-600 font-mono">User ID: <span className="font-bold text-slate-900">flat_a319</span></div>
+            <div className="text-[11px] text-slate-600">Phone: +91 88257 42523</div>
+            <div className="text-[11px] text-slate-600">Blood Group: A+</div>
+            <div className="text-[11px] text-slate-600">Email: abinaya231207@gmail.com</div>
+          </button>
+
+          {/* 7. New User Profile (Flats 400, 401, 402, 403) */}
           <button
             onClick={() => {
               if (onRegisterNewUser) {
