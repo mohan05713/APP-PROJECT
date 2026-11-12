@@ -23,11 +23,7 @@ const btn = 'rounded-lg bg-teal-700 px-4 py-2 text-sm font-bold text-white hover
 const secondary = 'rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50';
 interface Props { residents: Resident[]; dues: MaintenanceDue[]; iot: IoTTelemetry; anomalies: Anomaly[]; currentUser: { flat?: string; role?: string; name?: string }; onToast: (message: string, icon?: string) => void; }
 export const EcoExpansionPage: React.FC<Props> = ({ residents, dues, iot, anomalies, currentUser, onToast }) => {
- const [tab, setTab] = useState<Tab>(() => {
-  const requested = new URLSearchParams(window.location.search).get('module');
-  return (['twin','maintenance','booking','emergency','assets','assistant'] as Tab[]).includes(requested as Tab) ? requested as Tab : 'twin';
- });
- const embedded = new URLSearchParams(window.location.search).get('embed') === '1';
+ const [tab, setTab] = useState<Tab>('twin');
  const [voiceStatus,setVoiceStatus]=useState('Ready');
  const [voiceText,setVoiceText]=useState('');
  const [aiReply,setAiReply]=useState('Ask me about water, solar, maintenance, bookings or emergencies.');
@@ -75,15 +71,14 @@ export const EcoExpansionPage: React.FC<Props> = ({ residents, dues, iot, anomal
  const addBooking = (e: React.FormEvent) => { e.preventDefault(); const item:Booking={id:'BK-'+Date.now(),facility,flat,date,slot,status:'PENDING',createdAt:new Date().toISOString()}; setBookings(v=>[item,...v]); onToast('Facility booking request saved.','📅'); };
  const addAsset = (e: React.FormEvent) => { e.preventDefault(); const item:Asset={id:'AST-'+Date.now(),name:assetName,category:'General facility',vendor,cost:Number(assetCost)||0,nextService:'Not scheduled',status:'Needs scheduling'}; setAssets(v=>[item,...v]); setAssetName('');setVendor('');setAssetCost('0');onToast('Asset added to the new asset register.','🧰'); };
  const addExpense = (e: React.FormEvent) => { e.preventDefault(); const item:Expense={id:'EXP-'+Date.now(),title:expenseTitle,category:'Facility expense',amount:Number(expenseAmount)||0,date:new Date().toISOString().slice(0,10)};setExpenses(v=>[item,...v]);setExpenseTitle('');setExpenseAmount('');onToast('Expense recorded.','₹'); };
- const embeddedMode = embedded;
- return <div className={embeddedMode ? "space-y-5 eco-smart-embedded" : "space-y-5"}>
-  <div className={embeddedMode ? "hidden" : "rounded-2xl bg-gradient-to-r from-slate-950 via-teal-950 to-emerald-900 p-6 text-white"}>
+ return <div className="space-y-5">
+  <div className="rounded-2xl bg-gradient-to-r from-slate-950 via-teal-950 to-emerald-900 p-6 text-white">
    <div className="text-xs font-bold uppercase tracking-[.2em] text-teal-200">EcoApartment OS · Expansion suite</div>
    <h1 className="mt-2 text-2xl font-black tracking-tight">Smart Community Command Centre</h1>
    <p className="mt-2 max-w-3xl text-sm text-slate-200">Five new management modules. Existing resident, complaint, dues, visitor, IoT and sample datasets remain in their original storage keys and are not rewritten by this suite.</p>
    <div className="mt-4 flex flex-wrap gap-2 text-xs"><span className="rounded-full bg-white/10 px-3 py-1">Blocks A–D</span><span className="rounded-full bg-white/10 px-3 py-1">{residents.length} resident profiles loaded</span><span className="rounded-full bg-white/10 px-3 py-1">Additive local records</span></div>
   </div>
-  {!embedded && (  <div className="flex gap-2 overflow-x-auto pb-1">{tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} className={`shrink-0 rounded-xl px-3 py-2 text-xs font-bold ${tab===t.id?'bg-teal-700 text-white':'border border-slate-200 bg-white text-slate-600'}`}>{t.icon} {t.label}</button>)}</div>)}
+  <div className="flex gap-2 overflow-x-auto pb-1">{tabs.map(t=><button key={t.id} onClick={()=>setTab(t.id)} className={`shrink-0 rounded-xl px-3 py-2 text-xs font-bold ${tab===t.id?'bg-teal-700 text-white':'border border-slate-200 bg-white text-slate-600'}`}>{t.icon} {t.label}</button>)}</div>
   {tab==='twin'&&<div className="space-y-4">
    <div className={card}><h2 className="font-extrabold">Interactive 3D building model</h2><p className="text-xs text-slate-500">Select a block to inspect its flats below. Illustrative CSS 3D visualization.</p>
     <div className="mt-4 flex min-h-[230px] items-end justify-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-b from-sky-100 to-slate-300 p-6" style={{perspective:'900px'}}>{['A','B','C','D'].map((b,i)=><button key={b} onClick={()=>{setIncidentBlock(b);setSelectedFlat(residents.find(r=>r.block===b)?.flat_number||'');}} className="relative h-48 w-16 shrink-0 rounded-t-md border-2 border-slate-500 bg-gradient-to-r from-slate-500 via-slate-300 to-slate-400 shadow-xl transition-transform hover:-translate-y-2" style={{transform:'rotateY(-18deg) rotateX(3deg) translateZ('+(i*3)+'px)'}}><span className="absolute inset-x-1 top-2 grid grid-cols-2 gap-1">{Array.from({length:8},(_,j)=><span key={j} className="h-5 rounded-sm border border-sky-800/40 bg-sky-200"/>)}</span><span className="absolute bottom-2 left-0 right-0 text-center text-xs font-black text-slate-800">BLOCK {b}</span></button>)}</div><p className="mt-2 text-center text-[11px] text-slate-500">Conceptual 3D model, not an architectural/BIM-accurate model.</p></div>
