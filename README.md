@@ -1,315 +1,289 @@
+<!--
+  EcoApartment OS · Project README
+  Keep feature claims aligned with the implementation.
+-->
+
+<div align="center">
+
 # 🌿 EcoApartment OS
-### The digital command center for smarter, greener apartment communities
 
-<p align="center">
-  <a href="https://ecoapartment.vercel.app"><img src="https://img.shields.io/badge/OPEN%20WEB%20APP-Visit%20EcoApartment-16A34A?style=for-the-badge&logo=vercel&logoColor=white" alt="Open web app"></a>
-  <a href="https://github.com/mohan05713/APP-PROJECT"><img src="https://img.shields.io/badge/SOURCE-GitHub-181717?style=for-the-badge&logo=github" alt="GitHub repository"></a>
-  <a href="https://ecoapartment-os-api.onrender.com/api/health"><img src="https://img.shields.io/badge/API-Health%20Endpoint-0EA5E9?style=for-the-badge&logo=render&logoColor=white" alt="API health"></a>
-</p>
-<p align="center">
-  <img src="https://img.shields.io/badge/Platform-Web%20Only-2563EB?style=flat-square">
-  <img src="https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-3178C6?style=flat-square">
-  <img src="https://img.shields.io/badge/Build-Vite-646CFF?style=flat-square&logo=vite&logoColor=white">
-  <img src="https://img.shields.io/badge/API-Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white">
-  <img src="https://img.shields.io/badge/Data-Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white">
-  <img src="https://img.shields.io/badge/Hosting-Vercel%20%2B%20Render-111827?style=flat-square">
+### One connected dashboard for smarter apartment living.
+
+**Resident services · IoT monitoring · CCTV · Facility operations · AI-assisted workflows**
+
+<p>
+  <a href="https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/"><img alt="Open preview" src="https://img.shields.io/badge/🚀_LIVE_PREVIEW-Open_Dashboard-0F766E?style=for-the-badge"></a>
+  <a href="https://github.com/mohan05713/Eco-Apartment"><img alt="GitHub repository" src="https://img.shields.io/badge/GitHub-Source_Code-181717?style=for-the-badge&logo=github"></a>
+  <a href="https://github.com/mohan05713/Eco-Apartment/pull/12"><img alt="Pull request 12" src="https://img.shields.io/badge/PR_%2312-Integration_Review-8957E5?style=for-the-badge&logo=github"></a>
 </p>
 
-> **One community. One connected workspace. A smarter way to live.**
+![Web](https://img.shields.io/badge/Platform-Web%20Application-2563EB?style=flat-square)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=111827)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Python](https://img.shields.io/badge/Python-Supporting%20Backend-3776AB?style=flat-square&logo=python&logoColor=white)
 
-EcoApartment OS is a web-based apartment operations and sustainability platform concept. It brings resident services, facility workflows, visitor operations, maintenance, community updates and environmental monitoring views into one browser-accessible experience.
+*A unified apartment-management experience that brings the original EcoApartment dashboard and Smart Operations workspace together.*
 
-**Project scope:** This repository is maintained as a **web application**. The documented development and deployment workflow is for the browser-based product.
+</div>
 
 ---
 
-## ✨ Explore the project
+## ✨ At a glance
 
-| Destination | What you'll find |
+EcoApartment OS is a web-based smart apartment and facility-management platform. It combines the established green dashboard, resident and facility workflows, IoT monitoring views and CCTV page with a new Smart Operations workspace — all accessible from one website and one left-side navigation.
+
+The integration is designed to **extend the existing experience, not replace it**. Existing dashboard pages and their original browser data keys are retained; the new workspace is loaded as an embedded page when a Smart Operations menu item is selected.
+
+> **Project status:** The integration is available on a Vercel branch preview and is being reviewed in [Pull Request #12](https://github.com/mohan05713/Eco-Apartment/pull/12). It has not been merged into the production branch.
+
+## 🚀 Open the project
+
+| Resource | Link |
 |---|---|
-| **[Launch EcoApartment OS](https://ecoapartment.vercel.app)** | Vercel project domain |
-| **[Latest Vercel deployment](https://ecoapartment-h05n57u4q-mohan05713.vercel.app)** | Latest production deployment record |
-| **[API health endpoint](https://ecoapartment-os-api.onrender.com/api/health)** | Backend health response |
-| **[Render service dashboard](https://dashboard.render.com/web/srv-dbp3qabm8hqs73cogvc0)** | Backend service settings and logs |
-| **[Vercel project dashboard](https://vercel.com/mohan05713/ecoapartment)** | Frontend deployments and domains |
-| **[VS Code setup guide](README_VSCODE.md)** | Step-by-step local startup |
+| **Integrated dashboard preview** | [Open EcoApartment OS](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) |
+| **Smart Operations — 3D Building Twin** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=twin) |
+| **Smart Operations — Maintenance Insights** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=maintenance) |
+| **Smart Operations — Facility Booking** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=booking) |
+| **Smart Operations — Finance & Assets** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=assets) |
+| **Smart Operations — Voice AI Assistant** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=assistant) |
+| **Smart Operations — Emergency & Safety** | [Open module](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/smart-operations.html?embed=1&module=emergency) |
+| **Integration pull request** | [PR #12 — Review changes](https://github.com/mohan05713/Eco-Apartment/pull/12) |
+| **GitHub repository** | [mohan05713/Eco-Apartment](https://github.com/mohan05713/Eco-Apartment) |
 
-<details>
-<summary><strong>Deployment snapshot — verified project records</strong></summary>
+<sub>The preview is a branch deployment, not the production website. Preview URLs can change when new commits are deployed.</sub>
 
-- Vercel project: `ecoapartment`
-- Latest production deployment record: `READY`
-- Render service: `ecoapartment-os-api`
-- Latest Render deployment record: `live`
-- Render region: Singapore
-- Source repository: `mohan05713/APP-PROJECT`, branch `main`
+## 🧭 What's inside
 
-**Access note:** Vercel reports SSO protection enabled for non-custom domains. If the app asks you to sign in, use an authorized Vercel account. A deployment marked READY means its build/deployment completed; it does not by itself guarantee every feature or API integration is working.
+### 🏡 Original EcoApartment dashboard
 
-</details>
+The existing dashboard remains the main entry point, including its established apartment-management and IoT experience.
 
-## 🖼️ Visual overview
+- Resident and community-management screens.
+- Complaints, notices, dues and visitor workflows.
+- IoT and infrastructure monitoring pages.
+- Existing CCTV page and navigation.
+- Dashboard AI Assistant panel.
+- Existing responsive navigation and page switching.
 
-![EcoApartment OS architecture and product overview](docs/ecoapartment-overview.svg)
+### ⚙️ Smart Operations workspace
 
-<sub>This is a designed project overview illustration, not a captured application screenshot. The live Vercel deployment has SSO protection enabled, so an authenticated browser capture was not available during this repository update. Use the live app link above to view the actual interface.</sub>
+The new modules are presented in the same website through the original sidebar.
 
-## 🏙️ What the platform brings together
-
-### Resident services
-- Resident profile and directory experiences.
-- Community notices and announcements.
-- Visitor pass and gate-entry workflows.
-- Maintenance dues and payment-status views.
-- Complaint submission and status tracking.
-- Family and flat information views.
-
-### Facility operations
-- Facility and administration dashboards.
-- Complaint assignment and technician workflows.
-- Visitor and parking management.
-- Maintenance billing and operational reports.
-- CSV/JSON export utilities where implemented.
-
-### Sustainability and monitoring
-- Water and environmental monitoring views.
-- IoT telemetry and anomaly-related screens.
-- LPG and energy information views.
-- Sustainability reporting and eco-reward concepts.
-
-> **Demo-data transparency:** Some views and server endpoints use seeded or simulated data. A displayed sensor, payment, IoT or visitor workflow should not be treated as a live external integration unless the required hardware/provider is connected and separately tested.
-
-## 🧰 Technology stack
-
-| Layer | Technologies | Purpose |
+| Module | What it provides | Implementation note |
 |---|---|---|
-| Web interface | React, TypeScript/TSX, HTML5, CSS3 | Browser UI and reusable components |
-| Frontend tooling | Vite | Local development and production build |
-| API server | Node.js | HTTP routes and application API |
-| Data services | Supabase / PostgreSQL | Hosted data layer when configured |
-| Supporting tools | Python, SQL | Utilities, schema and supporting scripts |
-| Source control | GitHub | Version history and collaboration |
-| Hosting | Vercel + Render | Frontend and API hosting |
+| 🏢 **3D Building Twin** | Interactive visual building representation | Illustrative 3D-style view; not a BIM or live digital twin feed |
+| 🤖 **AI Maintenance Insights** | Maintenance-risk demonstration using sample telemetry and a locally trained logistic-regression model | Demonstration model trained on synthetic data; not a safety-critical prediction |
+| 📅 **Facility Booking** | Create and track facility booking requests | Browser-local storage in this version |
+| 💼 **Finance & Assets** | Asset register and expense-entry workspace | Browser-local storage in this version |
+| 🎙️ **Voice AI Assistant** | Voice input and spoken responses for supported browsers | Uses browser speech capabilities; microphone permission may be required |
+| 🚨 **Emergency & Safety** | Record and track incident reports | Does not contact emergency services or dispatch responders |
 
-## 🧭 Architecture
+The dashboard AI Assistant also includes a microphone shortcut to open the Voice AI Assistant module.
 
-```text
-                 RESIDENTS / FACILITY TEAM
-                           |
-                           v
-                    WEB BROWSER
-                           |
-                           v
-              REACT + TYPESCRIPT FRONTEND
-                           |
-                  VERCEL WEB DEPLOYMENT
-                           |
-                       /api/*
-                           |
-                           v
-                NODE.JS API ON RENDER
-                           |
-                  +--------+--------+
-                  |                 |
-                  v                 v
-          SUPABASE / POSTGRES   DEMO / LOCAL DATA
-          (when configured)    (seeded workflows)
+## 🧩 How the integration works
 
-              GitHub = source of truth
-```
-
-The Vercel rewrite forwards `/api/*` requests to the active Render service. The frontend and API can be deployed independently.
-
-## 📁 Repository map
+- The original root `index.html` remains the main dashboard and keeps its existing pages.
+- Smart Operations is served by the React application at `smart-operations.html`.
+- The original dashboard opens each module inside an embedded workspace and passes the selected module in the URL.
+- The embedded React view hides its own duplicate navigation so the user stays within the original dashboard experience.
+- The desktop and mobile sidebar toggle remains available.
 
 ```text
-APP-PROJECT/
-├── src/
-│   ├── components/       # Reusable React UI
-│   ├── pages/            # Application pages
-│   └── lib/              # Data, types and service utilities
-├── app/
-│   └── applet/           # Supporting web utilities
-├── docs/
-│   └── ecoapartment-overview.svg
-├── index.html            # Web entry document
-├── server.js             # Render Node.js service entry
-├── server.ts             # npm start entry in package.json
-├── server.py             # Supporting Python implementation
-├── supabase_schema.sql   # Database schema
-├── .env.example          # Environment template
-├── package.json          # Dependencies and npm scripts
-├── vite.config.ts        # Vite configuration
-├── vercel.json           # API rewrite configuration
-├── README.md             # Project overview
-└── README_VSCODE.md      # Local setup guide
+                         ECOAPARTMENT OS
+                                |
+                  Original green dashboard
+                       (index.html)
+                                |
+                    One shared left sidebar
+                                |
+          +---------------------+----------------------+
+          |                     |                      |
+     Existing pages       Smart Operations       Emergency & Safety
+          |                     |                 (last menu item)
+   Residents / IoT /      Embedded React app
+   CCTV / facility        smart-operations.html
+          |                     |
+          |        +------------+-------------+
+          |        |            |             |
+          |      3D Twin   Maintenance     Booking
+          |        |            |             |
+          |      Assets     Voice AI      Incidents
+          |
+    Existing dashboard data remains separate
+    from new module browser-local data
 ```
 
-## 🚀 Run it in VS Code
+## 🛠️ Technology
+
+| Area | Technology |
+|---|---|
+| Main dashboard | HTML, CSS and JavaScript |
+| Smart Operations UI | React 18, TypeScript |
+| Frontend build | Vite 6 |
+| Styling | Tailwind CSS 4 and project CSS |
+| Icons | Lucide React |
+| Browser voice | Web Speech API where supported |
+| Existing backend/supporting services | Project Python/Node service files |
+| Data integration | Supabase client is included; availability depends on project configuration |
+| Version control | Git and GitHub |
+| Preview hosting | Vercel |
+
+## 💾 Data handling and limitations
+
+**Preserving existing records is a core integration requirement.** The Smart Operations integration does not intentionally reset or migrate the original dashboard's browser data.
+
+The original dashboard uses its existing storage keys, including:
+
+- `eco_os_residents_v3`
+- `eco_os_complaints_v3`
+- `eco_os_dues_v3`
+- `eco_os_notices_v3`
+- `eco_os_visitors_v3`
+- `eco_os_iot_v3`
+- `eco_os_gas_v3`
+- `eco_os_anomalies_v3`
+
+The new modules currently use separate browser-local keys:
+
+- `eco_os_v2_bookings`
+- `eco_os_v2_incidents`
+- `eco_os_v2_assets`
+- `eco_os_v2_expenses`
+
+**Important:** Browser-local records are tied to the browser/device and are not automatically shared across users or devices. The new module records are not described as Supabase-synchronized. Do not use this demo as the sole record system for real emergency response, payments, security or critical facility operations.
+
+### Demo and safety boundaries
+
+- Some IoT readings, seeded profiles and anomaly examples may be sample or simulated data.
+- The maintenance model is trained at runtime on synthetic examples and should be treated as a demonstration only.
+- The 3D building view is illustrative, not a verified live model of the physical property.
+- Voice features depend on browser support, permissions and device audio settings.
+- Emergency incident entry is an in-app workflow only. For a real emergency, contact the appropriate local emergency services directly.
+- Do not publish real resident personal data, passwords, access codes or private operational details.
+
+## 💻 Run locally in VS Code
 
 ### Requirements
-- Node.js 20 LTS or newer: https://nodejs.org/
-- Visual Studio Code: https://code.visualstudio.com/
-- Git (optional): https://git-scm.com/
+
+- Node.js (LTS recommended)
+- npm
+- Visual Studio Code
+- Git (optional, for cloning)
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/mohan05713/APP-PROJECT.git
-cd APP-PROJECT
+git clone https://github.com/mohan05713/Eco-Apartment.git
+cd Eco-Apartment
 ```
 
-Or download the ZIP from GitHub and extract it.
+### 2. Switch to the integration branch
 
-### 2. Open the correct folder
+```bash
+git checkout feat/integrated-smart-operations-dashboard
+```
 
-Open the repository root in VS Code — the folder containing `package.json` — then choose **Terminal → New Terminal**.
-
-### 3. Install packages
+### 3. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 4. Start the frontend
+### 4. Start the Vite development server
 
 ```bash
 npm run dev
 ```
 
-Open the local address printed by Vite (normally **http://localhost:5173**).
+Open the local URL printed in the terminal. Vite commonly uses `http://localhost:5173`.
 
-### 5. Start the Node.js server (separate terminal)
-
-```bash
-npm start
-```
-
-The current package script runs `node server.ts`. It uses `PORT` if set, otherwise port **3000**. Open **http://localhost:3000**.
-
-The Render service is configured separately to run `node server.js`. Do not assume the local npm start command and Render start command are identical.
-
-### 6. Build for production
+### 5. Build and preview
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Vite writes the build output to `dist/`.
+The production build is generated in `dist/`.
 
-For screenshots of the real UI, run the app locally or open the live app with an authorized account, navigate to a representative dashboard, and capture the browser window. Use synthetic/demo records only; never publish real resident information.
+### Available scripts
 
-Full instructions: **[README_VSCODE.md](README_VSCODE.md)**
-
-## 🔐 Environment and Supabase setup
-
-1. Copy `.env.example` to your local environment file.
-2. Create/open your Supabase project: https://supabase.com/dashboard
-3. Review `supabase_schema.sql` before running it in the SQL Editor.
-4. Configure the project URL and public anon key in the correct local/deployment environment.
-5. Enable and test Row Level Security (RLS) policies before using resident information.
-6. Keep private API keys and service-role credentials server-side.
-
-Variables referenced by the project template may include:
-
-| Variable | Purpose |
+| Command | Purpose |
 |---|---|
-| `PORT` | Node server port |
-| `NODE_ENV` | Runtime mode |
-| `SUPABASE_URL` | Supabase project URL |
-| `SUPABASE_ANON_KEY` | Public client key, protected by RLS |
-| `GEMINI_API_KEY` | Only if a Gemini-powered server feature is enabled |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start Vite development server |
+| `npm run build` | Build the web application |
+| `npm run preview` | Preview the production build |
+| `npm start` | Run the package's configured Node entry command |
 
-Never commit `.env`, database passwords, service-role keys, private API keys or real resident credentials.
+Check the relevant server file and deployment settings before starting or deploying the backend; local and hosted start commands may differ.
 
-## ☁️ Live deployment links
+## 🔐 Configuration and security
 
-| Component | Verified URL |
+- Review `.env.example` and the actual source code to identify required environment variables.
+- Never commit `.env` files, private API keys, service-role keys, passwords or real resident credentials.
+- If Supabase is configured, enable and test Row Level Security (RLS) and least-privilege access before storing real data.
+- Do not expose service-role credentials in browser code.
+- Validate and authorize sensitive operations on the server, not only by hiding UI controls.
+- Use synthetic data for screenshots, demos and public documentation.
+
+## ✅ Integration verification checklist
+
+- [x] Preserve the original dashboard as the homepage.
+- [x] Keep existing CCTV and IoT pages in the original dashboard.
+- [x] Add Smart Operations modules to the existing sidebar.
+- [x] Keep Emergency & Safety at the bottom of the sidebar.
+- [x] Add a Voice AI shortcut to the dashboard AI Assistant.
+- [x] Support the sidebar toggle on desktop and mobile.
+- [x] Keep original dashboard storage keys separate from new module keys.
+- [x] Create a branch preview deployment.
+- [ ] Complete final interactive testing across desktop and mobile browsers.
+- [ ] Review and approve [Pull Request #12](https://github.com/mohan05713/Eco-Apartment/pull/12).
+- [ ] Merge to the production branch only after approval.
+
+## 🗺️ Future roadmap
+
+Planned improvements — these are future goals, not claims that the features are already complete.
+
+| Priority | Planned enhancement |
 |---|---|
-| Main frontend domain | [https://ecoapartment.vercel.app](https://ecoapartment.vercel.app) |
-| Latest production deployment | [Open deployment](https://ecoapartment-h05n57u4q-mohan05713.vercel.app) |
-| Backend service | [https://ecoapartment-os-api.onrender.com](https://ecoapartment-os-api.onrender.com) |
-| API health check | [https://ecoapartment-os-api.onrender.com/api/health](https://ecoapartment-os-api.onrender.com/api/health) |
-| Render dashboard | [Open service](https://dashboard.render.com/web/srv-dbp3qabm8hqs73cogvc0) |
-| Vercel dashboard | [Open project](https://vercel.com/mohan05713/ecoapartment) |
-| GitHub repository | [APP-PROJECT](https://github.com/mohan05713/APP-PROJECT) |
+| **Data platform** | Secure shared persistence for bookings, incidents, assets and expenses, with migrations, validation and tested RLS |
+| **Live IoT** | Connect verified physical sensors and clearly distinguish live telemetry from demo readings |
+| **Emergency response** | Escalation policies, responder roles, acknowledgements, audit history and verified notification integrations |
+| **CCTV & security** | Authorized live camera integrations, access controls and privacy-conscious retention |
+| **AI maintenance** | Train and evaluate against validated historical maintenance records; show confidence and explainability |
+| **Voice assistant** | Improve multilingual support, accessibility and robust speech fallback |
+| **Resident experience** | Mobile-first resident portal, notifications and multilingual interface |
+| **Facility workflows** | Booking approvals, conflict checks, recurring schedules and role-based permissions |
+| **Finance & assets** | Approval workflows, receipts, vendor records, service reminders and audit trails |
+| **Reliability** | Automated tests, CI checks, error monitoring, backups and recovery drills |
 
-### Health-check response
+## 🧪 Before production use
 
-The Node server implements `/api/health`, `/health`, `/healthz` and `/ping`. A healthy response is JSON with a `status: "healthy"` field and service metadata.
-
-**Render configuration note:** The current Render service has no explicit health-check path configured in its service settings. The endpoint exists in the server code; configure `/api/health` in Render's Health Check Path setting if you want Render to monitor it automatically. The endpoint should return HTTP 200.
-
-## 🧪 Build and smoke-test checklist
-
-```bash
-npm install
-npm run build
-```
-
-Before a release, manually verify:
-- [ ] Frontend loads without a blank page.
-- [ ] Main navigation and responsive layouts work.
-- [ ] Resident, complaint, notice and visitor screens load.
-- [ ] API requests reach the active Render service.
-- [ ] `/api/health` returns HTTP 200 and healthy JSON.
-- [ ] Supabase reads/writes work with RLS enabled (if configured).
-- [ ] Browser console and server logs contain no unhandled errors.
-- [ ] Demo data is clearly distinguished from live integrations.
-
-## 🛡️ Security and privacy
-
-- Use synthetic records in public demos and screenshots.
-- Never publish resident phone numbers, emails, family details, passwords or access credentials.
-- Use secure authentication and role-based authorization for protected actions.
-- Configure Supabase RLS and least-privilege database access.
-- Validate and authorize requests on the server; UI hiding is not authorization.
-- Restrict production CORS to trusted origins.
-- Rotate credentials that may have been exposed in source history.
-- Add audit logging before handling real resident or financial information.
-
-## 🗺️ Roadmap — where it can go next
-
-These are proposed improvements, not claims of completed functionality.
-
-| Horizon | Planned improvement |
-|---|---|
-| **Foundation** | [ ] Consolidate frontend/API configuration and document a single production workflow |
-| **Trust & safety** | [ ] Secure authentication, role-based access and audit trails |
-| **Data reliability** | [ ] Supabase migrations, complete RLS policies, backup and restore drills |
-| **Live operations** | [ ] Real-time complaint, visitor and notice updates |
-| **Smart sustainability** | [ ] Verified IoT device connections with live-vs-simulated data labels |
-| **Engineering quality** | [ ] CI checks, type checking, automated tests and accessibility checks |
-| **Observability** | [ ] Uptime monitoring, structured logs and deployment alerts |
-| **Community experience** | [ ] Mobile-first refinements, multilingual support and resident feedback workflows |
-
-## 🧩 Troubleshooting
-
-| Issue | First thing to check |
-|---|---|
-| `node` or `npm` not found | Install Node.js LTS and reopen VS Code |
-| Vite page not opening | Use the exact URL printed by `npm run dev` |
-| Port already in use | Stop the other process or choose another `PORT` |
-| API 404/502 | Check the Vercel rewrite, Render URL, service status and logs |
-| Health check fails | Check the Render start command, listening port and `/api/health` route |
-| Supabase connection error | Verify URL/key, schema, RLS and environment settings |
-| Changes not visible | Confirm the correct Git branch and latest deployment |
+1. Test every existing dashboard page and workflow.
+2. Test each embedded Smart Operations module on desktop and mobile.
+3. Verify that the original resident, complaint, dues, notice, visitor and IoT records remain intact.
+4. Confirm which data is local, simulated or truly connected to a backend.
+5. Configure authentication, authorization, backups and audit logs before using real resident or financial data.
+6. Review the pull request and deployment before merging.
 
 ## 🤝 Contributing
 
-1. Create a focused feature branch.
-2. Keep secrets and personal data out of commits.
-3. Run the production build and relevant tests.
-4. Document any new environment variables.
-5. Open a pull request with a concise change and test summary.
+1. Create a feature branch.
+2. Make a focused change and preserve existing data flows.
+3. Run `npm run build` and test the affected workflows.
+4. Document configuration changes and known limitations.
+5. Open a pull request with screenshots or a concise test summary.
 
-## 📌 Project information
+---
 
-- **Repository:** https://github.com/mohan05713/APP-PROJECT
-- **Frontend:** React + TypeScript + Vite
-- **API:** Node.js on Render
-- **Database integration:** Supabase when configured
-- **Application scope:** Web-only
+<div align="center">
 
-No license grant is stated here. Unless a LICENSE file is added, do not assume unrestricted reuse rights.
+### 🌱 Smarter spaces. Safer communities. Sustainable living.
+
+**EcoApartment OS** · Built as a connected web experience.
+
+[Open Preview](https://ecoapartment-e4uzoqtj2-mohan05713.vercel.app/) · [View Source](https://github.com/mohan05713/Eco-Apartment) · [Review PR #12](https://github.com/mohan05713/Eco-Apartment/pull/12)
+
+</div>
