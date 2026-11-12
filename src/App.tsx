@@ -30,6 +30,7 @@ import { SupabasePage } from './pages/SupabasePage';
 import { LoginPage } from './pages/LoginPage';
 import { MyProfilePage } from './pages/MyProfilePage';
 import { EcoExpansionPage } from './pages/EcoExpansionPage';
+import { CCTVPage } from './pages/CCTVPage';
 
 export function App() {
   const embeddedMode = new URLSearchParams(window.location.search).get('embed') === '1';
@@ -666,6 +667,10 @@ export function App() {
               currentUser={currentUser}
               onOpenPostNotice={() => setIsNoticeModalOpen(true)}
             />
+          )}
+
+          {activePage === 'cctv' && (
+            <CCTVPage residents={residents} currentUser={currentUser} />
           )}
 
           {activePage === 'visitors' && (
