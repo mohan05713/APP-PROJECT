@@ -123,6 +123,7 @@ export function supabaseRowToResident(row: Record<string, any>): Resident {
   const occupancy_status = row.occupancy_status || profile.occupancy_status || 'OCCUPIED';
   const dues_status = profile.dues_status || row.dues_status || 'PAID';
   const vehicle_number = row.vehicle_number || profile.vehicle_number || '—';
+  const blood_group = row.blood_group || profile.blood_group || undefined;
   const password = profile.password || row.password || 'pass123';
   const assignedFlats = profile.assignedFlats || row.assigned_flats || [flat_number];
 
@@ -138,6 +139,7 @@ export function supabaseRowToResident(row: Record<string, any>): Resident {
     occupancy_status: occupancy_status as OccupancyStatus,
     dues_status: dues_status as DuesStatus,
     vehicle_number,
+    blood_group,
     assignedFlats
   };
 }
@@ -158,7 +160,8 @@ export function residentToSupabaseRow(resident: Resident): Record<string, any> {
     contact_number: resident.contact_number,
     email: resident.email,
     occupancy_status: resident.occupancy_status,
-    vehicle_number: resident.vehicle_number
+    vehicle_number: resident.vehicle_number,
+    blood_group: resident.blood_group
   };
 
   return {
