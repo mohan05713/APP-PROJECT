@@ -112,6 +112,24 @@ function generate400Residents(): Resident[] {
           continue;
         }
 
+        if (flatNum === 'A-319') {
+          residents.push({
+            flat_number: 'A-319',
+            block: 'A',
+            floor_number: 3,
+            resident_name: 'Abinaya T S',
+            username: 'flat_a319',
+            password: 'pass319',
+            contact_number: '+91 88257 42523',
+            email: 'abinaya231207@gmail.com',
+            occupancy_status: 'OCCUPIED',
+            dues_status: 'PAID',
+            vehicle_number: '—',
+            blood_group: 'A+'
+          });
+          continue;
+        }
+
         // Random deterministically generated resident profile
         const seed = (block.charCodeAt(0) * 100) + (floor * 25) + unit;
         const fn = FIRST_NAMES[seed % FIRST_NAMES.length];
