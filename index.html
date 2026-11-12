@@ -1777,6 +1777,47 @@
                     </div>
                 </div>
 
+                <!-- SMART VEHICLE MOVEMENT TRACKING (GATE EVENT DEMO) -->
+                <div class="card" id="parkingTrackingCard" style="margin-bottom:24px;border:1px solid #99D8C8;">
+                    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+                        <div>
+                            <h3 style="margin:0;color:#0F766E;">🛰️ Smart Vehicle Tracking</h3>
+                            <p style="margin:4px 0 0;color:var(--text-muted);font-size:12px;">Gate entry/exit timeline · Assigned bay · Recent movement</p>
+                        </div>
+                        <span style="background:#FEF3C7;color:#92400E;padding:5px 10px;border-radius:999px;font-size:10px;font-weight:800;">DEMO GATE LOG · NOT LIVE GPS</span>
+                    </div>
+                    <div id="residentVehicleTracking" style="display:none;padding:14px;background:#F0FDFA;border-radius:12px;margin-bottom:14px;">
+                        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+                            <div>
+                                <div style="font-size:11px;color:#0F766E;font-weight:800;">YOUR REGISTERED VEHICLE</div>
+                                <div id="trackingResidentVehicle" style="font-size:20px;font-weight:900;color:#134E4A;">—</div>
+                                <div id="trackingResidentSlot" style="font-size:12px;color:#475569;">Parking bay —</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div id="trackingResidentStatus" style="font-weight:900;font-size:14px;color:#64748B;">NO GATE EVENT</div>
+                                <div id="trackingResidentLastSeen" style="font-size:11px;color:#64748B;">No movement recorded</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="adminVehicleTrackingControls" style="display:none;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:14px;margin-bottom:14px;">
+                        <div style="font-size:12px;font-weight:800;color:#334155;margin-bottom:8px;">🛂 Gate desk · Record a demo entry / exit event</div>
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;">
+                            <input id="trackingVehicleInput" class="form-control" placeholder="Vehicle number (e.g. TN-09-CB-1234)" maxlength="20">
+                            <input id="trackingFlatInput" class="form-control" placeholder="Flat number (e.g. B-402)" maxlength="12">
+                            <select id="trackingDirectionInput" class="form-control"><option value="ENTRY">Vehicle entered</option><option value="EXIT">Vehicle exited</option></select>
+                            <button type="button" class="btn btn-primary" onclick="recordParkingGateEvent()">＋ Record gate event</button>
+                        </div>
+                        <div style="font-size:11px;color:#64748B;margin-top:8px;">Demo/manual entries only. Connect a verified RFID reader or ANPR camera and secure server-side authentication before using this as a real gate log.</div>
+                    </div>
+                    <div style="font-size:12px;font-weight:800;color:#334155;margin:8px 0;">Recent vehicle movement</div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead><tr><th>Time</th><th>Vehicle</th><th>Flat</th><th>Gate event</th><th>Recorded by</th></tr></thead>
+                            <tbody id="parkingTrackingHistory"><tr><td colspan="5" style="text-align:center;color:#64748B;padding:16px;">No gate events recorded yet.</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- ALL 440 SLOTS MASTER DIRECTORY (ADMIN ONLY UI: OCCUPIED & AVAILABLE SLOTS) -->
                 <div class="card" id="allParkingDirectorySection" style="display: none; border: 2px solid #0F766E;">
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
@@ -6669,6 +6710,7 @@
         // PARKING ALLOTMENTS LOGIC (ADMIN 440 BAYS MASTER & RESIDENT DESIGNATED SLOT)
         // ==============================================================
         let allParkingData = [];
+        let currentResidentParking = null;
         let adminParkingTab = 'ALL';
         let adminParkingPage = 1;
         const adminParkingLimit = 25;
@@ -6684,6 +6726,7 @@
                     const myParkingList = await pRes.json();
                     if (myParkingList && myParkingList.length > 0) {
                         const p = myParkingList[0];
+                        currentResidentParking = p;
                         if (document.getElementById("myParkingSlotId")) document.getElementById("myParkingSlotId").innerText = `Slot ${p.slot_id}`;
                         if (document.getElementById("myParkingLocation")) document.getElementById("myParkingLocation").innerText = `${p.basement} · ${p.bay} · Reserved for Flat ${p.flat_number}`;
                         if (document.getElementById("myParkingVehicle")) document.getElementById("myParkingVehicle").innerText = p.vehicle_number;
@@ -6707,9 +6750,104 @@
 
                 allParkingData = data.slots || (Array.isArray(data) ? data : []);
                 renderParkingTable(allParkingData);
+                renderParkingTracking();
             } catch (e) {
                 console.error("Error loading parking data:", e);
             }
+        }
+
+        // Smart vehicle movement timeline. This is a browser-local demo log, not a live GPS/RFID feed.
+        function getParkingGateEvents() {
+            try {
+                const rows = JSON.parse(localStorage.getItem('eco_parking_gate_events_v1') || '[]');
+                return Array.isArray(rows) ? rows : [];
+            } catch (e) { return []; }
+        }
+
+        function recordParkingGateEvent() {
+            const isAdmin = currentUser && (currentUser.role === 'AUTHORITY' || currentUser.role === 'ADMIN' || currentUser.username === 'admin');
+            if (!isAdmin) { showToast('Only the gate/admin profile can record demo gate events.', '🔒'); return; }
+            const vehicle = (document.getElementById('trackingVehicleInput')?.value || '').trim().toUpperCase();
+            const flat = (document.getElementById('trackingFlatInput')?.value || '').trim().toUpperCase();
+            const direction = document.getElementById('trackingDirectionInput')?.value || 'ENTRY';
+            if (!/^[A-Z0-9 -]{5,20}$/.test(vehicle) || !/^[A-D]-[1-4][0-9]{2}$/.test(flat)) {
+                showToast('Enter a valid vehicle number and flat number.', '⚠️');
+                return;
+            }
+            const slot = allParkingData.find(p => p.flat_number === flat && (p.vehicle_number || '').toUpperCase() === vehicle);
+            if (!slot) {
+                showToast('Vehicle number does not match the selected flat parking record.', '⚠️');
+                return;
+            }
+            const rows = getParkingGateEvents();
+            rows.unshift({
+                id: 'GATE-' + Date.now(),
+                vehicle_number: vehicle,
+                flat_number: flat,
+                direction,
+                gate: 'Main Gate',
+                slot_id: slot.slot_id,
+                basement: slot.basement,
+                bay: slot.bay,
+                recorded_by: 'Admin demo entry',
+                timestamp: new Date().toISOString()
+            });
+            try { localStorage.setItem('eco_parking_gate_events_v1', JSON.stringify(rows.slice(0, 100))); }
+            catch (e) { showToast('Could not save the demo gate event in this browser.', '⚠️'); return; }
+            const vehicleInput = document.getElementById('trackingVehicleInput');
+            const flatInput = document.getElementById('trackingFlatInput');
+            if (vehicleInput) vehicleInput.value = '';
+            if (flatInput) flatInput.value = '';
+            renderParkingTracking();
+            showToast('Demo gate event recorded. No live RFID scan was received.', '✅');
+        }
+
+        function renderParkingTracking() {
+            const isAdmin = currentUser && (currentUser.role === 'AUTHORITY' || currentUser.role === 'ADMIN' || currentUser.username === 'admin');
+            const residentPanel = document.getElementById('residentVehicleTracking');
+            const adminPanel = document.getElementById('adminVehicleTrackingControls');
+            if (residentPanel) residentPanel.style.display = isAdmin ? 'none' : 'block';
+            if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
+
+            const rows = getParkingGateEvents();
+            const flat = String(currentUser?.flat || '').toUpperCase();
+            const myVehicle = String(currentResidentParking?.vehicle_number || '').toUpperCase();
+            const visibleRows = isAdmin ? rows : rows.filter(e => e.flat_number === flat && e.vehicle_number === myVehicle);
+            const latest = visibleRows[0];
+
+            if (!isAdmin) {
+                const vehicleEl = document.getElementById('trackingResidentVehicle');
+                const slotEl = document.getElementById('trackingResidentSlot');
+                const statusEl = document.getElementById('trackingResidentStatus');
+                const lastEl = document.getElementById('trackingResidentLastSeen');
+                if (vehicleEl) vehicleEl.innerText = currentResidentParking?.vehicle_number || 'No vehicle registered';
+                if (slotEl) slotEl.innerText = currentResidentParking ? currentResidentParking.slot_id + ' · ' + currentResidentParking.basement + ' · ' + currentResidentParking.bay : 'No assigned bay found';
+                if (statusEl) {
+                    statusEl.innerText = !latest ? 'NO GATE EVENT RECORDED' : (latest.direction === 'ENTRY' ? '🟢 INSIDE APARTMENT' : '⚪ OUTSIDE APARTMENT');
+                    statusEl.style.color = !latest ? '#64748B' : (latest.direction === 'ENTRY' ? '#047857' : '#475569');
+                }
+                if (lastEl) lastEl.innerText = latest ? 'Last gate event: ' + new Date(latest.timestamp).toLocaleString() : 'Waiting for a verified gate event';
+            }
+
+            const tbody = document.getElementById('parkingTrackingHistory');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            if (!visibleRows.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748B;padding:16px;">No gate events recorded yet.</td></tr>';
+                return;
+            }
+            visibleRows.slice(0, 12).forEach(event => {
+                const tr = document.createElement('tr');
+                const cells = [
+                    new Date(event.timestamp).toLocaleString(),
+                    event.vehicle_number,
+                    event.flat_number,
+                    event.direction === 'ENTRY' ? '🟢 ENTRY · ' + (event.gate || 'Main Gate') : '⚪ EXIT · ' + (event.gate || 'Main Gate'),
+                    event.recorded_by || 'Gate desk'
+                ];
+                cells.forEach(value => { const td = document.createElement('td'); td.textContent = value; tr.appendChild(td); });
+                tbody.appendChild(tr);
+            });
         }
 
         function setParkingTab(tab) {
