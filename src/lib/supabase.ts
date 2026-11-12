@@ -72,7 +72,22 @@ function setItem<T>(key: string, value: T): void {
 }
 
 export const localDb = {
-  getResidents: (): Resident[] => getItem(STORAGE_KEYS.RESIDENTS, INITIAL_RESIDENTS),
+  getResidents: (): Resident[] => {
+    const cachedResidents = getItem<Resident[]>(STORAGE_KEYS.RESIDENTS, INITIAL_RESIDENTS);
+    const seededAbinaya = INITIAL_RESIDENTS.find((resident) => resident.flat_number === 'A-319');
+    const cachedA319 = cachedResidents.find((resident) => resident.flat_number === 'A-319');
+
+    // Refresh only the previously vacant demo unit. Never replace an occupied local resident.
+    if (seededAbinaya && (!cachedA319 || cachedA319.occupancy_status === 'VACANT' || cachedA319.resident_name === 'Unoccupied Unit')) {
+      const mergedResidents = cachedA319
+        ? cachedResidents.map((resident) => resident.flat_number === 'A-319' ? seededAbinaya : resident)
+        : [...cachedResidents, seededAbinaya];
+      setItem(STORAGE_KEYS.RESIDENTS, mergedResidents);
+      return mergedResidents;
+    }
+
+    return cachedResidents;
+  },
   saveResidents: (data: Resident[]) => setItem(STORAGE_KEYS.RESIDENTS, data),
 
   getComplaints: (): Complaint[] => getItem(STORAGE_KEYS.COMPLAINTS, INITIAL_COMPLAINTS),
