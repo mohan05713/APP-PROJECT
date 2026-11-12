@@ -18,6 +18,7 @@ export interface Resident {
   occupancy_status: OccupancyStatus;
   dues_status: DuesStatus;
   vehicle_number: string;
+  blood_group?: string;
   assignedFlats?: string[];
 }
 
