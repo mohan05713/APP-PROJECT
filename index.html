@@ -199,7 +199,7 @@
         }
 
         .menu-toggle {
-            display: none;
+            display: inline-flex;
             background: none;
             border: none;
             font-size: 20px;
@@ -985,6 +985,17 @@
             <li class="nav-item"><button onclick="switchPage('eco-rewards')"><span class="nav-icon">🌟</span> Eco-Rewards & Green Credits <span class="nav-badge" id="badgeSidebarEcoCoins" style="background:#10B981;color:white;font-weight:800;">1,240 pts</span></button></li>
         </ul>
 
+        <div class="nav-section-title">Smart Operations</div>
+        <ul class="nav-links">
+            <li class="nav-item"><button onclick="switchPage('smart-twin')"><span class="nav-icon">🏢</span> 3D Building Twin</button></li>
+            <li class="nav-item"><button onclick="switchPage('smart-maintenance')"><span class="nav-icon">🤖</span> AI Maintenance Insights</button></li>
+            <li class="nav-item"><button onclick="switchPage('smart-booking')"><span class="nav-icon">📅</span> Facility Booking</button></li>
+            <li class="nav-item"><button onclick="switchPage('smart-assets')"><span class="nav-icon">💰</span> Finance & Assets</button></li>
+        </ul>
+        <div class="nav-section-title">Emergency & Safety</div>
+        <ul class="nav-links">
+            <li class="nav-item"><button onclick="switchPage('smart-emergency')"><span class="nav-icon">🚨</span> Emergency Incident Management</button></li>
+        </ul>
         <div class="nav-section-title">Platform & Database</div>
         <ul class="nav-links">
             <li class="nav-item"><button onclick="switchPage('reports')"><span class="nav-icon">📑</span> Reports & Data Export</button></li>
@@ -1274,6 +1285,7 @@
                     <div class="eco-assistant-heading">
                         <div class="eco-assistant-mark">✦</div>
                         <div><h2>AI Assistant</h2><p>Quick answers from your EcoApartment data</p></div>
+                        <button type="button" onclick="switchPage('smart-voice')" title="Open AI Voice Assistant" aria-label="Open AI Voice Assistant" style="margin-left:auto;border:0;border-radius:999px;background:#DDF7EA;color:#087B55;padding:8px 11px;font-size:18px;font-weight:800;cursor:pointer;">🎙️</button>
                         <span class="eco-assistant-live">Data connected</span>
                     </div>
                     <div class="eco-assistant-conversation" id="ecoAssistantConversation" aria-live="polite">
@@ -1293,6 +1305,11 @@
                 </section>
 </section>
 
+            <section class="page-view" id="page-smart-operations" style="min-height:calc(100vh - 150px);">
+                <iframe id="smartOperationsFrame" title="EcoApartment Smart Operations" loading="lazy"
+                    style="width:100%;min-height:calc(100vh - 170px);border:0;border-radius:16px;background:#F3F7F6;"
+                    src="about:blank"></iframe>
+            </section>
             <!-- ============================================================== -->
             <!-- PAGE 2: RESIDENT DIRECTORY (400 FLATS CRUD) -->
             <!-- ============================================================== -->
@@ -4294,8 +4311,16 @@
 
         // Navigation Switcher
         function switchPage(pageId) {
+            const smartModules = {"smart-twin":"twin","smart-maintenance":"maintenance","smart-booking":"booking","smart-emergency":"emergency","smart-assets":"assets","smart-voice":"assistant"};
+            const isSmartModule = Object.prototype.hasOwnProperty.call(smartModules, pageId);
+            const resolvedPageId = isSmartModule ? "smart-operations" : pageId;
             document.querySelectorAll(".page-view").forEach(p => p.classList.remove("active"));
-            const target = document.getElementById("page-" + pageId);
+            const target = document.getElementById("page-" + resolvedPageId);
+            if (isSmartModule) {
+                const frame = document.getElementById("smartOperationsFrame");
+                const nextSrc = "smart-operations.html?embed=1&module=" + encodeURIComponent(smartModules[pageId]);
+                if (frame && frame.getAttribute("src") !== nextSrc) frame.setAttribute("src", nextSrc);
+            }
             if (target) target.classList.add("active");
             if (pageId === "dashboard") {
                 window.setTimeout(animateDashboardNumbers, 90);
@@ -4378,6 +4403,9 @@
                 anomalies: "Resource Anomaly Detection History",
                 parking: "Parking Allotments & EV Charging Bays",
                 cctv: "24/7 CCTV Surveillance System",
+                "smart-twin": "3D Building Twin", "smart-maintenance": "AI Maintenance Insights",
+                "smart-booking": "Facility Booking", "smart-emergency": "Emergency Incident Management",
+                "smart-assets": "Finance & Assets", "smart-voice": "AI Voice Assistant",
                 "iot-hub": "IoT & Sustainability Telemetry Hub",
                 "eco-rewards": "🌟 Eco-Rewards & Green Credits",
                 reports: "Reports & Data Exports",
